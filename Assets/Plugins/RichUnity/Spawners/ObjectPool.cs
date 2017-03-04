@@ -2,17 +2,19 @@
 using UnityEngine;
 
 namespace Assets.Plugins.RichUnity.Spawners {
-    [System.Serializable]
-    public class ObjectPool : ISpawner {
-        public class PoolableObject : MonoBehaviour {
-            public ObjectPool ObjectPool { get; set;}
+    public class ObjectPool : MonoBehaviour, ISpawner {
+        public abstract class PoolableObject : MonoBehaviour {
+            public ObjectPool ObjectPool { get; set; }
 
             public virtual void OnEnable() {
-                
             }
 
             public virtual void OnDisable() {
-                ObjectPool.PoolObject(this);
+                if (ObjectPool != null) {
+                    ObjectPool.PoolObject(this);
+                } else {
+                    Destroy(gameObject);
+                }
             }
         }
 
@@ -23,9 +25,11 @@ namespace Assets.Plugins.RichUnity.Spawners {
 
         private Stack<GameObject> objects;
 
-        public void Initialize() {
+        void Awake() {
             objects = new Stack<GameObject>(InitialSize);
+        }
 
+        void Start() {
             for (var i = 0; i < InitialSize; ++i) {
                 var obj = InstantiateObject();
                 obj.SetActive(false);
@@ -49,7 +53,7 @@ namespace Assets.Plugins.RichUnity.Spawners {
                 obj = objects.Pop();
                 obj.SetActive(true);
             }
-       
+
             return obj;
         }
 
@@ -57,6 +61,17 @@ namespace Assets.Plugins.RichUnity.Spawners {
             GameObject obj = Object.Instantiate<GameObject>(ObjectPrefab.gameObject);
             obj.GetComponent<PoolableObject>().ObjectPool = this;
             return obj;
+        }
+
+        void OnDestroy() {
+            GameObject[] objectsArray = objects.ToArray();
+            foreach (GameObject obj in objectsArray) {
+                if (obj.gameObject != null) {
+                    if (!obj.activeInHierarchy) {
+                        Destroy(obj);
+                    }
+                }
+            }
         }
     }
 }
