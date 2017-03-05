@@ -6,6 +6,10 @@ namespace Assets.Plugins.RichUnity.HealthUtil {
         public int MaxHealth;
         public int CurrentHealth { get; private set; }
 
+        public virtual void Awake() {
+            CurrentHealth = MaxHealth;
+        }
+
         public void AddHealth(int health) {
             CurrentHealth += health;
             OnHealthAdded(health);
@@ -14,6 +18,10 @@ namespace Assets.Plugins.RichUnity.HealthUtil {
             } else if (CurrentHealth <= 0) {
                 OnDeath();
             }
+        }
+
+        public int RemainingHealth {
+            get { return MaxHealth - CurrentHealth; }
         }
 
         public void Die() {
