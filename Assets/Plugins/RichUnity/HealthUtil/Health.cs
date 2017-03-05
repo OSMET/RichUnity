@@ -5,6 +5,7 @@ namespace Assets.Plugins.RichUnity.HealthUtil {
 
         public int MaxHealth;
         public int CurrentHealth { get; private set; }
+        public bool Damaged { get; private set; }
 
         public virtual void Awake() {
             CurrentHealth = MaxHealth;
@@ -15,8 +16,15 @@ namespace Assets.Plugins.RichUnity.HealthUtil {
             OnHealthAdded(health);
             if (CurrentHealth > MaxHealth) {
                 CurrentHealth = MaxHealth;
-            } else if (CurrentHealth <= 0) {
-                OnDeath();
+            }
+        }
+
+        public virtual void LateUpdate() {
+            if (Damaged) {
+                Damaged = false;
+                if (CurrentHealth <= 0) {
+                    OnDeath();
+                }
             }
         }
 
@@ -32,7 +40,10 @@ namespace Assets.Plugins.RichUnity.HealthUtil {
             get { return CurrentHealth > 0; }
         }
 
-        public virtual void OnHealthAdded(int health) {   
+        public virtual void OnHealthAdded(int health) {
+            if (health < 0) {
+                Damaged = true;
+            }
         }
         public virtual void OnDeath() {
         }
