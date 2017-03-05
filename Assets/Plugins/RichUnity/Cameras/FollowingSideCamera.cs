@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Plugins.RichUnity.CameraControllers {
+namespace Assets.Plugins.RichUnity.Cameras {
     [RequireComponent(typeof(Camera))]
     public class FollowingSideCamera : MonoBehaviour {
 
