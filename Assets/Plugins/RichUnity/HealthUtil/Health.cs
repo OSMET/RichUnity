@@ -20,6 +20,10 @@ namespace Assets.Plugins.RichUnity.HealthUtil {
             AddHealth(-CurrentHealth);
         }
 
+        public bool IsAlive {
+            get { return CurrentHealth > 0; }
+        }
+
         public virtual void OnHealthAdded(int health) {   
         }
         public virtual void OnDeath() {
