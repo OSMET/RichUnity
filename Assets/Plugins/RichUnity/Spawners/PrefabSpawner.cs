@@ -8,8 +8,9 @@ namespace Assets.Plugins.RichUnity.Spawners {
         public virtual void Awake() {
             GameObject obj = Spawn();
             if (SpawnAsChild) {
-                obj.transform.localPosition = Vector3.zero;
-                obj.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                obj.transform.localPosition = ObjectPrefab.transform.localPosition;
+                obj.transform.localRotation = ObjectPrefab.transform.localRotation;
+                obj.transform.localScale = ObjectPrefab.transform.localScale;
             }
         }
 
