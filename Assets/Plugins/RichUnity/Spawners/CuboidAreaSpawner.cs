@@ -2,17 +2,13 @@
 using UnityEngine;
 
 namespace Assets.Plugins.RichUnity.Spawners {
-    public class CuboidAreaSpawner : MonoBehaviour {
+    public class CuboidAreaSpawner : PrefabSpawner {
         //public enum Axis {
         //    X,
         //    Y,
         //    Z
         //}
 
-        public GameObject ObjectPrefab;
-
-        public bool SpawnAsChilds;
-        
         public Cuboid CuboidArea = new Cuboid();
         
         public int ObjectNumber;
@@ -23,21 +19,16 @@ namespace Assets.Plugins.RichUnity.Spawners {
         //public Color EndColor;
 
 
-        public void Awake() {
+        public override void Awake() {
             for (int i = 0; i < ObjectNumber; ++i) {
                 Vector3 position = new Vector3 {
                     x = CuboidArea.RandomX(),
                     y = CuboidArea.RandomY(),
                     z = CuboidArea.RandomZ()
                 };
-                Instantiate(position);
+                GameObject obj = Spawn();
+                obj.transform.position = position;
             }
-        }
-
-        private GameObject Instantiate(Vector3 position) {
-            GameObject obj = SpawnAsChilds ? Instantiate(ObjectPrefab, transform) : Instantiate(ObjectPrefab);
-            obj.transform.position = position;
-            return obj;
         }
 
         void OnDrawGizmos() {
