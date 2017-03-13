@@ -6,6 +6,7 @@ namespace Assets.Plugins.RichUnity.HealthUtil {
         public int MaxHealth;
         public int CurrentHealth { get; private set; }
         public bool Damaged { get; private set; }
+        public bool WillGrow;
 
         public virtual void Awake() {
             CurrentHealth = MaxHealth;
@@ -15,8 +16,13 @@ namespace Assets.Plugins.RichUnity.HealthUtil {
             CurrentHealth += health;
             OnHealthAdded(health);
             if (CurrentHealth > MaxHealth) {
-                CurrentHealth = MaxHealth;
+                if (!WillGrow) {
+                    CurrentHealth = MaxHealth;
+                } else {
+                    MaxHealth = CurrentHealth;
+                }
             }
+
         }
 
         public virtual void LateUpdate() {
