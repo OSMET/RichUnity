@@ -11,6 +11,9 @@ namespace Assets.Plugins.RichUnity.Cameras {
         private new Camera camera;
         private Vector3 velocity = Vector3.zero;
 
+        public bool FixedX;
+        public bool FixedY;
+
         
         void Awake() {
             camera = GetComponent<Camera>();
@@ -22,6 +25,12 @@ namespace Assets.Plugins.RichUnity.Cameras {
                 Vector3 targetViewportPosition = camera.WorldToViewportPoint(Target.position);
                 Vector3 delta = Target.position - camera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, targetViewportPosition.z));
                 Vector3 destination = transform.position + delta;
+                if (FixedX) {
+                    destination.x = transform.position.x;
+                }
+                if (FixedY) {
+                    destination.y = transform.position.y;
+                }
                 transform.position = Vector3.SmoothDamp(transform.position, destination + Offset, ref velocity, DampTime);
             }
         }
