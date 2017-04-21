@@ -20,6 +20,8 @@ namespace Assets.Plugins.RichUnity.Cameras {
 
         private Vector3 oldPosition;
 
+        public bool MouseInputEnabled;
+
         void Awake() {
             camera = GetComponent<Camera>();
             smoothMover = GetComponent<SmoothMover>();
@@ -31,8 +33,36 @@ namespace Assets.Plugins.RichUnity.Cameras {
             smoothMover.BeginMoving(false);
         }
 
+        public void MoveBy(Vector3 offset) {
+            MoveTo(oldPosition + offset);
+        }
+
+        public void MoveTo(Vector3 newPosition) {
+            Vector3 screenHalfSizeWorld =
+                        camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, -newPosition.z)) -
+                        camera.transform.position;
+
+                    if (!FixedX) {
+                        if (newPosition.x - screenHalfSizeWorld.x < LowerBorder.x) {
+                            newPosition.x = LowerBorder.x + screenHalfSizeWorld.x;
+                        } else if (newPosition.x + screenHalfSizeWorld.x > UpperBorder.x) {
+                            newPosition.x = UpperBorder.x - screenHalfSizeWorld.x;
+                        }
+                    }
+                    if (!FixedY) {
+                        if (newPosition.y - screenHalfSizeWorld.y < LowerBorder.y) {
+                            newPosition.y = LowerBorder.y + screenHalfSizeWorld.y;
+                        } else if (newPosition.y + screenHalfSizeWorld.y > UpperBorder.y) {
+                            newPosition.y = UpperBorder.y - screenHalfSizeWorld.y;
+                        }
+                    }
+
+            oldPosition = newPosition;
+            smoothMover.TargetPosition = oldPosition;
+        }
+
         void Update() {
-            if (enabled) {
+            if (MouseInputEnabled) {
 
                 if (Input.GetMouseButtonDown(0)) {
                     lastMousePosition = Input.mousePosition;
@@ -52,26 +82,8 @@ namespace Assets.Plugins.RichUnity.Cameras {
 
                     Vector3 newPosition = oldPosition + translate;
 
-                    Vector3 screenHalfSizeWorld =
-                        camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, -transform.position.z)) -
-                        camera.transform.position;
 
-                    if (!FixedX) {
-                        if (newPosition.x - screenHalfSizeWorld.x < LowerBorder.x) {
-                            newPosition.x = LowerBorder.x + screenHalfSizeWorld.x;
-                        } else if (newPosition.x + screenHalfSizeWorld.x > UpperBorder.x) {
-                            newPosition.x = UpperBorder.x - screenHalfSizeWorld.x;
-                        }
-                    }
-                    if (!FixedY) {
-                        if (newPosition.y - screenHalfSizeWorld.y < LowerBorder.y) {
-                            newPosition.y = LowerBorder.y + screenHalfSizeWorld.y;
-                        } else if (newPosition.y + screenHalfSizeWorld.y > UpperBorder.y) {
-                            newPosition.y = UpperBorder.y - screenHalfSizeWorld.y;
-                        }
-                    }
-                    oldPosition.Set(newPosition.x, newPosition.y, newPosition.z);
-                    smoothMover.TargetPosition = oldPosition;
+                    MoveTo(newPosition);
                     lastMousePosition = Input.mousePosition;
                 }
             }
