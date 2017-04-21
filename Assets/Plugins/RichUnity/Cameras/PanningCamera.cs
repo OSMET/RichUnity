@@ -3,7 +3,7 @@
 namespace Assets.Plugins.RichUnity.Cameras {
 
     [RequireComponent(typeof(Camera))]
-    public class MousePanningCamera : MonoBehaviour {
+    public class PanningCamera : MonoBehaviour {
 
         public float MouseSensitivity = 1f;
 
