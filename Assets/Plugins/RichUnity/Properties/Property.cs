@@ -1,21 +1,21 @@
 ﻿using System;
 using Assets.Plugins.RichUnity.Events;
-using UnityEngine;
 using UnityEngine.Events;
 
-namespace Assets.Plugins.RichUnity.Attributes {
-    public class Attribute : MonoBehaviour {
-        public int MaxValue;
+namespace Assets.Plugins.RichUnity.Properties {
+    [Serializable]
+    public class Property {
+        public int MaxValue = 1;
         public int StartValue;
         public int CurrentValue { get; private set; }
         public bool CanGrow;
         public bool Unsigned;
-        public IntParameterEvent OnValueChangedEvent;
-        public UnityEvent OnZeroOutEvent;
-        public UnityEvent OnRessurectEvent;
+        public IntParameterEvent OnValueChangedEvent = new IntParameterEvent();
+        public UnityEvent OnZeroOutEvent = new UnityEvent();
+        public UnityEvent OnRessurectEvent = new UnityEvent();
         public bool Alive { get; private set; }
 
-        public virtual void Awake() {
+        public Property() {
             if (MaxValue <= 0) {
                 throw new ArgumentException("Max value can not be <= 0");
             }
