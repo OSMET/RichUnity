@@ -4,7 +4,7 @@ using UnityEngine.Events;
 namespace Assets.Plugins.RichUnity.Timers {
     [Serializable]
     public class UnityEventTimer : LimitedTimer {
-        public UnityEvent TimerEndedEvent;
+        public UnityEvent TimerEndedEvent = new UnityEvent();
 
         public UnityEventTimer() {
             
