@@ -7,7 +7,21 @@ namespace Assets.Plugins.RichUnity.Properties {
     public class Property {
         public int MaxValue = 1;
         public int StartValue;
-        public int CurrentValue { get; private set; }
+
+        private int currentValue;
+
+        public int CurrentValue {
+            get {
+                return currentValue;
+            }
+            set {
+                currentValue = value;
+                CheckBounds();
+                OnValueChangedEvent.Invoke(value);
+                CheckZeroOut();
+            }
+        }
+
         public bool CanGrow;
         public bool Unsigned;
         public IntParameterEvent OnValueChangedEvent = new IntParameterEvent();
@@ -20,19 +34,19 @@ namespace Assets.Plugins.RichUnity.Properties {
                 throw new ArgumentException("Max value can not be <= 0");
             }
             Alive = true;
-            CurrentValue = StartValue;
+            currentValue = StartValue;
             CheckBounds();
             CheckZeroOut();
         }
 
         private void CheckZeroOut() {
               if (Alive) {
-                if (CurrentValue <= 0) {
+                if (currentValue <= 0) {
                     OnZeroOutEvent.Invoke();
                     Alive = false;
                 }
             } else {
-                if (CurrentValue > 0) {
+                if (currentValue > 0) {
                     OnRessurectEvent.Invoke();
                     Alive = true;
                 }
@@ -40,25 +54,21 @@ namespace Assets.Plugins.RichUnity.Properties {
         }
 
         private void CheckBounds() {
-            if (CurrentValue < 0) {
+            if (currentValue < 0) {
                 if (Unsigned) {
-                    CurrentValue = 0;
+                    currentValue = 0;
                 }
-            } else if (CurrentValue > MaxValue) {
+            } else if (currentValue > MaxValue) {
                 if (!CanGrow) {
-                    CurrentValue = MaxValue;
+                    currentValue = MaxValue;
                 } else {
-                    MaxValue = CurrentValue;
+                    MaxValue = currentValue;
                 }
             }
         }
 
         public void AddValue(int value) {
             CurrentValue += value;
-
-            CheckBounds();
-            OnValueChangedEvent.Invoke(value);
-            CheckZeroOut();
         }
 
         public int RemainingValue {
@@ -67,6 +77,10 @@ namespace Assets.Plugins.RichUnity.Properties {
 
         public void ZeroOut() {
             AddValue(-CurrentValue);
+        }
+
+        public static implicit operator int(Property property) {
+            return property.CurrentValue;
         }
     }
 }
