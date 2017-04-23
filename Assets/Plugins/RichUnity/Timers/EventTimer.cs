@@ -15,5 +15,9 @@ namespace Assets.Plugins.RichUnity.Timers {
             }
             base.End();
         }
+
+        public void EndNoEvent() {
+            base.End();
+        }
     }
 }
