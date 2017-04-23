@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Assets.Plugins.RichUnity.Events;
 using UnityEngine.Events;
 
@@ -30,6 +31,9 @@ namespace Assets.Plugins.RichUnity.Properties {
         public bool Alive { get; private set; }
 
         public Property() {
+        }
+
+        public void Init() {
             if (MaxValue <= 0) {
                 throw new ArgumentException("Max value can not be <= 0");
             }
