@@ -1,9 +1,10 @@
 ﻿using Assets.Plugins.RichUnity.Timers;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Assets.Plugins.RichUnity.Lerps {
-    class PositionLerp : MonoBehaviour {
-        public EventTimer PositionTimer;
+    public class PositionLerp : MonoBehaviour {
+        public UnityEventTimer PositionTimer;
         public Vector3 MinPosition;
 
         private bool grow;
@@ -11,12 +12,12 @@ namespace Assets.Plugins.RichUnity.Lerps {
 
         public void Start() {
             maxPosition = transform.localPosition;
-            PositionTimer.Ended += PositionTimer_Ended;
+            PositionTimer.EndedEvent.AddListener(new UnityAction(PositionTimer_Ended));
             PositionTimer.Looped = true;
             PositionTimer.Start();
         }
 
-        private void PositionTimer_Ended(object sender, System.EventArgs e) {
+        private void PositionTimer_Ended() {
             grow = !grow;
         }
 

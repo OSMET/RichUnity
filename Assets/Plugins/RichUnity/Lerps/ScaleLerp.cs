@@ -1,9 +1,10 @@
 ﻿using Assets.Plugins.RichUnity.Timers;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Assets.Plugins.RichUnity.Lerps {
     public class ScaleLerp : MonoBehaviour {
-        public EventTimer ScaleTimer;
+        public UnityEventTimer ScaleTimer;
         public Vector3 MinScale;
 
 
@@ -12,12 +13,12 @@ namespace Assets.Plugins.RichUnity.Lerps {
 
         public void Start() {
             maxScale = transform.localScale;
-            ScaleTimer.Ended += ScaleTimer_Ended;
+            ScaleTimer.EndedEvent.AddListener(new UnityAction(ScaleTimer_Ended));
             ScaleTimer.Looped = true;
             ScaleTimer.Start();
         }
 
-        private void ScaleTimer_Ended(object sender, System.EventArgs e) {
+        private void ScaleTimer_Ended() {
             grow = !grow;
         }
 
