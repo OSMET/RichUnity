@@ -69,7 +69,7 @@ namespace Assets.Plugins.RichUnity.Cameras {
                 }
 
                 if (Input.GetMouseButton(0)) {
-                    if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+                    if (UnityEngine.EventSystems.EventSystem.current != null && UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
                         return;
 
                     Vector3 delta = Input.mousePosition - lastMousePosition;
