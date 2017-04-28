@@ -44,6 +44,14 @@ namespace Assets.Plugins.RichUnity.Timers {
             }
         }
 
+        public override void Resume() {
+            if (Time >= TimeLimit) {
+                Start();
+            } else {
+                base.Resume();
+            }
+        }
+
         public String RemainingTimeMMSS {
             get {
                 int totalSecs = (int) RemainingTime + 1;

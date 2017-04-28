@@ -16,6 +16,10 @@ namespace Assets.Plugins.RichUnity.Timers {
             TimerOn = false;
         }
 
+        public virtual void Resume() {
+            TimerOn = true;
+        }
+
         public virtual void Update(float delta) {
             if (TimerOn) {
                 Time += delta;
