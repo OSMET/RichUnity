@@ -57,6 +57,10 @@ namespace Assets.Plugins.RichUnity.Spawners {
             return obj;
         }
 
+        public T Spawn<T>() where T : PoolableObject {
+            return (T) Spawn().GetComponent<PoolableObject>();
+        } 
+
         private GameObject InstantiateObject() {
             GameObject obj = Object.Instantiate<GameObject>(ObjectPrefab.gameObject);
             obj.GetComponent<PoolableObject>().ObjectPool = this;
