@@ -25,11 +25,11 @@ namespace Assets.Plugins.RichUnity.Spawners {
 
         private Stack<GameObject> objects;
 
-        void Awake() {
+        public virtual void Awake() {
             objects = new Stack<GameObject>(InitialSize);
         }
 
-        void Start() {
+        public virtual void Start() {
             for (var i = 0; i < InitialSize; ++i) {
                 var obj = InstantiateObject();
                 obj.SetActive(false);
@@ -41,7 +41,7 @@ namespace Assets.Plugins.RichUnity.Spawners {
             objects.Push(obj.gameObject);
         }
 
-        public GameObject Spawn() {
+        public virtual GameObject Spawn() {
             GameObject obj;
             if (objects.Count == 0) {
                 if (WillGrow) {
@@ -67,7 +67,7 @@ namespace Assets.Plugins.RichUnity.Spawners {
             return obj;
         }
 
-        void OnDestroy() {
+        public virtual void OnDestroy() {
             GameObject[] objectsArray = objects.ToArray();
             foreach (GameObject obj in objectsArray) {
                 if (obj.gameObject != null) {
