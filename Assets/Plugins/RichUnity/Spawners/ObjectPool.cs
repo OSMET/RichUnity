@@ -68,14 +68,16 @@ namespace Assets.Plugins.RichUnity.Spawners {
         }
 
         public virtual void OnDestroy() {
-            GameObject[] objectsArray = objects.ToArray();
-            foreach (GameObject obj in objectsArray) {
-                if (obj.gameObject != null) {
-                    if (!obj.activeInHierarchy) {
-                        Destroy(obj);
-                    }
-                }
-            }
+        	if (objects != null) {
+            	GameObject[] objectsArray = objects.ToArray();
+            	foreach (GameObject obj in objectsArray) {
+                	if (obj.gameObject != null) {
+                    	if (!obj.activeInHierarchy) {
+                        	Destroy(obj);
+                    	}
+                	}
+            	}
+        	}
         }
     }
 }
