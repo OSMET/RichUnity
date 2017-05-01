@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Diagnostics;
 using Assets.Plugins.RichUnity.Events;
 using UnityEngine.Events;
 
 namespace Assets.Plugins.RichUnity.Properties {
     [Serializable]
     public class Property {
-        public int MaxValue = 1;
+        public int MaxValue = Int32.MaxValue;
         public int StartValue;
 
         private int currentValue;
@@ -16,19 +15,24 @@ namespace Assets.Plugins.RichUnity.Properties {
                 return currentValue;
             }
             set {
+                int oldCurrentValue = currentValue;
                 currentValue = value;
                 CheckBounds();
-                OnValueChangedEvent.Invoke(value);
+                DeltaValue = currentValue - oldCurrentValue;
+                if (DeltaValue != 0) {
+                    OnValueChangedEvent.Invoke(this);
+                }
                 CheckZeroOut();
             }
         }
 
         public bool CanGrow;
         public bool Unsigned;
-        public IntParameterEvent OnValueChangedEvent = new IntParameterEvent();
+        public PropertyParameterEvent OnValueChangedEvent = new PropertyParameterEvent();
         public UnityEvent OnZeroOutEvent = new UnityEvent();
         public UnityEvent OnRessurectEvent = new UnityEvent();
         public bool Alive { get; private set; }
+        public int DeltaValue { get; private set; }
 
         public Property() {
         }
