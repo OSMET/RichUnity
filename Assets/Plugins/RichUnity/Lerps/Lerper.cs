@@ -17,12 +17,14 @@ namespace Assets.Plugins.RichUnity.Lerps {
         public bool BeginOnAwake;
 
         public bool Looped;
+        public bool UseUnscaledDeltaTime;
 
         public UnityEvent IncreasingBeginEvent;
         public UnityEvent IncreasingEndEvent;
 
         public UnityEvent DecreasingBeginEvent;
         public UnityEvent DecreasingEndEvent;
+
 
 
         public void Start() {
@@ -67,7 +69,7 @@ namespace Assets.Plugins.RichUnity.Lerps {
 
         public void Update() {
             if (began) {
-                float deltaTime = Time.deltaTime;
+                float deltaTime = UseUnscaledDeltaTime ? Time.unscaledDeltaTime : Time.deltaTime;
                 if (increasing) {
                     currentTime += deltaTime;
                     if (currentTime >= LerpTime) {
