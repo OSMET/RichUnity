@@ -1,20 +1,26 @@
 ﻿using System;
 using Assets.Plugins.RichUnity.Events;
+using Assets.Plugins.RichUnity.Utils;
+using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 namespace Assets.Plugins.RichUnity.Properties {
     [Serializable]
     public class Property {
         public int MaxValue = Int32.MaxValue;
         public int StartValue;
-
+        [ReadOnly]
+        [SerializeField]
         private int currentValue;
 
         public int CurrentValue {
             get {
+                CheckInit();
                 return currentValue;
             }
             set {
+                CheckInit();
                 int oldCurrentValue = currentValue;
                 currentValue = value;
                 CheckBounds();
@@ -33,6 +39,7 @@ namespace Assets.Plugins.RichUnity.Properties {
         public UnityEvent OnRessurectEvent = new UnityEvent();
         public bool Alive { get; private set; }
         public int DeltaValue { get; private set; }
+        private bool initialized;
 
         public Property() {
         }
@@ -45,10 +52,11 @@ namespace Assets.Plugins.RichUnity.Properties {
             currentValue = StartValue;
             CheckBounds();
             CheckZeroOut();
+            initialized = true;
         }
 
         private void CheckZeroOut() {
-              if (Alive) {
+            if (Alive) {
                 if (currentValue <= 0) {
                     OnZeroOutEvent.Invoke();
                     Alive = false;
@@ -58,6 +66,12 @@ namespace Assets.Plugins.RichUnity.Properties {
                     OnRessurectEvent.Invoke();
                     Alive = true;
                 }
+            }
+        }
+
+        private void CheckInit() {
+            if (!initialized) {
+                throw new InvalidOperationException("You should initialize property first. Just call Init().");
             }
         }
 
@@ -80,7 +94,9 @@ namespace Assets.Plugins.RichUnity.Properties {
         }
 
         public int RemainingValue {
-            get { return MaxValue - CurrentValue; }
+            get {
+                return MaxValue - CurrentValue;
+            }
         }
 
         public void ZeroOut() {
