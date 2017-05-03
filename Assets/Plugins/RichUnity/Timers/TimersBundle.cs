@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 
 namespace Assets.Plugins.RichUnity.Timers {
+    /// <summary>
+    /// Author: Igor Ponomaryov, Evgeny Osmet
+    /// </summary>
     public class TimersBundle<K, T> where T : Timer {
 
         private readonly Dictionary<K, T> timers = new Dictionary<K, T>();

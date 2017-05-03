@@ -2,6 +2,9 @@
 
 namespace Assets.Plugins.RichUnity.Timers {
     public class UnityEventTimersBundle<K> : TimersBundle<K, UnityEventTimer> {
+        /// <summary>
+        /// Author: Igor Ponomaryov
+        /// </summary>
         public void InstantiateTimer(K key, bool looped, float timeLimit, bool start, UnityAction call = null) {
             var timer = new UnityEventTimer() {
                 Looped = looped,
