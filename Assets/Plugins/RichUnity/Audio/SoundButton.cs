@@ -3,15 +3,14 @@ using UnityEngine.UI;
 
 namespace Assets.Plugins.RichUnity.Audio {
     [RequireComponent(typeof(Button))]
-    public class AudioButton : MonoBehaviour {
-        public AudioClip OnClickAudioClip;
+    public class SoundButton : SoundSource {
 
         public void Start() {
             GetComponent<Button>().onClick.AddListener(OnClick);
         }
 
         private void OnClick() {
-            AudioManager2D.Instance.PlaySound(OnClickAudioClip);
+            PlaySound();
         }
     }
 }
