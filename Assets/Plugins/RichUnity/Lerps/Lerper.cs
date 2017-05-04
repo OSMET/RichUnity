@@ -67,10 +67,15 @@ namespace Assets.Plugins.RichUnity.Lerps {
             this.increasing = increasing;
         }
 
+        protected virtual float DeltaTime {
+            get {
+                return UseUnscaledDeltaTime ? Time.unscaledDeltaTime : Time.deltaTime;
+            }
+        }
 
         public void Update() {
             if (began) {
-                float deltaTime = UseUnscaledDeltaTime ? Time.unscaledDeltaTime : Time.deltaTime;
+                float deltaTime = DeltaTime;
                 if (increasing) {
                     currentTime += deltaTime;
                     if (currentTime >= LerpTime) {
