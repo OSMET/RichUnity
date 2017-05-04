@@ -33,6 +33,7 @@ namespace Assets.Plugins.RichUnity.Lerps {
                 increasing = true;
                 Lerp.ChangeValue(1f);
             } else {
+                currentTime = 0f;
                 Lerp.ChangeValue(0f);
             }
             if (BeginOnAwake) {
