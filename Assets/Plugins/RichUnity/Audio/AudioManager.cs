@@ -1,11 +1,18 @@
 ﻿using UnityEngine;
 
 namespace Assets.Plugins.RichUnity.Audio {
-    public class AudioManager2D : MonoBehaviour {
-        public static AudioManager2D Instance = null;
+    public class AudioManager : MonoBehaviour {
+        public static AudioManager Instance = null;
 
         public AudioSource MusicSource;                
-        public AudioSource SoundSource;                   
+        public bool SoundOn = true;
+
+        public bool MusicOn {
+            get {
+                return !MusicSource.mute;
+            }
+            set { MusicSource.mute = !value; }
+        }                   
 
         void Awake() {
             if (Instance == null) {
@@ -24,14 +31,5 @@ namespace Assets.Plugins.RichUnity.Audio {
             MusicSource.Play();
         }
 
-        public void PlaySound(AudioClip soundClip, float pitch = 1f) {
-            SoundSource.clip = soundClip;
-            SoundSource.pitch = pitch;
-            SoundSource.Play();
-        }
-
-        public void PlaySoundRandomPitch(AudioClip soundClip, float lowPitchRange, float highPitchRange) {
-            PlaySound(soundClip, Random.Range(lowPitchRange, highPitchRange));
-        }
     }
 }
