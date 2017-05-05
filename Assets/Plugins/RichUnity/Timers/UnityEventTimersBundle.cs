@@ -18,5 +18,17 @@ namespace Assets.Plugins.RichUnity.Timers {
                 timer.Start();
             }
         }
+
+        public void PauseTimer(K key) {
+            var timer = base[key];
+            timer.Looped = false;
+            timer.EndNoEvent();
+        }
+
+        public void ResumeTimer(K key, bool looped = true) {
+            var timer = base[key];
+            timer.Looped = looped;
+            timer.Resume();
+        }
     }
 }
