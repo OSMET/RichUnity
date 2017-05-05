@@ -34,5 +34,12 @@ namespace Assets.Plugins.RichUnity.Timers {
             }
             RemoveTimers();
         }
+
+        public void RemoveAll() {
+            removeQueue.Clear();
+            foreach (var timerKey in timers.Keys) {
+                RemoveTimer(timerKey);
+            }
+        }
     }
 }
