@@ -40,8 +40,9 @@ namespace Assets.Plugins.RichUnity.Save.DataLoaders {
                 } else {
                     try {
                         data = (D) typeof(D).GetConstructor(Type.EmptyTypes).Invoke(new object[] {});
-                        SaveData(data);
-                        Debug.Log(this.GetType().Name + ": data was saved for the first time.");
+                        //SaveData(data);
+                        //Debug.Log(this.GetType().Name + ": data was saved for the first time.");
+                        Debug.Log(this.GetType().Name + ": data was not loaded, default Data object was created.");
                     } catch (NullReferenceException ex) {
                         throw new ArgumentException("Data must be a class and contain a default constructor.");
                     }
@@ -51,7 +52,11 @@ namespace Assets.Plugins.RichUnity.Save.DataLoaders {
 
         public void Save() {
             SaveData(data);
-            Debug.Log(this.GetType().Name + ": data was saved.");
+            if (dataLoaded) {
+                Debug.Log(this.GetType().Name + ": data was saved.");
+            } else {
+                Debug.Log(this.GetType().Name + ": data was saved for the first time.");
+            }
         }
 
         public void Unload() {
