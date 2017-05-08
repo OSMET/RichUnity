@@ -1,6 +1,10 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+#if UNITY_EDITOR
 namespace Assets.Plugins.RichUnity.Utils {
     public class ReadOnlyAttribute : PropertyAttribute {
     }
@@ -21,3 +25,4 @@ namespace Assets.Plugins.RichUnity.Utils {
         }
     }
 }
+#endif

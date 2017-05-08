@@ -3,15 +3,17 @@ using Assets.Plugins.RichUnity.Events;
 using Assets.Plugins.RichUnity.Utils;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
 
 namespace Assets.Plugins.RichUnity.Properties {
     [Serializable]
     public class Property {
         public int MaxValue = Int32.MaxValue;
         public int StartValue;
+
+        #if UNITY_EDITOR
         [ReadOnly]
         [SerializeField]
+        #endif
         private int currentValue;
 
         public int CurrentValue {
