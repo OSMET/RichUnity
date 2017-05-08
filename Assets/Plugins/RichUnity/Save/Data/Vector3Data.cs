@@ -13,5 +13,15 @@ namespace Assets.Plugins.RichUnity.Save.Data {
         public static implicit operator Vector3(Vector3Data data) {
             return new Vector3(data.X, data.Y, data.X);
         }
+
+        public void Set(Vector3 obj) {
+            X = obj.x;
+            Y = obj.y;
+            Z = obj.z;
+        }
+
+        public static implicit operator Vector3Data(Vector3 obj) {
+            return new Vector3Data { X = obj.x, Y = obj.y, Z = obj.z};
+        }
     }
 }
