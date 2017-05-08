@@ -14,11 +14,14 @@ namespace Assets.Plugins.RichUnity.Save {
         void Awake() {
             if (Instance == null) {
                 Instance = this;
-                Load(SceneManager.GetActiveScene().name);
             } else if (Instance != this) {
                 Destroy(gameObject);
             }
             DontDestroyOnLoad(gameObject);
+        }
+
+        void Start() {
+            Load(SceneManager.GetActiveScene().name);
         }
 
         public void Save() {
