@@ -7,6 +7,7 @@ namespace Assets.Plugins.RichUnity.Utils {
         private Coroutine movingCoroutine;
         public Vector3 TargetPosition { get; set; }
         public float SmoothTime;
+        public bool UseUnscaledDeltaTime;
 
         public void BeginMoving(bool stopWhenReach = true) {
             StopMoving();
@@ -32,7 +33,7 @@ namespace Assets.Plugins.RichUnity.Utils {
                     }
                 } else {
                     Vector3 newPosition = Vector3.SmoothDamp(transform.position, TargetPosition, ref velocity, SmoothTime,
-                    Mathf.Infinity, Time.smoothDeltaTime);
+                    Mathf.Infinity, UseUnscaledDeltaTime ? Time.unscaledDeltaTime : Time.deltaTime );
                     transform.position = newPosition;
                 }
                 yield return null;
