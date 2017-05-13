@@ -30,11 +30,15 @@ namespace Assets.Plugins.RichUnity.Utils {
         }
 
         public void OnEnable() {
-            guiText.enabled = true;
+            if (guiText != null) {
+                guiText.enabled = true;
+            }
         }
 
         public void OnDisable() {
-            guiText.enabled = false;
+            if (guiText != null) {
+                guiText.enabled = false;
+            }
         }
 
         public void Update() {
