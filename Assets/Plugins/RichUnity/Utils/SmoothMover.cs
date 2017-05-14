@@ -4,40 +4,40 @@ using UnityEngine;
 
 namespace Assets.Plugins.RichUnity.Utils {
     public class SmoothMover : MonoBehaviour {
-        private Coroutine movingCoroutine;
         public Vector3 TargetPosition { get; set; }
         public float SmoothTime;
-        public bool UseUnscaledDeltaTime;
+        private Vector3 velocity = Vector3.zero;
+        private bool stopWhenReach;
+        public bool Moving { get; private set; }
 
         public void BeginMoving(bool stopWhenReach = true) {
-            StopMoving();
-            movingCoroutine = StartCoroutine(Move(stopWhenReach));
+            this.stopWhenReach = stopWhenReach;
+            Moving = true;
         }
 
         public void StopMoving() {
-            if (movingCoroutine != null) {
-                StopCoroutine(movingCoroutine);
-                movingCoroutine = null;
-            }
+            Moving = false;
+            velocity = Vector3.zero;
         }
 
-
-        private IEnumerator Move(bool stopWhenReach) {
-            Vector3 velocity = Vector3.zero;
-            while (true) {
+        public void Update() {
+            if (Moving) {
                 if (Vector3Utils.PrecisionEquals(TargetPosition, transform.position, 0.0001f)) {
                     transform.position = TargetPosition;
+                    velocity = Vector3.zero;
                     if (stopWhenReach) {
-                        movingCoroutine = null;
-                        yield break;
+                        Moving = false;
                     }
                 } else {
-                    Vector3 newPosition = Vector3.SmoothDamp(transform.position, TargetPosition, ref velocity, SmoothTime,
-                    Mathf.Infinity, UseUnscaledDeltaTime ? Time.unscaledDeltaTime : Time.deltaTime );
+                    Vector3 newPosition = Vector3.SmoothDamp(transform.position, TargetPosition, ref velocity,
+                        SmoothTime,
+                        Mathf.Infinity, Time.fixedDeltaTime);
                     transform.position = newPosition;
                 }
-                yield return null;
             }
         }
+
+
+           
     }
 }
