@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Assets.Plugins.RichUnity.Save.Data;
 using Assets.Plugins.RichUnity.Save.DataLoaderBundles;
+using Assets.Plugins.RichUnity.Save.DataLoaders;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -52,6 +53,15 @@ namespace Assets.Plugins.RichUnity.Save {
                 }
             }
             return default(D);
+        }
+
+        public DL GetDataLoader<DL>() where DL : IDataLoader {
+            foreach (var dataLoader in DataLoaderBundle.DataLoaders) {
+                if (dataLoader is DL) {
+                    return (DL) dataLoader;
+                }
+            }
+            return default(DL);
         }
 
         public void OnApplicationQuit() {

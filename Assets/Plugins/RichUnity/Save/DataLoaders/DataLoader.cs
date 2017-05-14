@@ -7,6 +7,7 @@ namespace Assets.Plugins.RichUnity.Save.DataLoaders {
         void Load();
         void Save();
         void Unload();
+        void DeleteSource();
         IData Data { get; }
         string[] SceneNames { get; }
     }
@@ -69,6 +70,10 @@ namespace Assets.Plugins.RichUnity.Save.DataLoaders {
 
         public virtual bool SourceExists {
             get { return true; }
+        }
+
+        public virtual void DeleteSource() {
+            
         }
 
         public abstract D LoadData();
