@@ -37,16 +37,19 @@ namespace Assets.Plugins.RichUnity.Properties {
         public bool CanGrow;
         public bool Unsigned;
         [NonSerialized]
-        public PropertyParameterEvent OnValueChangedEvent = new PropertyParameterEvent();
+        public PropertyParameterEvent OnValueChangedEvent;
         [NonSerialized]
-        public UnityEvent OnZeroOutEvent = new UnityEvent();
+        public UnityEvent OnZeroOutEvent;
         [NonSerialized]
-        public UnityEvent OnRessurectEvent = new UnityEvent();
+        public UnityEvent OnRessurectEvent;
         public bool Alive { get; private set; }
         public int DeltaValue { get; private set; }
         private bool initialized;
 
         public Property() {
+            OnValueChangedEvent = new PropertyParameterEvent();;
+            OnZeroOutEvent = new UnityEvent();
+            OnRessurectEvent = new UnityEvent();
         }
 
         public void Init() {
