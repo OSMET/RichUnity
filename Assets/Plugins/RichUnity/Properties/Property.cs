@@ -36,8 +36,11 @@ namespace Assets.Plugins.RichUnity.Properties {
 
         public bool CanGrow;
         public bool Unsigned;
+        [NonSerialized]
         public PropertyParameterEvent OnValueChangedEvent = new PropertyParameterEvent();
+        [NonSerialized]
         public UnityEvent OnZeroOutEvent = new UnityEvent();
+        [NonSerialized]
         public UnityEvent OnRessurectEvent = new UnityEvent();
         public bool Alive { get; private set; }
         public int DeltaValue { get; private set; }
@@ -47,14 +50,16 @@ namespace Assets.Plugins.RichUnity.Properties {
         }
 
         public void Init() {
-            if (MaxValue <= 0) {
-                throw new ArgumentException("Max value can not be <= 0");
+            if (!initialized) {
+                if (MaxValue <= 0) {
+                    throw new ArgumentException("Max value can not be <= 0");
+                }
+                Alive = true;
+                currentValue = StartValue;
+                CheckBounds();
+                CheckZeroOut();
+                initialized = true;
             }
-            Alive = true;
-            currentValue = StartValue;
-            CheckBounds();
-            CheckZeroOut();
-            initialized = true;
         }
 
         private void CheckZeroOut() {
