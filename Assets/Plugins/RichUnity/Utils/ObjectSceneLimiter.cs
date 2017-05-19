@@ -15,7 +15,6 @@ namespace Assets.Plugins.RichUnity.Utils {
         public void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
             if (!SceneNames.Contains(scene.name)) {
                 Destroy(gameObject);
-                Debug.Log("gerka");
             }
         }
 
