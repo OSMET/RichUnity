@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using Assets.Plugins.RichUnity.Events;
 using Assets.Plugins.RichUnity.Utils;
 using UnityEngine;
@@ -37,19 +38,29 @@ namespace Assets.Plugins.RichUnity.Properties {
         public bool CanGrow;
         public bool Unsigned;
         [NonSerialized]
-        public PropertyParameterEvent OnValueChangedEvent;
+        public PropertyParameterEvent OnValueChangedEvent = new PropertyParameterEvent();
         [NonSerialized]
-        public UnityEvent OnZeroOutEvent;
+        public UnityEvent OnZeroOutEvent = new UnityEvent();
         [NonSerialized]
-        public UnityEvent OnRessurectEvent;
+        public UnityEvent OnRessurectEvent = new UnityEvent();
         public bool Alive { get; private set; }
         public int DeltaValue { get; private set; }
         private bool initialized;
 
         public Property() {
-            OnValueChangedEvent = new PropertyParameterEvent();;
-            OnZeroOutEvent = new UnityEvent();
-            OnRessurectEvent = new UnityEvent();
+        }
+
+        [OnDeserialized]
+        public void OnDeserialized(StreamingContext context) {
+            if (OnValueChangedEvent == null) {
+                OnValueChangedEvent = new PropertyParameterEvent();
+            }
+            if (OnZeroOutEvent == null) {
+                OnZeroOutEvent = new UnityEvent();
+            }
+            if (OnRessurectEvent == null) {
+                OnRessurectEvent = new UnityEvent();
+            }
         }
 
         public void Init() {
