@@ -8,17 +8,17 @@ namespace Assets.Plugins.RichUnity.Utils {
 
         public String[] SceneNames;
 
-        public void Awake() {
+        public virtual void Awake() {
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
-        public void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        public virtual void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
             if (!SceneNames.Contains(scene.name)) {
                 Destroy(gameObject);
             }
         }
 
-        public void OnDestroy() {
+        public virtual void OnDestroy() {
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }   
 

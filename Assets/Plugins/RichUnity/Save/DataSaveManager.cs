@@ -21,10 +21,6 @@ namespace Assets.Plugins.RichUnity.Save {
             DontDestroyOnLoad(gameObject);
         }
 
-        void Start() {
-            Load(SceneManager.GetActiveScene().name);
-        }
-
         public void Save() {
             foreach (var dataLoader in DataLoaderBundle.DataLoaders) {
                 //0 for all scenes
