@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Assets.Plugins.RichUnity.Math;
+﻿using Assets.Plugins.RichUnity.Math;
 using UnityEngine;
 
 namespace Assets.Plugins.RichUnity.Utils {
@@ -9,6 +8,7 @@ namespace Assets.Plugins.RichUnity.Utils {
         private Vector3 velocity = Vector3.zero;
         private bool stopWhenReach;
         public bool Moving { get; private set; }
+        public float EndPrecision = 0.0001f;
 
         public void BeginMoving(bool stopWhenReach = true) {
             this.stopWhenReach = stopWhenReach;
@@ -22,7 +22,7 @@ namespace Assets.Plugins.RichUnity.Utils {
 
         public void Update() {
             if (Moving) {
-                if (Vector3Utils.PrecisionEquals(TargetPosition, transform.position, 0.0001f)) {
+                if (Vector3Utils.PrecisionEquals(TargetPosition, transform.position, EndPrecision)) {
                     transform.position = TargetPosition;
                     velocity = Vector3.zero;
                     if (stopWhenReach) {
