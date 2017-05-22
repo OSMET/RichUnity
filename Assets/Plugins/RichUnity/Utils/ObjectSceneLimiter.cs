@@ -10,6 +10,7 @@ namespace Assets.Plugins.RichUnity.Utils {
 
         public virtual void Awake() {
             SceneManager.sceneLoaded += OnSceneLoaded;
+            DontDestroyOnLoad(gameObject);
         }
 
         public virtual void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
