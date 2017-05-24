@@ -1,18 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.UI {
+namespace Assets.Plugins.RichUnity.UI {
     public class TextFontSwitcher : MonoBehaviour {
 
-        private Text text;
-        private int fontSize;
         public Font NewFont;
 
         public bool IsFontNew {get; private set; }
 
         public void Awake() {
-            text = GetComponent<Text>();
-            fontSize = text.fontSize;
         }
 
         public void SetFont(bool isNew) {
@@ -22,9 +18,11 @@ namespace Assets.Scripts.UI {
         }
 
         public void SwitchFont() {
+            Text text =  GetComponent<Text>();
+            var oldFontSize = text.fontSize;
             Font oldFont = text.font;
             text.font = NewFont;
-            text.fontSize = fontSize;
+            text.fontSize = oldFontSize;
             IsFontNew = !IsFontNew;
             NewFont = oldFont;
         }
