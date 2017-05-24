@@ -28,7 +28,7 @@ namespace Assets.Plugins.RichUnity.Properties {
                 currentValue = value;
                 CheckBounds();
                 DeltaValue = currentValue - oldCurrentValue;
-                if (DeltaValue != 0) {
+                if (DeltaValue != 0 || AllowZeroDelta) {
                     OnValueChangedEvent.Invoke(this);
                 }
                 CheckZeroOut();
@@ -37,6 +37,7 @@ namespace Assets.Plugins.RichUnity.Properties {
 
         public bool CanGrow;
         public bool Unsigned;
+        public bool AllowZeroDelta;
         [NonSerialized]
         public PropertyParameterEvent OnValueChangedEvent = new PropertyParameterEvent();
         [NonSerialized]
