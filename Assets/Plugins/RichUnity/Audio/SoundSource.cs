@@ -18,7 +18,6 @@ namespace Assets.Plugins.RichUnity.Audio {
         
         public void PlaySound(float pitch = 1f, float volume = 1f) {
             if (gameObject.activeInHierarchy) {
-                Debug.Log("gerka");
                 if (AudioManager.Instance.SoundOn) {
                     audioSource.mute = false;
                     audioSource.clip = SoundClip;
