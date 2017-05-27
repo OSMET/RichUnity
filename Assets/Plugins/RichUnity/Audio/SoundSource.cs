@@ -17,14 +17,17 @@ namespace Assets.Plugins.RichUnity.Audio {
         }
         
         public void PlaySound(float pitch = 1f, float volume = 1f) {
-            if (AudioManager.Instance.SoundOn) {
-                audioSource.mute = false;
-                audioSource.clip = SoundClip;
-                audioSource.volume = volume;
-                audioSource.pitch = pitch;
-                audioSource.Play();
-            } else {
-                audioSource.mute = true;
+            if (gameObject.activeInHierarchy) {
+                Debug.Log("gerka");
+                if (AudioManager.Instance.SoundOn) {
+                    audioSource.mute = false;
+                    audioSource.clip = SoundClip;
+                    audioSource.volume = volume;
+                    audioSource.pitch = pitch;
+                    audioSource.Play();
+                } else {
+                    audioSource.mute = true;
+                }
             }
         }
 

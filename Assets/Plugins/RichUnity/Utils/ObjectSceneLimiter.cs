@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 namespace Assets.Plugins.RichUnity.Utils {
     public class ObjectSceneLimiter : MonoBehaviour {
-
         public String[] SceneNames;
 
         public virtual void Awake() {
@@ -14,14 +13,17 @@ namespace Assets.Plugins.RichUnity.Utils {
         }
 
         public virtual void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-            if (!SceneNames.Contains(scene.name)) {
+            if (!ContainsScene(scene.name)) {
                 Destroy(gameObject);
             }
         }
 
+        public bool ContainsScene(string SceneName) {
+            return SceneNames.Contains(SceneName);
+        }
+
         public virtual void OnDestroy() {
             SceneManager.sceneLoaded -= OnSceneLoaded;
-        }   
-
+        }
     }
 }
