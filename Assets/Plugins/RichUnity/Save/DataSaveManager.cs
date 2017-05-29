@@ -24,7 +24,8 @@ namespace Assets.Plugins.RichUnity.Save {
         public void Save() {
             foreach (var dataLoader in DataLoaderBundle.DataLoaders) {
                 //0 for all scenes
-                if (dataLoader.SceneNames.Length == 0 || dataLoader.SceneNames.Contains(SceneManager.GetActiveScene().name)) {
+                var sceneNames = dataLoader.SceneNames;
+                if (sceneNames.Length == 0 ||sceneNames.Contains(SceneManager.GetActiveScene().name)) {
                     dataLoader.Save();
                 }
             }
@@ -33,7 +34,8 @@ namespace Assets.Plugins.RichUnity.Save {
         public void Load(string sceneName) {
             foreach (var dataLoader in DataLoaderBundle.DataLoaders) {
                 //0 for all scenes
-                if (dataLoader.SceneNames.Length == 0 || dataLoader.SceneNames.Contains(sceneName)) {
+                var sceneNames = dataLoader.SceneNames;
+                if (sceneNames.Length == 0 || sceneNames.Contains(sceneName)) {
                     dataLoader.Load();
                 } else {
                     dataLoader.Unload();

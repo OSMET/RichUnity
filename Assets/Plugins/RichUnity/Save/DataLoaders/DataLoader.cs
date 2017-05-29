@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Assets.Plugins.RichUnity.Save.Data;
 using UnityEngine;
 
@@ -15,12 +16,24 @@ namespace Assets.Plugins.RichUnity.Save.DataLoaders {
     [Serializable]
     public abstract class DataLoader<D> : IDataLoader where D : IData {
         [SerializeField]
-        private string[] sceneNames; //0 for all scenes
+        private List<string> sceneNames = new List<string>(); //0 for all scenes
 
         private bool dataLoaded;
 
         public string[] SceneNames {
-            get { return sceneNames; }
+            get { return sceneNames.ToArray(); }
+        }
+
+        public void AddSceneName(string sceneName) {
+            if (!sceneNames.Contains(sceneName)) {
+                sceneNames.Add(sceneName);
+            }
+        }
+
+        public void RemoveSceneName(string sceneName) {
+            if (sceneNames.Contains(sceneName)) {
+                sceneNames.Remove(sceneName);
+            }
         }
 
         [NonSerialized]
