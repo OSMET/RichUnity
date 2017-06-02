@@ -20,7 +20,20 @@ namespace Assets.Plugins.RichUnity.Cameras {
 
         private Vector3 oldPosition;
 
-        public bool MouseInputEnabled;
+        [SerializeField]
+        private bool mouseInputEnabled = true;
+
+         public bool MouseInputEnabled {
+            get { return mouseInputEnabled; }
+             set {
+                 mouseInputEnabled = value;
+                 if (mouseInputEnabled) {
+                    lastMousePosition = Input.mousePosition;
+                    oldPosition = transform.position;
+                 }
+             }
+        }
+
 
         void Awake() {
             camera = GetComponent<Camera>();
@@ -29,6 +42,7 @@ namespace Assets.Plugins.RichUnity.Cameras {
 
         public void OnEnable() {
             oldPosition = transform.position;
+            lastMousePosition = Input.mousePosition;
             smoothMover.TargetPosition = oldPosition;
             smoothMover.BeginMoving(false);
         }
@@ -36,6 +50,8 @@ namespace Assets.Plugins.RichUnity.Cameras {
         public void MoveBy(Vector3 offset) {
             MoveTo(oldPosition + offset);
         }
+
+
 
         public void MoveTo(Vector3 newPosition) {
             Vector3 screenHalfSizeWorld =
@@ -63,7 +79,6 @@ namespace Assets.Plugins.RichUnity.Cameras {
 
         void Update() {
             if (MouseInputEnabled) {
-
                 if (Input.GetMouseButtonDown(0)) {
                     lastMousePosition = Input.mousePosition;
                 }
