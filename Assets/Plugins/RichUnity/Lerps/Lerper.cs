@@ -28,14 +28,7 @@ namespace Assets.Plugins.RichUnity.Lerps {
 
 
         public void Start() {
-           if (EndValueReachedFromStart) {
-                currentTime = LerpTime;
-                increasing = true;
-                Lerp.ChangeValue(1f);
-            } else {
-                currentTime = 0f;
-                Lerp.ChangeValue(0f);
-            }
+            Reset();
             if (BeginOnAwake) {
                 if (EndValueReachedFromStart) {
                     Decrease();
@@ -43,6 +36,18 @@ namespace Assets.Plugins.RichUnity.Lerps {
                     Increase();
                 }
             }
+        }
+
+        public void Reset() {
+           if (EndValueReachedFromStart) {
+               currentTime = LerpTime;
+               increasing = true;
+               Lerp.ChangeValue(1f);
+           } else {
+               currentTime = 0f;
+               Lerp.ChangeValue(0f);
+           }
+           began = false;
         }
 
         public void Increase() {
