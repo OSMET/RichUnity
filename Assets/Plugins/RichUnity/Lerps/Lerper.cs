@@ -47,7 +47,6 @@ namespace Assets.Plugins.RichUnity.Lerps {
                currentTime = 0f;
                Lerp.ChangeValue(0f);
            }
-           began = false;
         }
 
         public void Increase() {
