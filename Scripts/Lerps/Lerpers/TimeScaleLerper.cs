@@ -1,4 +1,4 @@
-﻿namespace RichUnity.Lerps {
+﻿namespace RichUnity.Lerps.Lerpers {
     public class TimeScaleLerper : Lerper {
         public float TimeScale = 1f;
 
