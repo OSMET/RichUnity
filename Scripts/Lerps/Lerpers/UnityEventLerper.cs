@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using UnityEngine.Events;
+﻿using UnityEngine.Events;
 
 namespace RichUnity.Lerps.Lerpers {
     public class UnityEventLerper : Lerper {
@@ -22,12 +21,20 @@ namespace RichUnity.Lerps.Lerpers {
             base.Begin(increasing);
         }
 
+        public void BeginNoEvent(bool increasing) {
+            base.Begin(increasing);
+        }
+
         public override void End() {
             if (Increasing) {
                 IncreasingEndEvent.Invoke();
             } else {
                 DecreasingEndEvent.Invoke();
             }
+            base.End();
+        }
+
+        public void EndNoEvent() {
             base.End();
         }
     }
