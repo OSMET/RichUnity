@@ -15,12 +15,12 @@ namespace RichUnity.Cameras {
         public bool FixedY;
 
         
-        void Awake() {
+        private void Awake() {
             camera = GetComponent<Camera>();
         }
 
         // Update is called once per frame
-        void LateUpdate() {
+        private void LateUpdate() {
             if (Target) {
                 Vector3 targetViewportPosition = camera.WorldToViewportPoint(Target.position);
                 Vector3 delta = Target.position - camera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, targetViewportPosition.z));

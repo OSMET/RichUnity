@@ -5,7 +5,7 @@ namespace RichUnity.Spawners {
         public GameObject ObjectPrefab;
         public bool SpawnAsChild;
 
-        public virtual void Awake() {
+        protected virtual void Awake() {
             GameObject obj = Spawn();
             if (SpawnAsChild) {
                 obj.transform.localPosition = ObjectPrefab.transform.localPosition;

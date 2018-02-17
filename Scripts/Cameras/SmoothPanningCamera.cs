@@ -23,24 +23,26 @@ namespace RichUnity.Cameras {
         [SerializeField]
         private bool mouseInputEnabled = true;
 
-         public bool MouseInputEnabled {
-            get { return mouseInputEnabled; }
-             set {
-                 mouseInputEnabled = value;
-                 if (mouseInputEnabled) {
-                    lastMousePosition = Input.mousePosition;
-                    oldPosition = transform.position;
-                 }
-             }
+        public bool MouseInputEnabled {
+            get {
+                return mouseInputEnabled;
+            }
+            set {
+                mouseInputEnabled = value;
+                if (mouseInputEnabled) {
+                   lastMousePosition = Input.mousePosition;
+                   oldPosition = transform.position;
+                }
+            }
         }
 
 
-        void Awake() {
+        private void Awake() {
             camera = GetComponent<Camera>();
             smoothMover = GetComponent<SmoothMover>();
         }
 
-        public void OnEnable() {
+        private void OnEnable() {
             oldPosition = transform.position;
             lastMousePosition = Input.mousePosition;
             smoothMover.TargetPosition = oldPosition;
@@ -50,8 +52,6 @@ namespace RichUnity.Cameras {
         public void MoveBy(Vector3 offset) {
             MoveTo(oldPosition + offset);
         }
-
-
 
         public void MoveTo(Vector3 newPosition) {
             Vector3 screenHalfSizeWorld =
@@ -77,7 +77,7 @@ namespace RichUnity.Cameras {
             smoothMover.TargetPosition = oldPosition;
         }
 
-        void Update() {
+        private void Update() {
             if (MouseInputEnabled) {
                 if (Input.GetMouseButtonDown(0)) {
                     lastMousePosition = Input.mousePosition;

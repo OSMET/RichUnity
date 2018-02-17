@@ -4,7 +4,7 @@ namespace RichUnity.ParticleSystems {
     public class BurstPS : AutoDisablePS {
         private ParticleSystem.Burst[] bursts;
 
-        public override void Awake() {
+        protected override void Awake() {
             base.Awake();
             bursts = new ParticleSystem.Burst[ParticleSystem.emission.burstCount];
             ParticleSystem.emission.GetBursts(bursts);

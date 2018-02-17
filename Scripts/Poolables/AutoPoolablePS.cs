@@ -5,13 +5,13 @@ namespace RichUnity.Poolables {
     [RequireComponent(typeof(ParticleSystem))]
     public class AutoPoolablePS : ObjectPool.PoolableObject {
 
-        public ParticleSystem ParticleSystem { get; set; }
+        public ParticleSystem ParticleSystem { get; private set; }
 
-        public void Start() {
+        private void Start() {
             ParticleSystem = GetComponent<ParticleSystem>();
         }
 
-        public void Update() {
+        private void Update() {
             if (!ParticleSystem.IsAlive()) {
                 gameObject.SetActive(false);
             }

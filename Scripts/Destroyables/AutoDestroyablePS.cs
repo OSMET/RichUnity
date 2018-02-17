@@ -5,11 +5,11 @@ namespace RichUnity.Destroyables {
     public class AutoDestroyablePS : MonoBehaviour {
         public ParticleSystem ParticleSystem { get; set; }
 
-        public void Start() {
+        private void Start() {
             ParticleSystem = GetComponent<ParticleSystem>();
         }
 
-        public void Update() {
+        private void Update() {
             if (!ParticleSystem.IsAlive()) {
                 Destroy(gameObject);
             }

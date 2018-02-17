@@ -9,7 +9,7 @@ namespace RichUnity.UI {
 
         private bool pressHappened;
 
-        public void Update() {
+        private void Update() {
             if (!pressHappened) {
                 if (IsPressed()) {
                     PressEvent.Invoke();

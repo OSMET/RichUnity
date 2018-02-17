@@ -8,7 +8,7 @@ namespace RichUnity.UI {
 
         public bool IsFontNew {get; private set; }
 
-        public void Awake() {
+        private void Awake() {
         }
 
         public void SetFont(bool isNew) {

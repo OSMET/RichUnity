@@ -6,10 +6,10 @@ namespace RichUnity.Spawners {
         public abstract class PoolableObject : MonoBehaviour {
             public ObjectPool ObjectPool { get; set; }
 
-            public virtual void OnEnable() {
+            protected virtual void OnEnable() {
             }
 
-            public virtual void OnDisable() {
+            protected virtual void OnDisable() {
                 if (ObjectPool != null) {
                     ObjectPool.PoolObject(this);
                 } else {
@@ -26,11 +26,11 @@ namespace RichUnity.Spawners {
 
         private Stack<GameObject> objects;
 
-        public virtual void Awake() {
+        protected virtual void Awake() {
             objects = new Stack<GameObject>(InitialSize);
         }
 
-        public virtual void Start() {
+        protected virtual void Start() {
             for (var i = 0; i < InitialSize; ++i) {
                 var obj = InstantiateObject();
                 obj.SetActive(false);
@@ -70,7 +70,7 @@ namespace RichUnity.Spawners {
             return obj;
         }
 
-        public virtual void OnDestroy() {
+        protected virtual void OnDestroy() {
             if (objects != null) {
                 GameObject[] objectsArray = objects.ToArray();
                 foreach (GameObject obj in objectsArray) {

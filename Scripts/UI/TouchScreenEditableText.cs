@@ -20,7 +20,7 @@ namespace RichUnity.UI {
         public char ErrorSymbol;
         public String[] SupportedSymbolsStrings;
 
-        public void Awake() {
+        private void Awake() {
             text = GetComponentInChildren<Text>();
         }
 
@@ -28,7 +28,7 @@ namespace RichUnity.UI {
             keyboard = TouchScreenKeyboard.Open(text.text, TouchScreenKeyboardType, Autocorrection, Multiline, Secure, Alert);
         }
 
-        public void Update() {
+        private void Update() {
             if (keyboard != null) {
                 if (keyboard.active) {
                     if (keyboard.text.Length > MaxLength) {

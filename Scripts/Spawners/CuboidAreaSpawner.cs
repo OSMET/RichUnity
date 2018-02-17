@@ -19,7 +19,7 @@ namespace RichUnity.Spawners {
         //public Color EndColor;
 
 
-        public override void Awake() {
+        protected override void Awake() {
             for (int i = 0; i < ObjectNumber; ++i) {
                 Vector3 position = new Vector3 {
                     x = CuboidArea.RandomX(),
@@ -31,7 +31,7 @@ namespace RichUnity.Spawners {
             }
         }
 
-        void OnDrawGizmos() {
+        private void OnDrawGizmos() {
             CuboidArea.DrawWireGizmos(Color.cyan);
         }
     }

@@ -84,7 +84,7 @@ namespace RichUnity.Lerps.Lerpers {
             }
         }
 
-        public void Update() {
+        private void Update() {
             if (Began) {
                 float deltaTime = UseUnscaledDeltaTime ? Time.unscaledDeltaTime : DeltaTime;
                 if (Increasing) {

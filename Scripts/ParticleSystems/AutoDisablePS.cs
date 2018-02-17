@@ -4,13 +4,13 @@ namespace RichUnity.ParticleSystems {
     [RequireComponent(typeof(ParticleSystem))]
     public class AutoDisablePS : MonoBehaviour {
 
-        public ParticleSystem ParticleSystem { get; set; }
+        public ParticleSystem ParticleSystem { get; private set; }
 
-        public virtual void Awake() {
+        protected virtual void Awake() {
             ParticleSystem = GetComponent<ParticleSystem>();
         }
 
-        public void Update() {
+        protected virtual void Update() {
             if (!ParticleSystem.IsAlive()) {
                 gameObject.SetActive(false);
             }

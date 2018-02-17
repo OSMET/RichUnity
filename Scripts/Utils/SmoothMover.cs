@@ -20,7 +20,7 @@ namespace RichUnity.Utils {
             velocity = Vector3.zero;
         }
 
-        public void Update() {
+        private void Update() {
             if (Moving) {
                 if (Vector3Utils.PrecisionEquals(TargetPosition, transform.position, EndPrecision)) {
                     transform.position = TargetPosition;

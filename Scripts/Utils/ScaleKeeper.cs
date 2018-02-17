@@ -7,15 +7,15 @@ namespace RichUnity.Utils {
 
         public float ExtraScale;
     
-        public void Awake() {
+        private void Awake() {
             startScale = transform.localScale;
         }
 
-        public void Start() {
+        private void Start() {
             Update();
         }
 
-        public void Update() {
+        private void Update() {
             float currentDepth = CalculateCurrentDepth();
             if (System.Math.Abs(currentDepth - oldDepth) > 0.001f) {
                 oldDepth = currentDepth;
