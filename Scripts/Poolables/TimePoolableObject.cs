@@ -7,7 +7,7 @@ namespace RichUnity.Poolables {
 
         public UnityEventTimer Timer;
         
-        public override void OnEnable() {
+        protected override void OnEnable() {
             Timer.Start();
         }
 
