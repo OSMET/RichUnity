@@ -21,8 +21,15 @@ namespace RichUnity.Timers {
         }
 
         public virtual void Update(float delta) {
+            AddTime(delta);
+        }
+
+        public virtual void AddTime(float time) {
             if (TimerOn) {
-                Time += delta;
+                Time += time;
+                if (Time < 0f) {
+                    Time = 0f;
+                }
             }
         }
     }

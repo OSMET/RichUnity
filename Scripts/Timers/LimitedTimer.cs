@@ -29,8 +29,8 @@ namespace RichUnity.Timers {
             }
         }
 
-        public override void Update(float delta) {
-            base.Update(delta);
+        public override void AddTime(float time) {
+            base.AddTime(time);
             if (TimerOn && Time >= TimeLimit) {
                 End();
             }
@@ -49,17 +49,6 @@ namespace RichUnity.Timers {
                 Start();
             } else {
                 base.Resume();
-            }
-        }
-
-        public String RemainingTimeMMSS {
-            get {
-                int totalSecs = (int) RemainingTime + 1;
-                //int hours = totalSecs / 3600;
-                int minutes = (totalSecs % 3600) / 60;
-                int seconds = totalSecs % 60;
-
-                return String.Format("%02d:%02d", minutes, seconds);
             }
         }
     }

@@ -8,6 +8,10 @@ namespace RichUnity.Timers {
 
         private readonly Dictionary<K, T> timers = new Dictionary<K, T>();
 
+        public Dictionary<K, T> Timers {
+            get { return timers; }
+        }
+
         private readonly Queue<K> removeQueue = new Queue<K>();
 
         public void AddTimer(K key, T timer) {
@@ -30,7 +34,9 @@ namespace RichUnity.Timers {
 
         public void UpdateTimers(float deltaTime) {
             foreach (var timer in timers.Values) {
-                timer.Update(deltaTime);
+                if (timer.TimerOn) {
+                    timer.Update(deltaTime);
+                }
             }
             RemoveTimers();
         }
