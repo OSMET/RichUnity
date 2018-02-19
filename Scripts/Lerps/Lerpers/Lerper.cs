@@ -37,11 +37,15 @@ namespace RichUnity.Lerps.Lerpers {
            if (EndValueReachedFromStart) {
                CurrentTime = LerpTime;
                Increasing = true;
-               Lerp.ChangeValue(1f);
+               if (Lerp != null) {
+                   Lerp.ChangeValue(1f);
+               }
            } else {
                CurrentTime = 0f;
                Increasing = false;
-               Lerp.ChangeValue(0f);
+               if (Lerp != null) {
+                   Lerp.ChangeValue(0f);
+               }
            }
         }
 
@@ -100,7 +104,10 @@ namespace RichUnity.Lerps.Lerpers {
                         End();
                     }
                 }
-                Lerp.ChangeValue(CurrentTime / LerpTime);
+
+                if (Lerp != null) {
+                    Lerp.ChangeValue(CurrentTime / LerpTime);
+                }
             }
         }
     }
