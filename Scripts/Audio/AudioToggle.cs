@@ -3,15 +3,16 @@ using UnityEngine.UI;
 
 namespace RichUnity.Audio {
     [RequireComponent(typeof(Toggle))]
-    public class SoundToggle : SoundSource {
+    public class AudioToggle : RichAudioSource {
 
-        public void Start() {
+        protected override void Awake() {
             GetComponent<Toggle>().onValueChanged.AddListener(OnValueChanged);
+            base.Awake();
         }
 
         private void OnValueChanged(bool value) {
             if (value) {
-                PlaySound();
+                Play();
             }
         }
     }

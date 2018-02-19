@@ -1,56 +1,100 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace RichUnity.Audio {
     public class AudioManager : MonoBehaviour {
-        public static AudioManager Instance = null;
-
-        public AudioSource MusicSource;                
-        public bool SoundOn = true;
-
-        public bool MusicOn {
-            get {
-                return !MusicSource.mute;
+        [Serializable]
+        public class AudioClass {
+            public string Name;
+        
+            [SerializeField]
+            [Range(0.0f, 1.0f)]
+            private float volume;
+            
+            public float Volume {
+                get {
+                    return volume;
+                }
+                set {
+                    volume = value;                    
+                }
             }
-            set { MusicSource.mute = !value; }
-        }                   
+            public bool UpdateInstantlyOrOnPlay;
+        }
+        
+        
+        
+        public static AudioManager Instance { get; private set; }
+        
+        [SerializeField]
+        [Range(0.0f, 1.0f)]
+        private float masterVolume = 1.0f;
+        
+        private HashSet<RichAudioSource> audioSources = new HashSet<RichAudioSource>();
 
-        void Awake() {
+        public List<AudioClass> AudioClasses;
+        
+        private void Awake() {
             if (Instance == null) {
                 Instance = this;
+                DontDestroyOnLoad(gameObject);
             } else if (Instance != this) {
-                if (Instance.MusicSource.clip != MusicSource.clip) {
-                    Instance.MusicSource.mute = MusicSource.mute;
-                    Instance.MusicSource.bypassEffects = MusicSource.bypassEffects;
-                    Instance.MusicSource.bypassListenerEffects = MusicSource.bypassListenerEffects;
-                    Instance.MusicSource.bypassReverbZones = MusicSource.bypassReverbZones;
-                    Instance.MusicSource.playOnAwake = MusicSource.playOnAwake;
-                    
-                    Instance.MusicSource.priority = MusicSource.priority;
-                    Instance.MusicSource.volume = MusicSource.volume;
-                    Instance.MusicSource.pitch = MusicSource.pitch;
-                    Instance.MusicSource.panStereo = MusicSource.panStereo;
-                    Instance.MusicSource.spatialBlend = MusicSource.spatialBlend;
-                    Instance.MusicSource.reverbZoneMix = MusicSource.reverbZoneMix;
-
-                    Instance.MusicSource.dopplerLevel = MusicSource.dopplerLevel;
-                    Instance.MusicSource.spread = MusicSource.spread;
-                    Instance.MusicSource.rolloffMode = MusicSource.rolloffMode;
-                    Instance.MusicSource.minDistance = MusicSource.minDistance;
-                    Instance.MusicSource.maxDistance = MusicSource.maxDistance;
-
-                    if (MusicSource.playOnAwake) {
-                        Instance.PlayMusic(MusicSource.clip);
-                    }
-                }
                 Destroy(gameObject);
             }
-            DontDestroyOnLoad(gameObject);
         }
 
-        public void PlayMusic(AudioClip musicClip) {
-            MusicSource.clip = musicClip;
-            MusicSource.Play();
+        public AudioClass RegisterAudioSource(RichAudioSource audioSource) {
+            audioSources.Add(audioSource);
+            
+            var audioClass = GetAudioClassByName(audioSource.AudioClassName);
+//            if (audioClass == null) {
+//                audioClass = new AudioClass {
+//                    Name = audioSource.AudioClassName,
+//                    Volume = 1.0f
+//                };
+//                AudioClasses.Add(audioClass);
+//            }
+            return audioClass;
+        }
+        
+        public void UnregisterAudioSource(RichAudioSource audioSource) {
+            audioSources.Remove(audioSource);
         }
 
+        public void SetAudioClassVolume(string audioClassName, float volume) {
+            var audioClass = GetAudioClassByName(audioClassName);
+            if (audioClass != null) {
+                volume = Mathf.Clamp01(volume);
+                
+                if (!Mathf.Approximately(audioClass.Volume, volume)) { //value changed
+                    audioClass.Volume = volume;
+                    Debug.Log(string.Format("[{0}] AudioClass: Volume Value changed to {1:0.00}", audioClass.Name, volume));
+                    if (audioClass.UpdateInstantlyOrOnPlay) {
+                        var audioSourcesToUpdate = audioSources.Where(audioSource => audioSource.AudioClass == audioClass).ToArray();
+                        foreach (var audioSource in audioSourcesToUpdate) {
+                            audioSource.ApplyAudioClassMultiplier(); 
+                        }
+                    }
+                }
+                
+                
+            }
+        }
+
+        private AudioClass GetAudioClassByName(string audioClassName) {
+            return AudioClasses.Find(ac => ac.Name == audioClassName);
+        }
+        
+        private void OnValidate() {
+            for (int i = 0; i < AudioClasses.Count; ++i) {
+                var audioClass = AudioClasses[i];
+                if (audioClass.Name == "") {
+                    audioClass.Name = "Default";
+                    audioClass.Volume = 1.0f;
+                }
+            }
+        }
     }
 }

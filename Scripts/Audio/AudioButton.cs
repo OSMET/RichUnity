@@ -3,14 +3,15 @@ using UnityEngine.UI;
 
 namespace RichUnity.Audio {
     [RequireComponent(typeof(Button))]
-    public class SoundButton : SoundSource {
+    public class AudioButton : RichAudioSource {
 
-        public void Start() {
+        protected override void Awake() {
             GetComponent<Button>().onClick.AddListener(OnClick);
+            base.Awake();
         }
 
         private void OnClick() {
-            PlaySound();
+            Play();
         }
     }
 }
