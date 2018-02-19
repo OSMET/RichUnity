@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4404617328018070}
   - component: {fileID: 114936870876713590}
   m_Layer: 0
-  m_Name: OperativeData
+  m_Name: P_OperativeData
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51,4 +51,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf9717e5290bab74cabd7d7c218c9a61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SceneNames: []
