@@ -5,7 +5,7 @@ using UnityEditor;
 #endif
 
 #if UNITY_EDITOR
-namespace RichUnity.Utils {
+namespace RichUnity.Attributes {
     public class ReadOnlyAttribute : PropertyAttribute {
     }
 

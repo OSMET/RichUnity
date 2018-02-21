@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using RichUnity.Attributes;
 using RichUnity.Events;
-using RichUnity.Utils;
 using UnityEngine;
 using UnityEngine.Events;
 
