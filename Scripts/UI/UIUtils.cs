@@ -2,8 +2,8 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace RichUnity.Utils {
-    public static class UserInterfaceUtils {
+namespace RichUnity.UI {
+    public static class UIUtils {
         public static bool PointerOverUserInterface {
             get {
                 PointerEventData eventDataCurrentPosition =

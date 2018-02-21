@@ -1,17 +1,16 @@
 ﻿using System;
 using UnityEngine.Events;
 
-namespace RichUnity.Timers {
+namespace RichUnity.TimeStuff.Timers {
     [Serializable]
-    public class UnityEventTimer : LimitedTimer {
-        public UnityEvent EndedEvent = new UnityEvent();
+    public class EventTimer : LimitedTimer {
+        public UnityEvent OnEnded = new UnityEvent();
 
-        public UnityEventTimer() {
-            
+        public EventTimer() {
         }
 
         public override void End() {
-            EndedEvent.Invoke();
+            OnEnded.Invoke();
             base.End();
         }
         

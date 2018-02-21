@@ -1,11 +1,11 @@
 ﻿using RichUnity.Spawners;
-using RichUnity.Timers;
+using RichUnity.TimeStuff.Timers;
 using UnityEngine;
 
 namespace RichUnity.Poolables {
     public abstract class TimePoolableObject : ObjectPool.PoolableObject {
 
-        public UnityEventTimer Timer;
+        public EventTimer Timer;
         
         protected override void OnEnable() {
             Timer.Start();

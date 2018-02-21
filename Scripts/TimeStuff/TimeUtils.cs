@@ -1,4 +1,4 @@
-﻿namespace RichUnity.Utils {
+﻿namespace RichUnity.TimeStuff {
     public static class TimeUtils {
         public static string FormatHHMMSS(int seconds) {
             int hours = seconds / 3600;

@@ -1,5 +1,5 @@
 ﻿
-namespace RichUnity.Timers {
+namespace RichUnity.TimeStuff.Timers {
     public class Timer {
         public float Time { get; private set; }
         public bool TimerOn { get; private set; }
