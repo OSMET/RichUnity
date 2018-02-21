@@ -1,7 +1,7 @@
 ﻿using RichUnity.Spawners;
 using UnityEngine;
 
-namespace RichUnity.Poolables {
+namespace RichUnity.ParticleSystems {
     [RequireComponent(typeof(ParticleSystem))]
     public class AutoPoolablePS : ObjectPool.PoolableObject {
 

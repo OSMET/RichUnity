@@ -2,7 +2,7 @@
 using RichUnity.TimeStuff.Timers;
 using UnityEngine;
 
-namespace RichUnity.Poolables {
+namespace RichUnity.TimeStuff {
     public abstract class TimePoolableObject : ObjectPool.PoolableObject {
 
         public EventTimer Timer;
