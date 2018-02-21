@@ -4,7 +4,7 @@ using System.Net;
 using UnityEngine;
 
 
-namespace RichUnity.Utils {
+namespace RichUnity.Network {
     public static class NetworkDateTime {
         public static DateTime NistDateTime { // throws SocketException
             get {
