@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace RichUnity.Utils {
+namespace RichUnity.SceneUtils {
     public class SceneLimitedObject : MonoBehaviour {
         [Tooltip("Leave the array empty to disable limits.")]
         public String[] SceneNames;
