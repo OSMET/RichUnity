@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 
-namespace RichUnity.Utils {
+namespace RichUnity.Containers {
     [Serializable]
     public class Bundle : Dictionary<string, object> {
         public bool GetOrElseBool(string key, bool value) {

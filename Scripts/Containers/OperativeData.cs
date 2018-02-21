@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace RichUnity.Utils {
+namespace RichUnity.Containers {
     public class OperativeData : MonoBehaviour {
         public static OperativeData Instance { get; private set; }
 
