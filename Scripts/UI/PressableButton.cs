@@ -5,14 +5,14 @@ namespace RichUnity.UI {
 
     public class PressableButton : Button {
 
-        public UnityEvent PressEvent;
+        public UnityEvent OnPressed;
 
         private bool pressHappened;
 
         private void Update() {
             if (!pressHappened) {
                 if (IsPressed()) {
-                    PressEvent.Invoke();
+                    OnPressed.Invoke();
                     pressHappened = true;
                 }
             } else {
