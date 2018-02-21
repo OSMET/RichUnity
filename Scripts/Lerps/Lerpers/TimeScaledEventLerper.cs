@@ -1,5 +1,5 @@
 ﻿namespace RichUnity.Lerps.Lerpers {
-    public class TimeScaleLerper : Lerper {
+    public class TimeScaledEventLerper : EventLerper {
         public float TimeScale = 1f;
 
         protected override float DeltaTime {

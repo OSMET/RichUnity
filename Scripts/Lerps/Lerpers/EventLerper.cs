@@ -1,21 +1,21 @@
 ﻿using UnityEngine.Events;
 
 namespace RichUnity.Lerps.Lerpers {
-    public class UnityEventLerper : Lerper {
-        public UnityEvent IncreasingBeginEvent;
-        public UnityEvent IncreasingEndEvent;
+    public class EventLerper : Lerper {
+        public UnityEvent OnIncreasingBegan;
+        public UnityEvent OnIncreasingEnded;
 
-        public UnityEvent DecreasingBeginEvent;
-        public UnityEvent DecreasingEndEvent;
+        public UnityEvent OnDecreasingBegan;
+        public UnityEvent OnDecreasingEnded;
 
         public override void Begin(bool increasing) {
             if (increasing) {
                 if (!Increasing) {
-                    IncreasingBeginEvent.Invoke();
+                    OnIncreasingBegan.Invoke();
                 }
             } else {
                 if (Increasing) {
-                    DecreasingBeginEvent.Invoke();
+                    OnDecreasingBegan.Invoke();
                 }
             }
             base.Begin(increasing);
@@ -27,9 +27,9 @@ namespace RichUnity.Lerps.Lerpers {
 
         public override void End() {
             if (Increasing) {
-                IncreasingEndEvent.Invoke();
+                OnIncreasingEnded.Invoke();
             } else {
-                DecreasingEndEvent.Invoke();
+                OnDecreasingEnded.Invoke();
             }
             base.End();
         }
