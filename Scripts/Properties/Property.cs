@@ -29,7 +29,7 @@ namespace RichUnity.Properties {
                 CheckBounds();
                 DeltaValue = currentValue - oldCurrentValue;
                 if (DeltaValue != 0 || AllowZeroDelta) {
-                    OnValueChangedEvent.Invoke(this);
+                    OnValueChanged.Invoke(this);
                 }
                 CheckZeroOut();
             }
@@ -39,11 +39,11 @@ namespace RichUnity.Properties {
         public bool Unsigned;
         public bool AllowZeroDelta;
         [NonSerialized]
-        public PropertyParameterEvent OnValueChangedEvent = new PropertyParameterEvent();
+        public PropertyParameterEvent OnValueChanged = new PropertyParameterEvent();
         [NonSerialized]
-        public UnityEvent OnZeroOutEvent = new UnityEvent();
+        public UnityEvent OnZeroOut = new UnityEvent();
         [NonSerialized]
-        public UnityEvent OnRessurectEvent = new UnityEvent();
+        public UnityEvent OnRessurected = new UnityEvent();
         public bool Alive { get; private set; }
         public int DeltaValue { get; private set; }
         private bool initialized;
@@ -53,14 +53,14 @@ namespace RichUnity.Properties {
 
         [OnDeserialized]
         public void OnDeserialized(StreamingContext context) {
-            if (OnValueChangedEvent == null) {
-                OnValueChangedEvent = new PropertyParameterEvent();
+            if (OnValueChanged == null) {
+                OnValueChanged = new PropertyParameterEvent();
             }
-            if (OnZeroOutEvent == null) {
-                OnZeroOutEvent = new UnityEvent();
+            if (OnZeroOut == null) {
+                OnZeroOut = new UnityEvent();
             }
-            if (OnRessurectEvent == null) {
-                OnRessurectEvent = new UnityEvent();
+            if (OnRessurected == null) {
+                OnRessurected = new UnityEvent();
             }
         }
 
@@ -80,12 +80,12 @@ namespace RichUnity.Properties {
         private void CheckZeroOut() {
             if (Alive) {
                 if (currentValue <= 0) {
-                    OnZeroOutEvent.Invoke();
+                    OnZeroOut.Invoke();
                     Alive = false;
                 }
             } else {
                 if (currentValue > 0) {
-                    OnRessurectEvent.Invoke();
+                    OnRessurected.Invoke();
                     Alive = true;
                 }
             }
