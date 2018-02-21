@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace RichUnity.Utils {
+namespace RichUnity.Profiling {
     public class FPSCounter : MonoBehaviour {
         public static FPSCounter Instance { get; private set; }
 
