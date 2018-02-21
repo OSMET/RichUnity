@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine.Events;
 
-namespace RichUnity.TimeStuff.Timers {
+namespace RichUnity.TimeUtils.Timers {
     [Serializable]
     public class EventTimer : LimitedTimer {
         public UnityEvent OnEnded = new UnityEvent();

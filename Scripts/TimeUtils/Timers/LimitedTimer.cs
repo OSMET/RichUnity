@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RichUnity.TimeStuff.Timers {
+namespace RichUnity.TimeUtils.Timers {
     [Serializable]
     public class LimitedTimer : Timer {
         public float TimeLimit;

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace RichUnity.TimeStuff.Timers {
+namespace RichUnity.TimeUtils.Timers {
     /// <summary>
     /// Author: Igor Ponomaryov, Evgeny Osmet
     /// </summary>

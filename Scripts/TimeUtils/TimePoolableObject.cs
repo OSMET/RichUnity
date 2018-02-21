@@ -1,8 +1,8 @@
 ﻿using RichUnity.Spawners;
-using RichUnity.TimeStuff.Timers;
+using RichUnity.TimeUtils.Timers;
 using UnityEngine;
 
-namespace RichUnity.TimeStuff {
+namespace RichUnity.TimeUtils {
     public abstract class TimePoolableObject : ObjectPool.PoolableObject {
 
         public EventTimer Timer;

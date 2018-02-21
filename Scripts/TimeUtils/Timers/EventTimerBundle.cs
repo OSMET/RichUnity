@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using UnityEngine.Events;
 
-namespace RichUnity.TimeStuff.Timers {
+namespace RichUnity.TimeUtils.Timers {
     public class EventTimersBundle<TKey> : TimerBundle<TKey, EventTimer> {
         /// <summary>
         /// Author: Igor Ponomaryov
