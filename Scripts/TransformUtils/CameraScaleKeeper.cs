@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-namespace RichUnity.Utils {
-    public class ScaleKeeper : MonoBehaviour {
+namespace RichUnity.TransformUtils {
+    public class CameraScaleKeeper : MonoBehaviour {
         private Vector3 startScale;
         private float oldDepth;
 

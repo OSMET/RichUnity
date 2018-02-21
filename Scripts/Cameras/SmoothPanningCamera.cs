@@ -1,4 +1,4 @@
-﻿using RichUnity.Utils;
+﻿using RichUnity.TransformUtils;
 using UnityEngine;
 
 namespace RichUnity.Cameras {

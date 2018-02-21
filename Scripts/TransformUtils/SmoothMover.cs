@@ -1,7 +1,7 @@
 ﻿using RichUnity.Math;
 using UnityEngine;
 
-namespace RichUnity.Utils {
+namespace RichUnity.TransformUtils  {
     public class SmoothMover : MonoBehaviour {
         public Vector3 TargetPosition { get; set; }
         public float SmoothTime;
@@ -9,6 +9,7 @@ namespace RichUnity.Utils {
         private bool stopWhenReach;
         public bool Moving { get; private set; }
         public float EndPrecision = 0.0001f;
+        public bool UseFixedDeltaTime;
 
         public void BeginMoving(bool stopWhenReach = true) {
             this.stopWhenReach = stopWhenReach;
@@ -31,7 +32,7 @@ namespace RichUnity.Utils {
                 } else {
                     Vector3 newPosition = Vector3.SmoothDamp(transform.position, TargetPosition, ref velocity,
                         SmoothTime,
-                        Mathf.Infinity, Time.fixedDeltaTime);
+                        Mathf.Infinity, UseFixedDeltaTime ? Time.fixedDeltaTime : Time.deltaTime);
                     transform.position = newPosition;
                 }
             }
