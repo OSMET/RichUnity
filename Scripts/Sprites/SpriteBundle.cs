@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace RichUnity.Utils {
+namespace RichUnity.Sprites {
     /// <summary>
     /// Author: Igor Ponomaryov
     /// </summary>
