@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace RichUnity.Utils {
-    public class BinaryRangeSearcher {
-        public int SearchLowerBoundIndex(List<float> values, float value) {
+namespace RichUnity.Algorithms {
+    public static class BinaryRangeSearch {
+        public static int SearchLowerBoundIndex(List<float> values, float value) {
             if (value < values[0]) {
                 return -1;
             } else if (value >= values[values.Count - 1]) {
