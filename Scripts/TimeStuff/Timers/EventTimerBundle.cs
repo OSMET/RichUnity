@@ -2,11 +2,11 @@
 using UnityEngine.Events;
 
 namespace RichUnity.TimeStuff.Timers {
-    public class EventTimersBundle<K> : TimersBundle<K, EventTimer> {
+    public class EventTimersBundle<TKey> : TimerBundle<TKey, EventTimer> {
         /// <summary>
         /// Author: Igor Ponomaryov
         /// </summary>
-        public void InstantiateTimer(K key, bool looped, float timeLimit, bool start, UnityAction call = null) {
+        public void InstantiateTimer(TKey key, bool looped, float timeLimit, bool start, UnityAction call = null) {
             var timer = new EventTimer {
                 Looped = looped,
                 TimeLimit = timeLimit
@@ -32,20 +32,20 @@ namespace RichUnity.TimeStuff.Timers {
                 ResumeTimer(key);
             }
         }
-        public void ResumeAllExcept(params K[] keys) {
+        public void ResumeAllExcept(params TKey[] keys) {
             foreach (var key in Timers.Keys) {
                 if(!keys.Contains(key))
                     ResumeTimer(key);
             }
         }
 
-        public void PauseTimer(K key) {
+        public void PauseTimer(TKey key) {
             var timer = base[key];
             timer.Looped = false;
             timer.EndNoEvent();
         }
 
-        public void ResumeTimer(K key, bool looped = true) {
+        public void ResumeTimer(TKey key, bool looped = true) {
             var timer = base[key];
             timer.Looped = looped;
             timer.Resume();
