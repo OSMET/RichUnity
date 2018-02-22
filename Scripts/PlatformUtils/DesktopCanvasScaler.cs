@@ -8,7 +8,7 @@ namespace RichUnity.PlatformUtils {
         public Vector2 ExtraScale;
         
         private void Start() {
-            if (DesktopManager.Instance != null && DesktopManager.Instance.DesktopModeOn) {
+            if (PlatformChecks.DesktopModeOn) {
                 var canvasScaler = GetComponent<CanvasScaler>();
                 var referenceResolution = canvasScaler.referenceResolution;
                 referenceResolution.x *= ExtraScale.x;
