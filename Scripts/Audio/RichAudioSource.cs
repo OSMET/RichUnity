@@ -23,8 +23,24 @@ namespace RichUnity.Audio {
                     volume = value;
                     
                     if (AudioClass != null && AudioClass.UpdateInstantlyOrOnPlay) {
-                        ApplyAudioManagerMultipliers();
+                        ApplyAudioManagerProperties();
                     }
+                }
+            }
+        }
+        
+        [SerializeField]
+        private bool muted;
+
+        public bool Muted {
+            get {
+                return muted;
+            }
+            set {
+                muted = value;
+                
+                if (AudioClass != null && AudioClass.UpdateInstantlyOrOnPlay) {
+                    ApplyAudioManagerProperties();
                 }
             }
         }
@@ -38,22 +54,20 @@ namespace RichUnity.Audio {
         protected virtual void Awake() {
             audioSource = GetComponent<AudioSource>();
             audioSource.volume = volume;
+            audioSource.mute = muted;
         }
 
         protected virtual void OnEnable() {
             var audioManager = AudioManager.Instance;
             if (audioManager != null) {
                 AudioClass = audioManager.RegisterAudioSource(this);
-                ApplyAudioManagerMultipliers();
+                ApplyAudioManagerProperties();
             }
         }
         
-        public void ApplyAudioManagerMultipliers() {
+        public void ApplyAudioManagerProperties() {
             audioSource.volume = Volume * AudioClass.Volume;
-            var audioManager = AudioManager.Instance;
-            if (audioManager != null) {
-                audioSource.volume *= audioManager.MasterVolume;
-            }
+            audioSource.mute = muted || AudioClass.Muted;
         }
         
         protected virtual void OnDisable() {
@@ -67,10 +81,11 @@ namespace RichUnity.Audio {
         public void Play() {
             if (AudioClass != null) {
                 if (!AudioClass.UpdateInstantlyOrOnPlay) {
-                    ApplyAudioManagerMultipliers();
+                    ApplyAudioManagerProperties();
                 }
             } else {
                 audioSource.volume = volume;
+                audioSource.mute = muted;
             }
             audioSource.Play();
         }

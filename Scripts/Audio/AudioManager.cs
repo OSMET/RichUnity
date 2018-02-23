@@ -21,6 +21,19 @@ namespace RichUnity.Audio {
                     volume = value;                    
                 }
             }
+            
+            [SerializeField]
+            private bool muted;
+
+            public bool Muted {
+                get {
+                    return muted;
+                }
+                set {
+                    muted = value;
+                }
+            }
+
             public bool UpdateInstantlyOrOnPlay;
         }
         
@@ -28,25 +41,12 @@ namespace RichUnity.Audio {
         
         public static AudioManager Instance { get; private set; }
         
-        [SerializeField]
-        [Range(0.0f, 1.0f)]
-        private float masterVolume = 1.0f;
-        
         public float MasterVolume {
             get {
-                return masterVolume;
+                return AudioListener.volume;
             }
             set {
-                value = Mathf.Clamp01(value);
- 
-                if (!Mathf.Approximately(value, masterVolume)) { //value changed
-                    masterVolume = value;
-                    Debug.Log(string.Format("AudioManager: Master Volume Value changed to {0:0.00}", value));
-
-                    foreach (var audioClass in AudioClasses) {
-                        ApplyClassMultipliersToSources(audioClass);
-                    }
-                }
+                AudioListener.volume = value;
             }
         }
         
@@ -90,16 +90,27 @@ namespace RichUnity.Audio {
                 if (!Mathf.Approximately(audioClass.Volume, volume)) { //value changed
                     audioClass.Volume = volume;
                     Debug.Log(string.Format("[{0}] AudioClass: Volume Value changed to {1:0.00}", audioClass.Name, volume));
-                    ApplyClassMultipliersToSources(audioClass);
+                    ApplyAudioClassPropertiesToSources(audioClass);
+                }
+            }
+        }
+        
+        public void SetAudioClassMuted(string audioClassName, bool muted) {
+            var audioClass = GetAudioClassByName(audioClassName);
+            if (audioClass != null) {
+                if (audioClass.Muted != muted) { //value changed
+                    audioClass.Muted = muted;
+                    Debug.Log(string.Format("[{0}] AudioClass: Muted Value changed to {1}", audioClass.Name, muted));
+                    ApplyAudioClassPropertiesToSources(audioClass);
                 }
             }
         }
 
-        private void ApplyClassMultipliersToSources(AudioClass audioClass) {
+        private void ApplyAudioClassPropertiesToSources(AudioClass audioClass) {
             if (audioClass.UpdateInstantlyOrOnPlay) {
                 var audioSourcesToUpdate = audioSources.Where(audioSource => audioSource.AudioClass == audioClass).ToArray();
                 foreach (var audioSource in audioSourcesToUpdate) {
-                    audioSource.ApplyAudioManagerMultipliers(); 
+                    audioSource.ApplyAudioManagerProperties(); 
                 }
             }
         }
