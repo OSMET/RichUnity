@@ -23,7 +23,7 @@ namespace RichUnity.Audio {
                     volume = value;
                     
                     if (AudioClass != null && AudioClass.UpdateInstantlyOrOnPlay) {
-                        ApplyAudioClassMultiplier();
+                        ApplyAudioManagerMultipliers();
                     }
                 }
             }
@@ -44,12 +44,16 @@ namespace RichUnity.Audio {
             var audioManager = AudioManager.Instance;
             if (audioManager != null) {
                 AudioClass = audioManager.RegisterAudioSource(this);
-                ApplyAudioClassMultiplier();
+                ApplyAudioManagerMultipliers();
             }
         }
         
-        public void ApplyAudioClassMultiplier() {
+        public void ApplyAudioManagerMultipliers() {
             audioSource.volume = Volume * AudioClass.Volume;
+            var audioManager = AudioManager.Instance;
+            if (audioManager != null) {
+                audioSource.volume *= audioManager.MasterVolume;
+            }
         }
         
         protected virtual void OnDisable() {
@@ -63,7 +67,7 @@ namespace RichUnity.Audio {
         public void Play() {
             if (AudioClass != null) {
                 if (!AudioClass.UpdateInstantlyOrOnPlay) {
-                    ApplyAudioClassMultiplier();
+                    ApplyAudioManagerMultipliers();
                 }
             } else {
                 audioSource.volume = volume;

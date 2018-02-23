@@ -32,6 +32,25 @@ namespace RichUnity.Audio {
         [Range(0.0f, 1.0f)]
         private float masterVolume = 1.0f;
         
+        public float MasterVolume {
+            get {
+                return masterVolume;
+            }
+            set {
+                value = Mathf.Clamp01(value);
+ 
+                if (!Mathf.Approximately(value, masterVolume)) { //value changed
+                    masterVolume = value;
+                    Debug.Log(string.Format("AudioManager: Master Volume Value changed to {0:0.00}", value));
+
+                    foreach (var audioClass in AudioClasses) {
+                        ApplyClassMultipliersToSources(audioClass);
+                    }
+                }
+            }
+        }
+        
+        
         private HashSet<RichAudioSource> audioSources = new HashSet<RichAudioSource>();
 
         public List<AudioClass> AudioClasses;
@@ -71,15 +90,17 @@ namespace RichUnity.Audio {
                 if (!Mathf.Approximately(audioClass.Volume, volume)) { //value changed
                     audioClass.Volume = volume;
                     Debug.Log(string.Format("[{0}] AudioClass: Volume Value changed to {1:0.00}", audioClass.Name, volume));
-                    if (audioClass.UpdateInstantlyOrOnPlay) {
-                        var audioSourcesToUpdate = audioSources.Where(audioSource => audioSource.AudioClass == audioClass).ToArray();
-                        foreach (var audioSource in audioSourcesToUpdate) {
-                            audioSource.ApplyAudioClassMultiplier(); 
-                        }
-                    }
+                    ApplyClassMultipliersToSources(audioClass);
                 }
-                
-                
+            }
+        }
+
+        private void ApplyClassMultipliersToSources(AudioClass audioClass) {
+            if (audioClass.UpdateInstantlyOrOnPlay) {
+                var audioSourcesToUpdate = audioSources.Where(audioSource => audioSource.AudioClass == audioClass).ToArray();
+                foreach (var audioSource in audioSourcesToUpdate) {
+                    audioSource.ApplyAudioManagerMultipliers(); 
+                }
             }
         }
 
