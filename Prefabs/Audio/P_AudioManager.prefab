@@ -51,11 +51,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f295f7ef2670be47983b4b6e2b63f99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  masterVolume: 1
+  masterMuted: 0
   AudioClasses:
   - Name: Sound
-    volume: 1
+    Volume: 1
+    Muted: 0
     UpdateInstantlyOrOnPlay: 0
   - Name: Music
-    volume: 1
+    Volume: 1
+    Muted: 0
     UpdateInstantlyOrOnPlay: 1

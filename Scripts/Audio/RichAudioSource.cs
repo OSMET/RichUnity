@@ -67,7 +67,15 @@ namespace RichUnity.Audio {
         
         public void ApplyAudioManagerProperties() {
             audioSource.volume = Volume * AudioClass.Volume;
-            audioSource.mute = muted || AudioClass.Muted;
+
+            var newMuted = muted || AudioClass.Muted;
+
+            var audioManager = AudioManager.Instance;
+            if (audioManager != null) {
+                newMuted = newMuted || audioManager.MasterMuted;
+            }
+            
+            audioSource.mute = newMuted;
         }
         
         protected virtual void OnDisable() {

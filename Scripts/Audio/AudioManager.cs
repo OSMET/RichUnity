@@ -9,44 +9,44 @@ namespace RichUnity.Audio {
         public class AudioClass {
             public string Name;
         
-            [SerializeField]
             [Range(0.0f, 1.0f)]
-            private float volume;
+            public float Volume;         
             
-            public float Volume {
-                get {
-                    return volume;
-                }
-                set {
-                    volume = value;                    
-                }
-            }
-            
-            [SerializeField]
-            private bool muted;
-
-            public bool Muted {
-                get {
-                    return muted;
-                }
-                set {
-                    muted = value;
-                }
-            }
+            public bool Muted;
 
             public bool UpdateInstantlyOrOnPlay;
         }
         
-        
-        
         public static AudioManager Instance { get; private set; }
         
+        [SerializeField]
+        private bool masterMuted;
+        
+        public bool MasterMuted {
+            get {
+                return masterMuted;
+            }
+            set {
+                if (masterMuted != value) {
+                    masterMuted = value;
+
+                    Debug.Log(string.Format("AudioManager: Master Muted Value changed to {0}", value));
+
+                    foreach (var audioClass in AudioClasses) {
+                        ApplyAudioClassPropertiesToSources(audioClass);
+                    }
+                }
+            }
+        }
+
+
         public float MasterVolume {
             get {
                 return AudioListener.volume;
             }
             set {
                 AudioListener.volume = value;
+                Debug.Log(string.Format("AudioManager: Master Volume Value changed to {0}", value));
             }
         }
         
@@ -108,8 +108,7 @@ namespace RichUnity.Audio {
 
         private void ApplyAudioClassPropertiesToSources(AudioClass audioClass) {
             if (audioClass.UpdateInstantlyOrOnPlay) {
-                var audioSourcesToUpdate = audioSources.Where(audioSource => audioSource.AudioClass == audioClass).ToArray();
-                foreach (var audioSource in audioSourcesToUpdate) {
+                foreach (var audioSource in audioSources.Where(audioSource => audioSource.AudioClass == audioClass)) {
                     audioSource.ApplyAudioManagerProperties(); 
                 }
             }
