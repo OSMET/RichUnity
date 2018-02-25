@@ -18,8 +18,21 @@ namespace RichUnity.TimeUtils.Timers {
                 time = value;
             }
         }
+        
+#if UNITY_EDITOR
+        [ReadOnly]
+        [SerializeField]
+#endif
+        private bool timerOn;
 
-        public bool TimerOn { get; private set; }
+        public bool TimerOn {
+            get {
+                return timerOn;
+            }
+            private set {
+                timerOn = value;
+            }
+        }
 
         public Timer() {
         }
