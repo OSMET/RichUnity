@@ -1,12 +1,17 @@
-﻿using RichUnity.Attributes;
+﻿
+using System;
+#if UNITY_EDITOR
+using RichUnity.Attributes;
+#endif
 using UnityEngine;
 
 namespace RichUnity.TimeUtils.Timers {
+    [Serializable]
     public class Timer {
 #if UNITY_EDITOR
         [ReadOnly]
-        [SerializeField]
 #endif
+        [SerializeField]
         private float time;
 
         public float Time {
@@ -21,8 +26,8 @@ namespace RichUnity.TimeUtils.Timers {
         
 #if UNITY_EDITOR
         [ReadOnly]
-        [SerializeField]
 #endif
+        [SerializeField]
         private bool timerOn;
 
         public bool TimerOn {

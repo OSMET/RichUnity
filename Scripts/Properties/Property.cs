@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.Serialization;
+#if UNITY_EDITOR
 using RichUnity.Attributes;
+#endif
 using RichUnity.Events;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,8 +15,8 @@ namespace RichUnity.Properties {
 
         #if UNITY_EDITOR
         [ReadOnly]
-        [SerializeField]
         #endif
+        [SerializeField]
         private int currentValue;
 
         public int CurrentValue {
