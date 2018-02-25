@@ -5,7 +5,7 @@ namespace RichUnity.TimeUtils.Timers {
     public class LimitedTimer : Timer {
         public float TimeLimit;
 
-        public bool Looped { get; set; }
+        public bool Looped;
 
         public LimitedTimer() {
             
