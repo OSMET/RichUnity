@@ -3,7 +3,7 @@
 namespace RichUnity.TimeUtils.Timers {
     [Serializable]
     public class LimitedTimer : Timer {
-        public float TimeLimit;
+        public float TimeLimit = 60f;
 
         public bool Looped;
 

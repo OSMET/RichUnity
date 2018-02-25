@@ -1,7 +1,24 @@
-﻿
+﻿using RichUnity.Attributes;
+using UnityEngine;
+
 namespace RichUnity.TimeUtils.Timers {
     public class Timer {
-        public float Time { get; private set; }
+#if UNITY_EDITOR
+        [ReadOnly]
+        [SerializeField]
+#endif
+        private float time;
+
+        public float Time {
+            get {
+                return time;
+                
+            }
+            private set {
+                time = value;
+            }
+        }
+
         public bool TimerOn { get; private set; }
 
         public Timer() {
