@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace RichUnity.Destroyables {
+namespace RichUnity.ParticleSystems {
     [RequireComponent(typeof(ParticleSystem))]
     public class AutoDestroyablePS : MonoBehaviour {
         public ParticleSystem ParticleSystem { get; set; }

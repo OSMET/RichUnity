@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 namespace RichUnity.Spawners {
-    public class PrefabSpawner : Spawner {
+    public class PrefabAwakeSpawner : AwakeSpawner {
         public GameObject ObjectPrefab;
         
         public override GameObject Spawn() {

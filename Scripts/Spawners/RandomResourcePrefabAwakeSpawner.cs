@@ -2,19 +2,20 @@
 
 namespace RichUnity.Spawners {
     [System.Serializable]
-    public class RandomPrefabSpawner : ISpawner {
+    public class RandomResourcePrefabAwakeSpawner : AwakeSpawner {
 
         public string ResourceFolderPath;
 
         private GameObject[] prefabs;
 
-        public void LoadPrefabs() {
+        protected override void Awake() {
             prefabs = Resources.LoadAll<GameObject>(ResourceFolderPath);
+            base.Awake();
         }
 
-        public GameObject Spawn() {
+        public override GameObject Spawn() {
             var randomPrefab = prefabs[Random.Range(0, prefabs.Length)];
-            return Object.Instantiate(randomPrefab);
+            return InstantiateObject(randomPrefab);
         }
     }
 }

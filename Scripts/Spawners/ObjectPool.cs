@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace RichUnity.Spawners {
-    public class ObjectPool : MonoBehaviour, ISpawner {
-        public abstract class PoolableObject : MonoBehaviour {
+    public class ObjectPool : Spawner {
+        public class PoolableObject : MonoBehaviour {
             public ObjectPool ObjectPool { get; set; }
 
             protected virtual void OnEnable() {
@@ -22,7 +23,6 @@ namespace RichUnity.Spawners {
         public PoolableObject ObjectPrefab;
         public int InitialSize;
         public bool WillGrow = true;
-        public bool SpawnAsChild = true;
 
         private Stack<GameObject> objects;
 
@@ -32,9 +32,9 @@ namespace RichUnity.Spawners {
 
         protected virtual void Start() {
             for (var i = 0; i < InitialSize; ++i) {
-                var obj = InstantiateObject();
+                var obj = InstantiateObject(ObjectPrefab.gameObject);
                 obj.SetActive(false);
-                //objects.Push(obj);
+                //objects.Push(obj); //because OnDisable invocation
             }
         }
 
@@ -42,11 +42,11 @@ namespace RichUnity.Spawners {
             objects.Push(obj.gameObject);
         }
 
-        public virtual GameObject Spawn() {
+        public override GameObject Spawn() {
             GameObject obj;
             if (objects.Count == 0) {
                 if (WillGrow) {
-                    obj = InstantiateObject();
+                    obj = InstantiateObject(ObjectPrefab.gameObject);
                 } else {
                     return null;
                 }
@@ -62,22 +62,18 @@ namespace RichUnity.Spawners {
             return (T) Spawn().GetComponent<PoolableObject>();
         }
 
-        private GameObject InstantiateObject() {
-            GameObject obj = SpawnAsChild
-                ? Instantiate<GameObject>(ObjectPrefab.gameObject, transform)
-                : Instantiate<GameObject>(ObjectPrefab.gameObject);
+        protected override GameObject InstantiateObject(GameObject prefab) {
+            var obj = base.InstantiateObject(prefab);
             obj.GetComponent<PoolableObject>().ObjectPool = this;
             return obj;
         }
 
         protected virtual void OnDestroy() {
             if (objects != null) {
-                GameObject[] objectsArray = objects.ToArray();
-                foreach (GameObject obj in objectsArray) {
-                    if (obj.gameObject != null) {
-                        if (!obj.activeInHierarchy) {
-                            Destroy(obj);
-                        }
+                while (objects.Count > 0) {
+                    var obj = objects.Pop();
+                    if (obj.gameObject != null && !obj.activeInHierarchy) {
+                        Destroy(obj);
                     }
                 }
             }

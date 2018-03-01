@@ -3,16 +3,23 @@ using RichUnity.TimeUtils.Timers;
 using UnityEngine;
 
 namespace RichUnity.TimeUtils {
-    public abstract class TimePoolableObject : ObjectPool.PoolableObject {
+    public class TimePoolableObject : ObjectPool.PoolableObject {
+        public Timer PoolTimer;
+        public float PoolTimerLimit;
 
-        public EventTimer Timer;
+        private void OnPoolTimerEnded() {
+            gameObject.SetActive(false);
+        }
         
         protected override void OnEnable() {
-            Timer.Start();
+            PoolTimer.Start();
         }
 
         public virtual void Update() {
-            Timer.Update(Time.deltaTime);
+            PoolTimer.Update(Time.deltaTime);
+            if (PoolTimer.Time > PoolTimerLimit) {
+                OnPoolTimerEnded();
+            }
         }
     }
 }

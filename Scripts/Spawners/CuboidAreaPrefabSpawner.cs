@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace RichUnity.Spawners {
-    public class CuboidAreaSpawner : PrefabSpawner {
+    public class CuboidAreaPrefabSpawner : PrefabSpawner {
         //public enum Axis {
         //    X,
         //    Y,
@@ -13,13 +13,7 @@ namespace RichUnity.Spawners {
         
         public int ObjectNumber;
 
-        //public bool LerpProperties;
-        //public Axis LerpAxis;
-        //public Color BeginColor;
-        //public Color EndColor;
-
-
-        protected override void Awake() {
+        protected void Awake() {
             for (int i = 0; i < ObjectNumber; ++i) {
                 Vector3 position = new Vector3 {
                     x = CuboidArea.RandomX(),
@@ -29,6 +23,7 @@ namespace RichUnity.Spawners {
                 GameObject obj = Spawn();
                 obj.transform.position = position;
             }
+            Destroy(this);
         }
 
         private void OnDrawGizmos() {

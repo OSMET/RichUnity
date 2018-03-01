@@ -23,7 +23,7 @@ namespace RichUnity.TransformUtils  {
 
         private void Update() {
             if (Moving) {
-                if (Vector3Utils.PrecisionEquals(TargetPosition, transform.position, EndPrecision)) {
+                if (TargetPosition.PrecisionEquals(transform.position, EndPrecision)) {
                     transform.position = TargetPosition;
                     velocity = Vector3.zero;
                     if (stopWhenReach) {
