@@ -1,10 +1,11 @@
 ﻿using RichUnity.TransformUtils;
+using RichUnity.UI;
 using UnityEngine;
 
 namespace RichUnity.Cameras {
 
     [RequireComponent(typeof(Camera))]
-    public class SmoothPanningCamera : MonoBehaviour {
+    public class SmoothPanningCamera2D : MonoBehaviour {
 
         public Vector2 UpperBorder;
         public Vector2 LowerBorder;
@@ -23,17 +24,15 @@ namespace RichUnity.Cameras {
         [SerializeField]
         private bool mouseInputEnabled = true;
 
-        public bool MouseInputEnabled {
-            get {
-                return mouseInputEnabled;
-            }
-            set {
-                mouseInputEnabled = value;
-                if (mouseInputEnabled) {
-                   lastMousePosition = Input.mousePosition;
-                   oldPosition = transform.position;
-                }
-            }
+         public bool MouseInputEnabled {
+            get { return mouseInputEnabled; }
+             set {
+                 mouseInputEnabled = value;
+                 if (mouseInputEnabled) {
+                    lastMousePosition = Input.mousePosition;
+                    oldPosition = transform.position;
+                 }
+             }
         }
 
 
@@ -52,6 +51,8 @@ namespace RichUnity.Cameras {
         public void MoveBy(Vector3 offset) {
             MoveTo(oldPosition + offset);
         }
+
+
 
         public void MoveTo(Vector3 newPosition) {
             Vector3 screenHalfSizeWorld =
@@ -84,8 +85,9 @@ namespace RichUnity.Cameras {
                 }
 
                 if (Input.GetMouseButton(0)) {
-                    if (UnityEngine.EventSystems.EventSystem.current != null && UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+                    if (UIUtils.PointerOverUserInterface) {
                         return;
+                    }
 
                     Vector3 delta = Input.mousePosition - lastMousePosition;
                     Vector3 translate = new Vector3 {
