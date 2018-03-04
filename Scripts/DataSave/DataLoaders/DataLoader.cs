@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using RichUnity.Save.Data;
+using RichUnity.DataSave.Data;
 using UnityEngine;
 
-namespace RichUnity.Save.DataLoaders {
+namespace RichUnity.DataSave.DataLoaders {
     public interface IDataLoader {
-        void Load();
+        bool Load();
         void Save();
         void Unload();
         void DeleteSource();
@@ -45,39 +45,54 @@ namespace RichUnity.Save.DataLoaders {
             }
         }
 
-        public void Load() {
+        public bool Load() {
             if (!dataLoaded) {
+                Debug.Log(GetType().Name + ": begin data loading");
                 if (SourceExists) {
-                    data = LoadData();
-                    dataLoaded = true;
-                    Debug.Log(this.GetType().Name + ": data was loaded.");
-                } else {
                     try {
-                        data = (D) typeof(D).GetConstructor(Type.EmptyTypes).Invoke(new object[] {});
-                        //SaveData(data);
-                        //Debug.Log(this.GetType().Name + ": data was saved for the first time.");
-                        Debug.Log(this.GetType().Name + ": data was not loaded, default Data object was created.");
-                    } catch (NullReferenceException ex) {
-                        throw new ArgumentException("Data must be a class and contain a default constructor.");
+                        data = LoadData();
+                        dataLoaded = true;
+                        Debug.Log(GetType().Name + ": data was loaded.");
+                    } catch (Exception ex) {
+                        Debug.Log(GetType().Name + ": exception - " + ex);
+                        return false;
                     }
+                } else {
+                    CreateNewData();
+                    Debug.Log(GetType().Name + ": data was not loaded, default Data object was created.");
                 }
             }
+            return true;
         }
 
-        public void Save() {
-            SaveData(data);
-            if (dataLoaded) {
-                Debug.Log(this.GetType().Name + ": data was saved.");
-            } else {
-                Debug.Log(this.GetType().Name + ": data was saved for the first time.");
+        private void CreateNewData() {
+            try {
+                data = (D) typeof(D).GetConstructor(Type.EmptyTypes).Invoke(new object[] {});
+            } catch (NullReferenceException) {
+                throw new ArgumentException(GetType().Name + ": data must be a class and contain a default constructor.");
             }
+            dataLoaded = true;
+        }
+        
+        public void Save() {
+            var saved = SaveData(data);
+            if (saved) {
+                if (dataLoaded) {
+                    Debug.Log(GetType().Name + ": data was saved.");
+                } else {
+                    Debug.Log(GetType().Name + ": data was saved for the first time.");
+                }
+            } else {
+                Debug.Log(GetType().Name + ": data was NOT saved.");
+            }
+            
         }
 
         public void Unload() {
             if (dataLoaded) {
                 data = default(D);
                 dataLoaded = false;
-                Debug.Log(this.GetType().Name + ": data was unloaded.");
+                Debug.Log(GetType().Name + ": data was unloaded.");
             }
         }
 
@@ -91,7 +106,7 @@ namespace RichUnity.Save.DataLoaders {
 
         public abstract D LoadData();
 
-        public abstract void SaveData(D data);
+        public abstract bool SaveData(D data);
    
     }
 }

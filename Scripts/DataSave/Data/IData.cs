@@ -1,5 +1,5 @@
 ﻿
-namespace RichUnity.Save.Data {
+namespace RichUnity.DataSave.Data {
     public interface IData {
     }
 }

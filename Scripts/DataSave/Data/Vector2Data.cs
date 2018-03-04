@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace RichUnity.Save.Data {
+namespace RichUnity.DataSave.Data {
     [System.Serializable]
     public class Vector2Data : IData {
         public float X;

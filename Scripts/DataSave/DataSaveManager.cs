@@ -1,46 +1,51 @@
 ﻿using System.Linq;
-using RichUnity.Save.Data;
-using RichUnity.Save.DataLoaderBundles;
-using RichUnity.Save.DataLoaders;
+using RichUnity.DataSave.Data;
+using RichUnity.DataSave.DataLoaderBundles;
+using RichUnity.DataSave.DataLoaders;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace RichUnity.Save {
+namespace RichUnity.DataSave {
     public class DataSaveManager : MonoBehaviour {
 
-        public static DataSaveManager Instance;
+        public static DataSaveManager Instance { get; private set; }
 
         public DataLoaderBundle DataLoaderBundle;
 
-        void Awake() {
+        private void Awake() {
             if (Instance == null) {
                 Instance = this;
+                DontDestroyOnLoad(gameObject);
             } else if (Instance != this) {
                 Destroy(gameObject);
             }
-            DontDestroyOnLoad(gameObject);
         }
 
         public void Save() {
             foreach (var dataLoader in DataLoaderBundle.DataLoaders) {
                 //0 for all scenes
                 var sceneNames = dataLoader.SceneNames;
-                if (sceneNames.Length == 0 ||sceneNames.Contains(SceneManager.GetActiveScene().name)) {
+                if (sceneNames.Length == 0 || sceneNames.Contains(SceneManager.GetActiveScene().name)) {
                     dataLoader.Save();
                 }
             }
         }
 
-        public void Load(string sceneName) {
+        public bool Load(string sceneName) {
             foreach (var dataLoader in DataLoaderBundle.DataLoaders) {
                 //0 for all scenes
                 var sceneNames = dataLoader.SceneNames;
                 if (sceneNames.Length == 0 || sceneNames.Contains(sceneName)) {
-                    dataLoader.Load();
+                    var loaded = dataLoader.Load();
+                    if (!loaded) {
+                        Debug.Log("Some of datas was not loaded");
+                        return false;
+                    }
                 } else {
                     dataLoader.Unload();
                 }
             }
+            return true;
         }
 
         public D GetData<D>() where D : IData {
@@ -60,16 +65,6 @@ namespace RichUnity.Save {
                 }
             }
             return default(DL);
-        }
-
-        public void OnApplicationQuit() {
-            Save();
-        }
-
-        void OnApplicationPause(bool pauseStatus) {
-            if (pauseStatus) {
-                Save();
-            }
         }
     }
 }
