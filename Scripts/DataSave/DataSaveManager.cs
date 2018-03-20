@@ -1,7 +1,5 @@
 ﻿using System.Linq;
-using RichUnity.DataSave.Data;
-using RichUnity.DataSave.DataLoaderBundles;
-using RichUnity.DataSave.DataLoaders;
+using RichUnity.Data;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,7 +8,7 @@ namespace RichUnity.DataSave {
 
         public static DataSaveManager Instance { get; private set; }
 
-        public DataLoaderBundle DataLoaderBundle;
+        public DataLoadersBundle DataLoaderBundle;
 
         private void Awake() {
             if (Instance == null) {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace RichUnity.DataSave.Data {
+namespace RichUnity.Data {
     [System.Serializable]
     public class ColorData : IData {
         public float R;

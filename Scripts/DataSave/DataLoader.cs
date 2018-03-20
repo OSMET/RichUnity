@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using RichUnity.DataSave.Data;
+using RichUnity.Data;
 using UnityEngine;
 
-namespace RichUnity.DataSave.DataLoaders {
+namespace RichUnity.DataSave {
     public interface IDataLoader {
         bool Load();
         void Save();
