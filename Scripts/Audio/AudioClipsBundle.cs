@@ -5,7 +5,7 @@ namespace RichUnity.Audio {
     /// Author: Igor Ponomaryov
     /// </summary>
     [CreateAssetMenu]
-    public class AudioBundle : ScriptableObject {
+    public class AudioClipsBundle : ScriptableObject {
         public AudioClip[] AudioClips;
 
         public AudioClip GetRandomAudio() {

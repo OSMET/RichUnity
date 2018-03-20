@@ -5,7 +5,7 @@ namespace RichUnity.Sprites {
     /// Author: Igor Ponomaryov
     /// </summary>
     [CreateAssetMenu]
-    public class SpriteBundle : ScriptableObject {
+    public class SpritesBundle : ScriptableObject {
         public Sprite[] Sprites;
 
         public Sprite GetRandomSprite() {
