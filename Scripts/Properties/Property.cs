@@ -7,128 +7,98 @@ using RichUnity.Events;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace RichUnity.Properties {
+namespace RichUnity.Properties
+{
     [Serializable]
-    public class Property {
+    public class Property
+    {
         public int MaxValue = Int32.MaxValue;
-        public int StartValue;
+        public int MinValue = Int32.MinValue;
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         [ReadOnly]
-        #endif
+#endif
         [SerializeField]
-        private int currentValue;
+        private int value;
 
-        public int CurrentValue {
-            get {
-                CheckInit();
-                return currentValue;
-            }
-            set {
-                CheckInit();
-                int oldCurrentValue = currentValue;
-                currentValue = value;
+        public virtual int Value
+        {
+            get
+            {
                 CheckBounds();
-                DeltaValue = currentValue - oldCurrentValue;
-                if (DeltaValue != 0 || AllowZeroDelta) {
+                return value;
+            }
+            set
+            {
+                int oldValue = this.value;
+                this.value = value;
+                CheckBounds();
+                DeltaValue = this.value - oldValue;
+                if (DeltaValue != 0 || AllowZeroDelta)
+                {
                     OnValueChanged.Invoke(this);
                 }
-                CheckZeroOut();
             }
         }
 
-        public bool CanGrow;
-        public bool Unsigned;
-        public bool AllowZeroDelta;
-        [NonSerialized]
-        public PropertyParameterEvent OnValueChanged = new PropertyParameterEvent();
-        [NonSerialized]
-        public UnityEvent OnZeroOut = new UnityEvent();
-        [NonSerialized]
-        public UnityEvent OnRessurected = new UnityEvent();
-        public bool Alive { get; private set; }
-        public int DeltaValue { get; private set; }
-        private bool initialized;
+        public bool CanGrowUp;
+        public bool CanGrowDown;
 
-        public Property() {
+        public bool AllowZeroDelta;
+
+        [NonSerialized] 
+        public PropertyParameterEvent OnValueChanged = new PropertyParameterEvent();
+
+        public int DeltaValue { get; private set; }
+
+        public Property()
+        {
         }
 
         [OnDeserialized]
-        public void OnDeserialized(StreamingContext context) {
-            if (OnValueChanged == null) {
+        public virtual void OnDeserialized(StreamingContext context)
+        {
+            if (OnValueChanged == null)
+            {
                 OnValueChanged = new PropertyParameterEvent();
             }
-            if (OnZeroOut == null) {
-                OnZeroOut = new UnityEvent();
-            }
-            if (OnRessurected == null) {
-                OnRessurected = new UnityEvent();
-            }
         }
 
-        public void Init() {
-            if (!initialized) {
-                if (MaxValue <= 0) {
-                    throw new ArgumentException("Max value can not be <= 0");
+        private void CheckBounds()
+        {
+            if (Value < MinValue)
+            {
+                if (!CanGrowDown)
+                {
+                    Value = MinValue;
                 }
-                Alive = true;
-                currentValue = StartValue;
-                CheckBounds();
-                CheckZeroOut();
-                initialized = true;
+                else
+                {
+                    MinValue = Value;
+                }
             }
-        }
-
-        private void CheckZeroOut() {
-            if (Alive) {
-                if (currentValue <= 0) {
-                    OnZeroOut.Invoke();
-                    Alive = false;
+            else if (Value > MaxValue)
+            {
+                if (!CanGrowUp)
+                {
+                    Value = MaxValue;
                 }
-            } else {
-                if (currentValue > 0) {
-                    OnRessurected.Invoke();
-                    Alive = true;
+                else
+                {
+                    MaxValue = Value;
                 }
             }
         }
 
-        private void CheckInit() {
-            if (!initialized) {
-                throw new InvalidOperationException("You should initialize property first. Just call Init().");
-            }
+        public void AddValue(int value)
+        {
+            Value += value;
         }
 
-        private void CheckBounds() {
-            if (currentValue < 0) {
-                if (Unsigned) {
-                    currentValue = 0;
-                }
-            } else if (currentValue > MaxValue) {
-                if (!CanGrow) {
-                    currentValue = MaxValue;
-                } else {
-                    MaxValue = currentValue;
-                }
-            }
-        }
 
-        public void AddValue(int value) {
-            CurrentValue += value;
-        }
-
-        public int RemainingValue {
-            get {
-                return MaxValue - CurrentValue;
-            }
-        }
-
-        public void ZeroOut() {
-            AddValue(-CurrentValue);
-        }
-
-        public static implicit operator int(Property property) {
-            return property.CurrentValue;
+        public static implicit operator int(Property property)
+        {
+            return property.Value;
         }
     }
 }
