@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using RichUnity.Events;
 using UnityEngine.Events;
 
 namespace RichUnity.Properties
@@ -11,9 +12,9 @@ namespace RichUnity.Properties
         public bool Alive { get; private set; }
 
         [NonSerialized] 
-        public UnityEvent OnDead = new UnityEvent();
+        public PropertyParameterEvent OnDead = new PropertyParameterEvent();
         [NonSerialized] 
-        public UnityEvent OnRessurected = new UnityEvent();
+        public PropertyParameterEvent OnRessurected = new PropertyParameterEvent();
 
         public int DeathValue;
         
@@ -23,11 +24,11 @@ namespace RichUnity.Properties
             base.OnDeserialized(context);
             if (OnDead == null)
             {
-                OnDead = new UnityEvent();
+                OnDead = new PropertyParameterEvent();
             }
             if (OnRessurected == null) 
             {
-                OnRessurected = new UnityEvent();
+                OnRessurected = new PropertyParameterEvent();
             }
         }
         
@@ -50,7 +51,7 @@ namespace RichUnity.Properties
             {
                 if (Value <= DeathValue) 
                 {
-                    OnDead.Invoke();
+                    OnDead.Invoke(this);
                     Alive = false;
                 }
             } 
@@ -58,7 +59,7 @@ namespace RichUnity.Properties
             {
                 if (Value > DeathValue) 
                 {
-                    OnRessurected.Invoke();
+                    OnRessurected.Invoke(this);
                     Alive = true;
                 }
             }
