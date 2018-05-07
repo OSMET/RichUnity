@@ -11,10 +11,10 @@ namespace RichUnity.Cameras {
         private new Camera camera;
         private Vector3 velocity = Vector3.zero;
 
-        public bool AllowedPositiveX;
-        public bool AllowedNegativeX;
-        public bool AllowedPositiveY;
-        public bool AllowedNegativeY;
+        public bool AllowedPositiveX = true;
+        public bool AllowedNegativeX = true;
+        public bool AllowedPositiveY = true;
+        public bool AllowedNegativeY = true;
 
         public Vector3 UpperPositionLimit = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
         public Vector3 LowerPositionLimit = new Vector3(float.MinValue, float.MinValue, float.MinValue);
