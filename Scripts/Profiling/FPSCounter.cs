@@ -1,9 +1,8 @@
-﻿using UnityEngine;
+﻿using RichUnity.Singletons;
+using UnityEngine;
 
 namespace RichUnity.Profiling {
-    public class FPSCounter : MonoBehaviour {
-        public static FPSCounter Instance { get; private set; }
-
+    public class FPSCounter : PersistentSingleton<FPSCounter> {
         public float UpdateDelta = 0.5f;
         public Vector2 RightTopCornerScreenPositionFraction = new Vector2(0.15f, 0.15f);
         public Color TextColor = new Color(0.0f, 1.0f, 0.0f, 1.0f);
@@ -14,16 +13,6 @@ namespace RichUnity.Profiling {
         private int frames;
         private string text;
         private GUIStyle textStyle;
-        
-
-        private void Awake() {
-            if (Instance == null) {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-            } else if (Instance != this) {
-                Destroy(gameObject);
-            }
-        }
 
         private void Start() {
             timeleft = UpdateDelta;

@@ -1,23 +1,13 @@
 ﻿using System.Linq;
 using RichUnity.Data;
+using RichUnity.Singletons;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace RichUnity.DataSave {
-    public class DataSaveManager : MonoBehaviour {
-
-        public static DataSaveManager Instance { get; private set; }
+    public class DataSaveManager : PersistentSingleton<DataSaveManager> {
 
         public DataLoadersBundle DataLoaderBundle;
-
-        private void Awake() {
-            if (Instance == null) {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-            } else if (Instance != this) {
-                Destroy(gameObject);
-            }
-        }
 
         public void Save() {
             foreach (var dataLoader in DataLoaderBundle.DataLoaders) {

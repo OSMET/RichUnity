@@ -1,20 +1,16 @@
-﻿using UnityEngine;
+﻿using RichUnity.Singletons;
 
 namespace RichUnity.PlatformUtils {
-    public class DesktopManager : MonoBehaviour {
+    public class DesktopManager : PersistentSingleton<DesktopManager> {
         public static DesktopManager Instance { get; private set; }
 
         public bool DesktopModeOn;
 
-        public void Awake() {
-            if (Instance == null) {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-                if (PlatformChecks.IsMobile) {
-                    DesktopModeOn = false;
-                }
-            } else if (Instance != this) {
-                Destroy(gameObject);
+        protected override void OnSingletonAwake()
+        {
+            base.OnSingletonAwake();
+            if (PlatformChecks.IsMobile) {
+                DesktopModeOn = false;
             }
         }
     }
