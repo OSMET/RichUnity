@@ -86,9 +86,9 @@ namespace RichUnity.Spawners.ObjectPools
             return obj;
         }
 
-        public T Spawn<T>() where T : PoolableObject
+        public new T Spawn<T>() where T : PoolableObject
         {
-            return (T) Spawn().GetComponent<PoolableObject>();
+            return base.Spawn<T>();
         }
 
         protected override GameObject InstantiateObject(GameObject prefab)
