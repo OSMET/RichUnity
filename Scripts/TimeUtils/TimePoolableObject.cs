@@ -1,23 +1,29 @@
-﻿using RichUnity.Spawners;
+﻿using RichUnity.Spawners.ObjectPools;
 using RichUnity.TimeUtils.Timers;
 using UnityEngine;
 
-namespace RichUnity.TimeUtils {
-    public class TimePoolableObject : ObjectPool.PoolableObject {
+namespace RichUnity.TimeUtils
+{
+    public class TimePoolableObject : ObjectPool.PoolableObject
+    {
         public Timer PoolTimer;
         public float PoolTimerLimit;
 
-        private void OnPoolTimerEnded() {
+        private void OnPoolTimerEnded()
+        {
             gameObject.SetActive(false);
         }
-        
-        protected override void OnEnable() {
+
+        private void OnEnable()
+        {
             PoolTimer.Start();
         }
 
-        public virtual void Update() {
+        public virtual void Update()
+        {
             PoolTimer.Update(Time.deltaTime);
-            if (PoolTimer.Time > PoolTimerLimit) {
+            if (PoolTimer.Time > PoolTimerLimit)
+            {
                 OnPoolTimerEnded();
             }
         }
