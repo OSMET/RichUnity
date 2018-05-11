@@ -1,18 +1,22 @@
-﻿using RichUnity.Spawners;
+﻿using RichUnity.Spawners.ObjectPools;
 using UnityEngine;
 
-namespace RichUnity.ParticleSystems {
+namespace RichUnity.ParticleSystems
+{
     [RequireComponent(typeof(ParticleSystem))]
-    public class AutoPoolablePS : ObjectPool.PoolableObject {
-
+    public class AutoPoolablePS : ObjectPool.PoolableObject
+    {
         public ParticleSystem ParticleSystem { get; private set; }
 
-        private void Start() {
+        private void Start()
+        {
             ParticleSystem = GetComponent<ParticleSystem>();
         }
 
-        private void Update() {
-            if (!ParticleSystem.IsAlive()) {
+        private void Update()
+        {
+            if (!ParticleSystem.IsAlive())
+            {
                 gameObject.SetActive(false);
             }
         }
