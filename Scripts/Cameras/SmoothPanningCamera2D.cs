@@ -2,11 +2,11 @@
 using RichUnity.UI;
 using UnityEngine;
 
-namespace RichUnity.Cameras {
-
+namespace RichUnity.Cameras
+{
     [RequireComponent(typeof(Camera))]
-    public class SmoothPanningCamera2D : MonoBehaviour {
-
+    public class SmoothPanningCamera2D : MonoBehaviour
+    {
         public Vector2 UpperBorder;
         public Vector2 LowerBorder;
 
@@ -21,76 +21,99 @@ namespace RichUnity.Cameras {
 
         private Vector3 oldPosition;
 
-        [SerializeField]
-        private bool mouseInputEnabled = true;
+        [SerializeField] private bool mouseInputEnabled = true;
 
-         public bool MouseInputEnabled {
-            get { return mouseInputEnabled; }
-             set {
-                 mouseInputEnabled = value;
-                 if (mouseInputEnabled) {
+        public bool MouseInputEnabled
+        {
+            get
+            {
+                return mouseInputEnabled;
+            }
+            set
+            {
+                mouseInputEnabled = value;
+                if (mouseInputEnabled)
+                {
                     lastMousePosition = Input.mousePosition;
                     oldPosition = transform.position;
-                 }
-             }
+                }
+            }
         }
 
 
-        private void Awake() {
+        private void Awake()
+        {
             camera = GetComponent<Camera>();
             smoothMover = GetComponent<SmoothMover>();
         }
 
-        private void OnEnable() {
+        private void OnEnable()
+        {
             oldPosition = transform.position;
             lastMousePosition = Input.mousePosition;
             smoothMover.TargetPosition = oldPosition;
             smoothMover.BeginMoving(false);
         }
 
-        public void MoveBy(Vector3 offset) {
+        public void MoveBy(Vector3 offset)
+        {
             MoveTo(oldPosition + offset);
         }
 
 
-
-        public void MoveTo(Vector3 newPosition) {
+        public void MoveTo(Vector3 newPosition)
+        {
             Vector3 screenHalfSizeWorld =
-                        camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, -newPosition.z)) -
-                        camera.transform.position;
+                camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, -newPosition.z)) -
+                camera.transform.position;
 
-                    if (!FixedX) {
-                        if (newPosition.x - screenHalfSizeWorld.x < LowerBorder.x) {
-                            newPosition.x = LowerBorder.x + screenHalfSizeWorld.x;
-                        } else if (newPosition.x + screenHalfSizeWorld.x > UpperBorder.x) {
-                            newPosition.x = UpperBorder.x - screenHalfSizeWorld.x;
-                        }
-                    }
-                    if (!FixedY) {
-                        if (newPosition.y - screenHalfSizeWorld.y < LowerBorder.y) {
-                            newPosition.y = LowerBorder.y + screenHalfSizeWorld.y;
-                        } else if (newPosition.y + screenHalfSizeWorld.y > UpperBorder.y) {
-                            newPosition.y = UpperBorder.y - screenHalfSizeWorld.y;
-                        }
-                    }
+            if (!FixedX)
+            {
+                if (newPosition.x - screenHalfSizeWorld.x < LowerBorder.x)
+                {
+                    newPosition.x = LowerBorder.x + screenHalfSizeWorld.x;
+                }
+                else if (newPosition.x + screenHalfSizeWorld.x > UpperBorder.x)
+                {
+                    newPosition.x = UpperBorder.x - screenHalfSizeWorld.x;
+                }
+            }
+
+            if (!FixedY)
+            {
+                if (newPosition.y - screenHalfSizeWorld.y < LowerBorder.y)
+                {
+                    newPosition.y = LowerBorder.y + screenHalfSizeWorld.y;
+                }
+                else if (newPosition.y + screenHalfSizeWorld.y > UpperBorder.y)
+                {
+                    newPosition.y = UpperBorder.y - screenHalfSizeWorld.y;
+                }
+            }
 
             oldPosition = newPosition;
             smoothMover.TargetPosition = oldPosition;
         }
 
-        private void Update() {
-            if (MouseInputEnabled) {
-                if (Input.GetMouseButtonDown(0)) {
+        private void Update()
+        {
+            if (MouseInputEnabled)
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
                     lastMousePosition = Input.mousePosition;
                 }
 
-                if (Input.GetMouseButton(0)) {
-                    if (UIUtils.PointerOverUserInterface) {
+                if (Input.GetMouseButton(0))
+                {
+                    if (UIUtils.PointerOverUserInterface)
+                    {
                         return;
                     }
 
                     Vector3 delta = Input.mousePosition - lastMousePosition;
-                    Vector3 translate = new Vector3 {
+                    Vector3 translate = new Vector3
+                    {
                         x = FixedX ? 0f : -delta.x * MouseSensitivity,
                         y = FixedY ? 0f : -delta.y * MouseSensitivity,
                         z = 0f

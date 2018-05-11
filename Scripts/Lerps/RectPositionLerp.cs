@@ -1,19 +1,24 @@
 ﻿using UnityEngine;
 
-namespace RichUnity.Lerps {
-    public class RectPositionLerp : Lerp<Vector3> {
+namespace RichUnity.Lerps
+{
+    public class RectPositionLerp : Lerp<Vector3>
+    {
+        public bool LerpAnchoredPosition;
 
-        public bool LerpAnchoredPosition = false;
-
-        public override void ChangeValue(float percentage) {
+        public override void ChangeValue(float percentage)
+        {
             var rectPosition = GetComponent<RectTransform>();
 
             var newPosition = Vector3.Lerp(BeginValue, EndValue, percentage);
             //newPosition.x += rectPosition.anchorMax.x;
             //newPosition.y += rectPosition.anchorMax.y;
-            if (LerpAnchoredPosition) {
+            if (LerpAnchoredPosition)
+            {
                 rectPosition.anchoredPosition = newPosition;
-            } else {
+            }
+            else
+            {
                 rectPosition.position = newPosition;
             }
         }

@@ -1,8 +1,10 @@
 ﻿using RichUnity.Math;
 using UnityEngine;
 
-namespace RichUnity.Spawners {
-    public class CuboidAreaPrefabSpawner : PrefabSpawner {
+namespace RichUnity.Spawners
+{
+    public class CuboidAreaPrefabSpawner : PrefabSpawner
+    {
         //public enum Axis {
         //    X,
         //    Y,
@@ -10,12 +12,15 @@ namespace RichUnity.Spawners {
         //}
 
         public Cuboid CuboidArea = new Cuboid();
-        
+
         public int ObjectNumber;
 
-        protected void Awake() {
-            for (int i = 0; i < ObjectNumber; ++i) {
-                Vector3 position = new Vector3 {
+        protected void Awake()
+        {
+            for (int i = 0; i < ObjectNumber; ++i)
+            {
+                Vector3 position = new Vector3
+                {
                     x = CuboidArea.RandomX(),
                     y = CuboidArea.RandomY(),
                     z = CuboidArea.RandomZ()
@@ -23,10 +28,12 @@ namespace RichUnity.Spawners {
                 GameObject obj = Spawn();
                 obj.transform.position = position;
             }
+
             Destroy(this);
         }
 
-        private void OnDrawGizmos() {
+        private void OnDrawGizmos()
+        {
             CuboidArea.DrawWireGizmos(Color.cyan);
         }
     }

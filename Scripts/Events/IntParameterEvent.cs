@@ -1,8 +1,9 @@
-﻿
-using UnityEngine.Events;
+﻿using UnityEngine.Events;
 
-namespace RichUnity.Events{
-        [System.Serializable]
-        public class IntParameterEvent : UnityEvent<int> {  
-        }
+namespace RichUnity.Events
+{
+    [System.Serializable]
+    public class IntParameterEvent : UnityEvent<int>
+    {
+    }
 }

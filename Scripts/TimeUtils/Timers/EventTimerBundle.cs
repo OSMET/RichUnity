@@ -1,51 +1,66 @@
 ﻿using System.Linq;
 using UnityEngine.Events;
 
-namespace RichUnity.TimeUtils.Timers {
-    public class EventTimersBundle<TKey> : TimerBundle<TKey, EventTimer> {
+namespace RichUnity.TimeUtils.Timers
+{
+    public class EventTimersBundle<TKey> : TimerBundle<TKey, EventTimer>
+    {
         /// <summary>
         /// Author: Igor Ponomaryov
         /// </summary>
-        public void InstantiateTimer(TKey key, bool looped, float timeLimit, bool start, UnityAction call = null) {
-            var timer = new EventTimer {
+        public void InstantiateTimer(TKey key, bool looped, float timeLimit, bool start, UnityAction call = null)
+        {
+            var timer = new EventTimer
+            {
                 Looped = looped,
                 TimeLimit = timeLimit
             };
-            if (call != null) {
+            if (call != null)
+            {
                 timer.OnEnded.AddListener(call);
             }
+
             AddTimer(key, timer);
-            if (start) {
+            if (start)
+            {
                 timer.Start();
             }
         }
 
-        public void PauseAll() {
-            foreach (var key in Timers.Keys) {
+        public void PauseAll()
+        {
+            foreach (var key in Timers.Keys)
+            {
                 PauseTimer(key);
             }
-
         }
 
-        public void ResumeAll() {
-            foreach (var key in Timers.Keys) {
+        public void ResumeAll()
+        {
+            foreach (var key in Timers.Keys)
+            {
                 ResumeTimer(key);
             }
         }
-        public void ResumeAllExcept(params TKey[] keys) {
-            foreach (var key in Timers.Keys) {
-                if(!keys.Contains(key))
+
+        public void ResumeAllExcept(params TKey[] keys)
+        {
+            foreach (var key in Timers.Keys)
+            {
+                if (!keys.Contains(key))
                     ResumeTimer(key);
             }
         }
 
-        public void PauseTimer(TKey key) {
+        public void PauseTimer(TKey key)
+        {
             var timer = base[key];
             timer.Looped = false;
             timer.EndNoEvent();
         }
 
-        public void ResumeTimer(TKey key, bool looped = true) {
+        public void ResumeTimer(TKey key, bool looped = true)
+        {
             var timer = base[key];
             timer.Looped = looped;
             timer.Resume();

@@ -1,5 +1,6 @@
-﻿
-namespace RichUnity.Data {
-    public interface IData {
+﻿namespace RichUnity.Data
+{
+    public interface IData
+    {
     }
 }

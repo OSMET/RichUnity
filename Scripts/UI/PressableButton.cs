@@ -1,26 +1,31 @@
 ﻿using UnityEngine.Events;
+using UnityEngine.UI;
 
-namespace RichUnity.UI {
-    using UnityEngine.UI;
-
-    public class PressableButton : Button {
-
+namespace RichUnity.UI
+{
+    public class PressableButton : Button
+    {
         public UnityEvent OnPressed;
 
         private bool pressHappened;
 
-        private void Update() {
-            if (!pressHappened) {
-                if (IsPressed()) {
+        protected virtual void Update()
+        {
+            if (!pressHappened)
+            {
+                if (IsPressed())
+                {
                     OnPressed.Invoke();
                     pressHappened = true;
                 }
-            } else {
-                if (!IsPressed()) {
+            }
+            else
+            {
+                if (!IsPressed())
+                {
                     pressHappened = false;
                 }
             }
         }
-
     }
 }

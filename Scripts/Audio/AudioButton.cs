@@ -1,16 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace RichUnity.Audio {
+namespace RichUnity.Audio
+{
     [RequireComponent(typeof(Button))]
-    public class AudioButton : RichAudioSource {
-
-        protected override void Awake() {
+    public class AudioButton : RichAudioSource
+    {
+        protected override void Awake()
+        {
             GetComponent<Button>().onClick.AddListener(OnClick);
             base.Awake();
         }
 
-        private void OnClick() {
+        private void OnClick()
+        {
             Play();
         }
     }

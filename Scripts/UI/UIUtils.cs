@@ -2,12 +2,17 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace RichUnity.UI {
-    public static class UIUtils {
-        public static bool PointerOverUserInterface {
-            get {
+namespace RichUnity.UI
+{
+    public static class UIUtils
+    {
+        public static bool PointerOverUserInterface
+        {
+            get
+            {
                 PointerEventData eventDataCurrentPosition =
-                    new PointerEventData(EventSystem.current) {
+                    new PointerEventData(EventSystem.current)
+                    {
                         position = new Vector2(Input.mousePosition.x, Input.mousePosition.y)
                     };
                 List<RaycastResult> results = new List<RaycastResult>();

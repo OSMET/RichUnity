@@ -1,15 +1,20 @@
 ﻿using UnityEngine;
 
-namespace RichUnity.Lerps {
-    public class PositionLerp : Lerp<Vector3> {
-
+namespace RichUnity.Lerps
+{
+    public class PositionLerp : Lerp<Vector3>
+    {
         public bool LerpLocalPosition = false;
 
-        public override void ChangeValue(float percentage) {
+        public override void ChangeValue(float percentage)
+        {
             var newPosition = Vector3.Lerp(BeginValue, EndValue, percentage);
-            if (LerpLocalPosition) {
+            if (LerpLocalPosition)
+            {
                 transform.localPosition = newPosition;
-            } else {
+            }
+            else
+            {
                 transform.position = newPosition;
             }
         }

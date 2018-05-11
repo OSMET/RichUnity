@@ -1,22 +1,29 @@
 ﻿using UnityEngine;
 
-namespace RichUnity.Audio {
+namespace RichUnity.Audio
+{
     [RequireComponent(typeof(AudioSource))]
-    public class SceneMusicSource : RichAudioSource {
+    public class SceneMusicSource : RichAudioSource
+    {
         public static SceneMusicSource Instance { get; private set; }
 
-        public SceneMusicSource() : base() {
+        public SceneMusicSource() : base()
+        {
             AudioClassName = "Music";
         }
-        
-        protected override void Awake() {
+
+        protected override void Awake()
+        {
             base.Awake();
-            if (Instance == null) {
+            if (Instance == null)
+            {
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
-            } else if (Instance != this) {
+            }
+            else if (Instance != this)
+            {
                 bool clipsAreDifferent = Instance.AudioSource.clip != AudioSource.clip;
-                
+
                 Instance.AudioSource.clip = AudioSource.clip;
                 Instance.AudioSource.mute = AudioSource.mute;
                 Instance.AudioSource.bypassEffects = AudioSource.bypassEffects;
@@ -37,14 +44,19 @@ namespace RichUnity.Audio {
                 Instance.AudioSource.minDistance = AudioSource.minDistance;
                 Instance.AudioSource.maxDistance = AudioSource.maxDistance;
 
-                if (AudioSource.playOnAwake) {
-                    if (clipsAreDifferent) {
+                if (AudioSource.playOnAwake)
+                {
+                    if (clipsAreDifferent)
+                    {
                         Instance.Play();
                     }
-                } else {
+                }
+                else
+                {
                     Instance.Stop();
                     Instance.AudioSource.mute = true;
                 }
+
                 Destroy(gameObject);
             }
         }

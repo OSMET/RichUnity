@@ -4,9 +4,11 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace RichUnity.UI {
+namespace RichUnity.UI
+{
     [RequireComponent(typeof(Text))]
-    public class TouchScreenEditableText : MonoBehaviour {
+    public class TouchScreenEditableText : MonoBehaviour
+    {
         private Text text;
         private TouchScreenKeyboard keyboard;
 
@@ -20,48 +22,64 @@ namespace RichUnity.UI {
         public char ErrorSymbol;
         public String[] SupportedSymbolsStrings;
 
-        private void Awake() {
+        protected virtual void Awake()
+        {
             text = GetComponentInChildren<Text>();
         }
 
-        public void BeginTextEditing() {
-            keyboard = TouchScreenKeyboard.Open(text.text, TouchScreenKeyboardType, Autocorrection, Multiline, Secure, Alert);
+        public void BeginTextEditing()
+        {
+            keyboard = TouchScreenKeyboard.Open(text.text, TouchScreenKeyboardType, Autocorrection, Multiline, Secure,
+                Alert);
         }
 
-        private void Update() {
-            if (keyboard != null) {
-                if (keyboard.active) {
-                    if (keyboard.text.Length > MaxLength) {
+        protected void Update()
+        {
+            if (keyboard != null)
+            {
+                if (keyboard.active)
+                {
+                    if (keyboard.text.Length > MaxLength)
+                    {
                         keyboard.text = keyboard.text.Substring(0, MaxLength);
                     }
+
                     bool shitHappened = false;
                     var stringBuilder = new StringBuilder(keyboard.text);
-                    for (int i = 0; i < stringBuilder.Length; ++i) {
+                    for (int i = 0; i < stringBuilder.Length; ++i)
+                    {
                         char symbol = stringBuilder[i];
-                        if (!IsSymbolSupported(symbol)) {
+                        if (!IsSymbolSupported(symbol))
+                        {
                             stringBuilder[i] = ErrorSymbol;
                             shitHappened = true;
                             break;
                         }
                     }
-                    if (shitHappened) {
+
+                    if (shitHappened)
+                    {
                         keyboard.text = stringBuilder.ToString();
                     }
-                } else if (keyboard.done) {
+                }
+                else if (keyboard.done)
+                {
                     text.text = keyboard.text;
                     keyboard = null;
                 }
             }
         }
 
-        private bool IsSymbolSupported(char symbol) {
-            foreach (var symbolsString in SupportedSymbolsStrings) {
-                if (symbolsString.Contains(symbol)) {
+        private bool IsSymbolSupported(char symbol)
+        {
+            foreach (var symbolsString in SupportedSymbolsStrings)
+            {
+                if (symbolsString.Contains(symbol))
+                {
                     return true;
                 }
             }
             return false;
         }
-
     }
 }

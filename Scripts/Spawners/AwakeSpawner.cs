@@ -1,9 +1,12 @@
 ﻿using RichUnity.TransformUtils;
 using UnityEngine;
 
-namespace RichUnity.Spawners {
-    public abstract class AwakeSpawner : Spawner {
-        public enum TransformType {
+namespace RichUnity.Spawners
+{
+    public abstract class AwakeSpawner : Spawner
+    {
+        public enum TransformType
+        {
             Prefab,
             Local,
             World,
@@ -18,32 +21,45 @@ namespace RichUnity.Spawners {
         public Vector3 SpawnScale = Vector3.one;
         public TransformType ScaleTransformType = TransformType.Prefab;
 
-        protected virtual void Awake() {
+        protected virtual void Awake()
+        {
             GameObject obj = Spawn();
             //position
-            if (PositionTransformType == TransformType.Local) {
+            if (PositionTransformType == TransformType.Local)
+            {
                 obj.transform.localPosition = SpawnPosition;
-            } else if (PositionTransformType == TransformType.World) {
+            }
+            else if (PositionTransformType == TransformType.World)
+            {
                 obj.transform.position = SpawnPosition;
             }
 
             //rotation
-            if (RotationTransformType == TransformType.Local) {
+            if (RotationTransformType == TransformType.Local)
+            {
                 obj.transform.localRotation = Quaternion.Euler(SpawnRotation);
-            } else if (RotationTransformType == TransformType.World) {
+            }
+            else if (RotationTransformType == TransformType.World)
+            {
                 obj.transform.rotation = Quaternion.Euler(SpawnRotation);
             }
 
             //scale
-            if (ScaleTransformType == TransformType.Local) {
+            if (ScaleTransformType == TransformType.Local)
+            {
                 obj.transform.localScale = SpawnScale;
-            } else if (ScaleTransformType == TransformType.World) {
+            }
+            else if (ScaleTransformType == TransformType.World)
+            {
                 obj.transform.SetGlobalScale(SpawnScale);
             }
 
-            if (SpawnAsChild) {
+            if (SpawnAsChild)
+            {
                 Destroy(this);
-            } else {
+            }
+            else
+            {
                 Destroy(gameObject);
             }
         }

@@ -19,7 +19,7 @@ namespace RichUnity.TimeUtils
             PoolTimer.Start();
         }
 
-        public virtual void Update()
+        protected virtual void Update()
         {
             PoolTimer.Update(Time.deltaTime);
             if (PoolTimer.Time > PoolTimerLimit)

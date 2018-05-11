@@ -1,8 +1,15 @@
 ﻿using UnityEngine;
 
-namespace RichUnity.Lerps.Lerpers {
-    public class Lerper : MonoBehaviour {
-        public enum LerpModes {Normal, Loop, LoopPingPong}
+namespace RichUnity.Lerps.Lerpers
+{
+    public class Lerper : MonoBehaviour
+    {
+        public enum LerpModes
+        {
+            Normal,
+            Loop,
+            LoopPingPong
+        }
 
 
         public Lerp Lerp;
@@ -22,90 +29,124 @@ namespace RichUnity.Lerps.Lerpers {
 
         public LerpModes LerpMode;
 
-        private void Start() {
+        private void Start()
+        {
             Reset();
-            if (BeginOnAwake) {
-                if (EndValueReachedFromStart) {
+            if (BeginOnAwake)
+            {
+                if (EndValueReachedFromStart)
+                {
                     Decrease();
-                } else {
+                }
+                else
+                {
                     Increase();
                 }
             }
         }
 
-        public void Reset() {
-           if (EndValueReachedFromStart) {
-               CurrentTime = LerpTime;
-               Increasing = true;
-               if (Lerp != null) {
-                   Lerp.ChangeValue(1f);
-               }
-           } else {
-               CurrentTime = 0f;
-               Increasing = false;
-               if (Lerp != null) {
-                   Lerp.ChangeValue(0f);
-               }
-           }
+        public void Reset()
+        {
+            if (EndValueReachedFromStart)
+            {
+                CurrentTime = LerpTime;
+                Increasing = true;
+                if (Lerp != null)
+                {
+                    Lerp.ChangeValue(1f);
+                }
+            }
+            else
+            {
+                CurrentTime = 0f;
+                Increasing = false;
+                if (Lerp != null)
+                {
+                    Lerp.ChangeValue(0f);
+                }
+            }
         }
 
 
-        public void Increase() {
+        public void Increase()
+        {
             Begin(true);
         }
 
-        public void Decrease() {
+        public void Decrease()
+        {
             Begin(false);
         }
 
-        public virtual void Begin(bool increasing) {
+        public virtual void Begin(bool increasing)
+        {
             Began = true;
             Increasing = increasing;
         }
 
-        protected virtual float DeltaTime {
-            get {
+        protected virtual float DeltaTime
+        {
+            get
+            {
                 return Time.deltaTime;
             }
         }
 
-        public virtual void End() {
+        public virtual void End()
+        {
             Began = false;
-            if (Increasing) {
-                if (LerpMode == LerpModes.Loop) {
+            if (Increasing)
+            {
+                if (LerpMode == LerpModes.Loop)
+                {
                     Reset();
                     Increase();
-                } else if (LerpMode == LerpModes.LoopPingPong) {
+                }
+                else if (LerpMode == LerpModes.LoopPingPong)
+                {
                     Decrease();
                 }
-            } else {
-                if (LerpMode == LerpModes.Loop) {
+            }
+            else
+            {
+                if (LerpMode == LerpModes.Loop)
+                {
                     Reset();
                     Decrease();
-                } else if (LerpMode == LerpModes.LoopPingPong) {
+                }
+                else if (LerpMode == LerpModes.LoopPingPong)
+                {
                     Increase();
                 }
             }
         }
 
-        private void Update() {
-            if (Began) {
+        private void Update()
+        {
+            if (Began)
+            {
                 float deltaTime = UseUnscaledDeltaTime ? Time.unscaledDeltaTime : DeltaTime;
-                if (Increasing) {
+                if (Increasing)
+                {
                     CurrentTime += deltaTime;
-                    if (CurrentTime >= LerpTime) {
+                    if (CurrentTime >= LerpTime)
+                    {
                         CurrentTime = LerpTime;
                         End();
                     }
-                } else {
+                }
+                else
+                {
                     CurrentTime -= deltaTime;
-                    if (CurrentTime <= 0) {
+                    if (CurrentTime <= 0)
+                    {
                         CurrentTime = 0;
                         End();
                     }
                 }
 
-                if (Lerp != null) {
+                if (Lerp != null)
+                {
                     Lerp.ChangeValue(CurrentTime / LerpTime);
                 }
             }

@@ -1,29 +1,47 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace RichUnity.Algorithms {
-    public static class BinaryRangeSearch {
-        public static int SearchLowerBoundIndex(List<float> values, float value) {
-            if (value < values[0]) {
+namespace RichUnity.Algorithms
+{
+    public static class BinaryRangeSearch
+    {
+        public static int SearchLowerBoundIndex(List<float> values, float value)
+        {
+            if (value < values[0])
+            {
                 return -1;
-            } else if (value >= values[values.Count - 1]) {
+            }
+            else if (value >= values[values.Count - 1])
+            {
                 return values.Count - 1;
-            } else {
+            }
+            else
+            {
                 int left = 0;
                 int right = values.Count;
                 int mid;
-                while (true) {
+                while (true)
+                {
                     mid = left + (right - left) / 2;
-                    if (Mathf.Abs(value - values[mid]) < 0.000001f || mid == left) {
-                        if (mid == right || value < values[left]) {
+                    if (Mathf.Abs(value - values[mid]) < 0.000001f || mid == left)
+                    {
+                        if (mid == right || value < values[left])
+                        {
                             return mid - 1;
-                        } else {
+                        }
+                        else
+                        {
                             return mid;
                         }
-                    } else {
-                        if (value < values[mid]) {
+                    }
+                    else
+                    {
+                        if (value < values[mid])
+                        {
                             right = mid;
-                        } else {
+                        }
+                        else
+                        {
                             left = mid + 1;
                         }
                     }

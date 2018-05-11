@@ -1,9 +1,13 @@
-﻿namespace RichUnity.Containers {
-    public class Pair<TKey, TValue> {
-        public Pair() {
+﻿namespace RichUnity.Containers
+{
+    public class Pair<TKey, TValue>
+    {
+        public Pair()
+        {
         }
 
-        public Pair(TKey key, TValue value) {
+        public Pair(TKey key, TValue value)
+        {
             Key = key;
             Value = value;
         }

@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 
-namespace RichUnity.TimeUtils {
-    public class TimeDestroyableObject : MonoBehaviour {
+namespace RichUnity.TimeUtils
+{
+    public class TimeDestroyableObject : MonoBehaviour
+    {
         public float DestroyTime;
 
-        protected virtual void OnEnable() {
+        protected virtual void OnEnable()
+        {
             Destroy(gameObject, DestroyTime);
         }
     }
