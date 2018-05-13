@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-namespace RichUnity.Audio.AudioEvents
+namespace RichUnity.Audio.AudioPlugs
 {
-    [CreateAssetMenu(fileName = "SimpleMultiAudioEvent", menuName = "Audio Events/Simple Multi Audio Event")]
-    public class SimpleMultiAudioEvent: SimpleAudioEvent
+    [CreateAssetMenu(fileName = "RangedMultiAudioPlug", menuName = "Audio Plugs/Ranged Multi Audio Plug")]
+    public class RangedMultiAudioPlug: RangedAudioPlug
     { 
         [SerializeField]
         private AudioClip[] audioClips;

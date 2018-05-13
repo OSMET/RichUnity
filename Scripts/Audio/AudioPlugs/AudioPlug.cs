@@ -3,9 +3,9 @@ using UnityEditor;
 #endif
 using UnityEngine;
 
-namespace RichUnity.Audio.AudioEvents
+namespace RichUnity.Audio.AudioPlugs
 {
-    public abstract class AudioEvent : ScriptableObject
+    public abstract class AudioPlug : ScriptableObject
     {
         public abstract void Play(AudioSource audioSource);
 
@@ -20,8 +20,8 @@ namespace RichUnity.Audio.AudioEvents
     }
 
 #if UNITY_EDITOR
-    [CustomEditor(typeof(AudioEvent), true)]
-    public class AudioEventEditor : Editor
+    [CustomEditor(typeof(AudioPlug), true)]
+    public class AudioPlugEditor : Editor
     {
         [SerializeField] 
         private AudioSource previewAudioSource;
@@ -45,7 +45,7 @@ namespace RichUnity.Audio.AudioEvents
             EditorGUI.BeginDisabledGroup(serializedObject.isEditingMultipleObjects);
             if (GUILayout.Button("Preview"))
             {
-                ((AudioEvent) target).Play(previewAudioSource);
+                ((AudioPlug) target).Play(previewAudioSource);
             }
 
             EditorGUI.EndDisabledGroup();

@@ -1,9 +1,9 @@
 ﻿using RichUnity.Scripts.Ranges;
 using UnityEngine;
 
-namespace RichUnity.Audio.AudioEvents
+namespace RichUnity.Audio.AudioPlugs
 {
-    public abstract class RangedAudioEvent : AudioEvent
+    public abstract class RangedAudioPlug : AudioPlug
     {
         protected abstract AudioClip AudioClip { get; }
         

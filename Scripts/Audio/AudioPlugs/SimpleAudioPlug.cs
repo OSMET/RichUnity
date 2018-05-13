@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace RichUnity.Audio.AudioEvents
+namespace RichUnity.Audio.AudioPlugs
 {
-    public abstract class SimpleAudioEvent : AudioEvent
+    public abstract class SimpleAudioPlug : AudioPlug
     {
         protected abstract AudioClip AudioClip { get; }
         
