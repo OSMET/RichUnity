@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR
+using UnityEditor;
+#endif
+using UnityEngine;
 
 namespace RichUnity.Audio.AudioEvents
 {
@@ -15,4 +18,38 @@ namespace RichUnity.Audio.AudioEvents
             audioSource.Play();
         }
     }
+
+#if UNITY_EDITOR
+    [CustomEditor(typeof(AudioEvent), true)]
+    public class AudioEventEditor : Editor
+    {
+        [SerializeField] 
+        private AudioSource previewAudioSource;
+
+        public void OnEnable()
+        {
+            previewAudioSource = EditorUtility
+                .CreateGameObjectWithHideFlags("PreviewAudioSource", HideFlags.HideAndDontSave, typeof(AudioSource))
+                .GetComponent<AudioSource>();
+        }
+
+        public void OnDisable()
+        {
+            DestroyImmediate(previewAudioSource.gameObject);
+        }
+
+        public override void OnInspectorGUI()
+        {
+            DrawDefaultInspector();
+
+            EditorGUI.BeginDisabledGroup(serializedObject.isEditingMultipleObjects);
+            if (GUILayout.Button("Preview"))
+            {
+                ((AudioEvent) target).Play(previewAudioSource);
+            }
+
+            EditorGUI.EndDisabledGroup();
+        }
+    }
+#endif
 }

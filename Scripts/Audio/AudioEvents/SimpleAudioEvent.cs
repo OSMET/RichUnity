@@ -23,7 +23,7 @@ namespace RichUnity.Audio.AudioEvents
         }
         
         [SerializeField]
-        [Range(-3.0f, 3.0f)] 
+        [Range(0.0f, 3.0f)] 
         private float pitch = 1.0f;
         
         public float Pitch
@@ -35,7 +35,7 @@ namespace RichUnity.Audio.AudioEvents
 
             set
             {
-                pitch = Mathf.Clamp(value, -3.0f, 3.0f);
+                pitch = Mathf.Clamp(value, 0.0f, 3.0f);
             }
         }
         
