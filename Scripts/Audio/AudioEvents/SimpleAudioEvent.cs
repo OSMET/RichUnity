@@ -16,10 +16,6 @@ namespace RichUnity.Audio.AudioEvents
             {
                 return volume;
             }
-            set
-            {
-                volume = Mathf.Clamp(value, 0.0f, 1.0f);;
-            }
         }
         
         [SerializeField]
@@ -31,11 +27,6 @@ namespace RichUnity.Audio.AudioEvents
             get
             {
                 return pitch;
-            }
-
-            set
-            {
-                pitch = Mathf.Clamp(value, 0.0f, 3.0f);
             }
         }
         
