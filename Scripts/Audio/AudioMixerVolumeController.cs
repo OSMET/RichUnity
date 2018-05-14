@@ -3,7 +3,7 @@ using UnityEngine.Audio;
 
 namespace RichUnity.Audio
 {
-    [CreateAssetMenu(fileName = "AudioMixerVolumeController", menuName = "Audio Mixer Volume Controller")]
+    [CreateAssetMenu(fileName = "AudioMixerVolumeController", menuName = "Rich Unity/Audio/Audio Mixer Volume Controller")]
     public class AudioMixerVolumeController : ScriptableObject
     {
         [SerializeField]
