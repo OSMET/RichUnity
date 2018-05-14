@@ -2,18 +2,28 @@
 using UnityEditor;
 #endif
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace RichUnity.Audio.AudioPlugs
 {
     public abstract class AudioPlug : ScriptableObject
     {
-        public abstract void Play(AudioSource audioSource);
+        public AudioMixerGroup OutputAudioMixerGroup;
+        public bool Muted;
+        
+        public abstract float Volume { get; }
+        
+        public abstract float Pitch { get; }
+        
+        protected abstract AudioClip AudioClip { get; }
 
-        protected static void Play(AudioSource audioSource, AudioClip audioClip, float volume, float pitch)
+        public virtual void Play(AudioSource audioSource)
         {
-            audioSource.clip = audioClip;
-            audioSource.volume = volume;
-            audioSource.pitch = pitch;
+            audioSource.clip = AudioClip;
+            audioSource.outputAudioMixerGroup = OutputAudioMixerGroup;
+            audioSource.mute = Muted;
+            audioSource.volume = Volume;
+            audioSource.pitch = Pitch;
 
             audioSource.Play();
         }

@@ -5,48 +5,52 @@ namespace RichUnity.Audio.AudioPlugs
 {
     public abstract class RangedAudioPlug : AudioPlug
     {
-        protected abstract AudioClip AudioClip { get; }
-        
         [SerializeField]
         [MinMaxFloatRange(0.0f, 1.0f)] 
-        private FloatRange volume = new FloatRange()
+        private FloatRange volumeRange = new FloatRange()
         {
             MinValue = 1.0f,
             MaxValue = 1.0f
         };
 
-        public FloatRange Volume
+        public FloatRange VolumeRange
         {
             get
             {
-                return volume;
+                return volumeRange;
             }
         }
         
         [SerializeField]
         [MinMaxFloatRange(0.0f, 3.0f)] 
-        private FloatRange pitch = new FloatRange()
+        private FloatRange pitchRange = new FloatRange()
         {
             MinValue = 1.0f,
             MaxValue = 1.0f
         };
         
-        public FloatRange Pitch
+        public FloatRange PitchRange
         {
             get
             {
-                return pitch;
+                return pitchRange;
             }
         }
-        
-        public override void Play(AudioSource audioSource)
+
+        public override float Volume
         {
-            var audioClip = AudioClip;
-            if (audioClip == null)
+            get
             {
-                return;
+                return volumeRange.RandomValue;
             }
-            Play(audioSource, audioClip, volume.RandomValue, pitch.RandomValue);
+        }
+
+        public override float Pitch
+        {
+            get
+            {
+                return pitchRange.RandomValue;
+            }
         }
     }
 }
