@@ -4,9 +4,9 @@ namespace RichUnity.PlatformUtils {
     public class DesktopManager : PersistentSingleton<DesktopManager> {
         public bool DesktopModeOn;
 
-        protected override void OnSingletonAwake()
+        protected override void SingletonAwake()
         {
-            base.OnSingletonAwake();
+            base.SingletonAwake();
             if (PlatformChecks.IsMobile) {
                 DesktopModeOn = false;
             }

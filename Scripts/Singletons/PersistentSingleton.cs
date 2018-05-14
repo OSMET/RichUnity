@@ -14,7 +14,7 @@ namespace RichUnity.Singletons
             }
         }
 
-        protected virtual void Awake()
+        private void Awake()
         {
             if (!Application.isPlaying)
             {
@@ -25,7 +25,7 @@ namespace RichUnity.Singletons
             {
                 instance = this as T;
                 DontDestroyOnLoad(transform.gameObject);
-                OnSingletonAwake();
+                SingletonAwake();
             }
             else
             {
@@ -34,7 +34,7 @@ namespace RichUnity.Singletons
             }
         }
 
-        protected virtual void OnSingletonAwake()
+        protected virtual void SingletonAwake()
         {
         }
     }
