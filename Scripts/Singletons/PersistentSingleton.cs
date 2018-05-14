@@ -14,7 +14,7 @@ namespace RichUnity.Singletons
             }
         }
 
-        protected virtual void Awake ()
+        protected virtual void Awake()
         {
             if (!Application.isPlaying)
             {
@@ -30,10 +30,7 @@ namespace RichUnity.Singletons
             else
             {
                 //Singleton already exists
-                if (this != instance)
-                {
-                    Destroy(gameObject);
-                }
+                Destroy(gameObject);
             }
         }
 

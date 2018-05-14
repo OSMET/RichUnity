@@ -19,8 +19,10 @@ namespace RichUnity.Singletons
                         instance = FindObjectOfType<T>();
                         if (instance == null)
                         {
-                            GameObject singleton = new GameObject();
-                            singleton.name = typeof(T).ToString();
+                            var singleton = new GameObject
+                            {
+                                name = typeof(T).ToString()
+                            };
                             instance = singleton.AddComponent<T>();
 
                             Debug.Log("[Singleton] An instance of " + typeof(T) +
@@ -33,5 +35,22 @@ namespace RichUnity.Singletons
                 }
             }
         }
+        
+        protected virtual void Awake()
+        {
+            if (!Application.isPlaying)
+            {
+                return;
+            }
+            
+            if (instance == null)
+            {
+                instance = this as T;
+            }
+            else //singleton already exists
+            {
+                Destroy(gameObject);
+            }
+        }   
     }
 }

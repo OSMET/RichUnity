@@ -20,7 +20,16 @@ namespace RichUnity.Singletons
             {
                 return;
             }
-            instance = this as T;
+
+            if (instance == null)
+            {
+                instance = this as T;
+            }
+            else 
+            {
+                //singleton already exists
+                Destroy(gameObject);
+            }
         }
     }
 }
