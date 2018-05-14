@@ -5,11 +5,25 @@ namespace RichUnity.Audio
 {
     public class AudioPlugSource : MonoBehaviour
     {
-        public AudioSource AudioSource { get; private set; }
+        private AudioSource AudioSource { get; set; }
 
         public AudioPlug AudioPlug;
 
-        public bool PlayOnAwake;
+        [SerializeField]
+        public bool playOnAwake;
+
+        public bool PlayOnAwake
+        {
+            get
+            {
+                return playOnAwake;
+            }
+            set
+            {
+                playOnAwake = value;
+                AudioSource.playOnAwake = value;
+            }
+        }
         public bool Loop;
 
         private bool playBegan;
@@ -17,7 +31,7 @@ namespace RichUnity.Audio
         protected virtual void Awake()
         {
             AudioSource = gameObject.AddComponent<AudioSource>();
-            if (PlayOnAwake)
+            if (playOnAwake)
             {
                 Play();
             }
@@ -34,6 +48,13 @@ namespace RichUnity.Audio
             {
                 playBegan = false;
             }
+        }
+
+        public void Stop()
+        {
+            AudioSource.Stop();
+            AudioSource.clip = null;
+            playBegan = false;
         }
 
         protected virtual void Update()
