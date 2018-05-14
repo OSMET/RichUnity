@@ -3,12 +3,13 @@ using UnityEngine;
 
 namespace RichUnity.Profiling
 {
-    public class FPSCounter : PersistentSingleton<FPSCounter>
+    public class FPSCounter : LazyPersistentSingleton<FPSCounter>
     {
         public float UpdateDelta = 0.5f;
         public Vector2 RightTopCornerScreenPositionFraction = new Vector2(0.15f, 0.15f);
         public Color TextColor = new Color(0.0f, 1.0f, 0.0f, 1.0f);
-
+        public int FontSize = 30;
+        
 
         private float timeleft;
         private float accumulator;
@@ -43,7 +44,7 @@ namespace RichUnity.Profiling
                 textStyle = new GUIStyle
                 {
                     alignment = TextAnchor.UpperLeft,
-                    fontSize = Screen.height * 2 / 75,
+                    fontSize = FontSize,
                     normal = {textColor = TextColor}
                 };
 

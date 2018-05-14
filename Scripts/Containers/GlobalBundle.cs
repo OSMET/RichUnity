@@ -2,7 +2,7 @@
 
 namespace RichUnity.Containers
 {
-    public class GlobalBundle : PersistentSingleton<GlobalBundle>
+    public class GlobalBundle : LazyPersistentSingleton<GlobalBundle>
     {
         public Bundle Bundle { get; private set; }
     }

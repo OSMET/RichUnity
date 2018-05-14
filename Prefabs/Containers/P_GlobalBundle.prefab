@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4404617328018070}
   - component: {fileID: 114936870876713590}
   m_Layer: 0
-  m_Name: P_OperativeData
+  m_Name: P_GlobalBundle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
