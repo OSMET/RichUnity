@@ -2,7 +2,7 @@
 
 namespace RichUnity.Audio.AudioPlugs
 {
-    [CreateAssetMenu(fileName = "RangedMultiAudioPlug", menuName = "Audio Plugs/Ranged Multi Audio Plug")]
+    [CreateAssetMenu(fileName = "RangedMultiAudioPlug", menuName = "Rich Unity/Audio/Audio Plugs/Ranged Multi Audio Plug")]
     public class RangedMultiAudioPlug: RangedAudioPlug
     { 
         [SerializeField]
