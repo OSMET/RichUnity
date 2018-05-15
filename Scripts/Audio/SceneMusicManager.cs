@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Text.RegularExpressions;
 using RichUnity.Audio.AudioPlugs;
-using RichUnity.Containers;
 using RichUnity.Singletons;
+using RichUnity.SceneUtils; 
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,28 +9,11 @@ namespace RichUnity.Audio
 {
     public class SceneMusicManager : PersistentSingleton<SceneMusicManager>
     {
-        public enum SceneNameSearchType
-        {
-            Equals,
-            StartsWith,
-            EndsWith,
-            Regex
-        };
-        
         [Serializable]
-        public class SceneMusic
-        {
-            public string SearchString;
-            public SimpleAudioPlug SimpleAudioPlug;
-            [Tooltip("Equals has higher priority.")]
-            public SceneNameSearchType SceneNameSearchType;
-        }
-
-        [CreateAssetMenu(fileName = "SceneMusicSet", menuName = "Rich Unity/Audio/Scene Music Set")]
-        public class SceneMusicSet : RuntimeSet<SceneMusic>
+        public class SceneMusic : SceneEntity<SimpleAudioPlug>
         {
         }
-
+        
         [SerializeField]
         private SceneMusicSet sceneMusicSet;
 
@@ -51,35 +31,14 @@ namespace RichUnity.Audio
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
         {
-            var foundSceneMusic = sceneMusicSet.Find(sceneMusic =>
-                sceneMusic.SceneNameSearchType == SceneNameSearchType.Equals && scene.name.Equals(sceneMusic.SearchString));
-            
-
-            if (foundSceneMusic == null)
-            {
-                foundSceneMusic = sceneMusicSet.Find(sceneMusic =>
-                {
-                    if (sceneMusic.SceneNameSearchType == SceneNameSearchType.StartsWith)
-                    {
-                        return scene.name.StartsWith(sceneMusic.SearchString);
-                    }
-                    if (sceneMusic.SceneNameSearchType == SceneNameSearchType.EndsWith)
-                    {
-                        return scene.name.EndsWith(sceneMusic.SearchString);
-                    }
-                    if (sceneMusic.SceneNameSearchType == SceneNameSearchType.Regex)
-                    {
-                        return Regex.IsMatch(scene.name, sceneMusic.SearchString);
-                    }
-                    return false;
-                });
-            }
+            Debug.Log(sceneMusicSet);
+            var foundSceneMusic = SceneEntityFinder.Find<SceneMusic, SimpleAudioPlug>(sceneMusicSet, scene.name);
             
             if (foundSceneMusic != null)
             {
-                if (audioPlugSource.AudioPlug != foundSceneMusic.SimpleAudioPlug)
+                if (audioPlugSource.AudioPlug != foundSceneMusic.Value)
                 {
-                    audioPlugSource.AudioPlug = foundSceneMusic.SimpleAudioPlug;
+                    audioPlugSource.AudioPlug = foundSceneMusic.Value;
                     audioPlugSource.Play();
                 }
             }
@@ -88,7 +47,6 @@ namespace RichUnity.Audio
                 audioPlugSource.Stop();
                 audioPlugSource.AudioPlug = null;
             }
-
         }
 
         private void OnDestroy()
