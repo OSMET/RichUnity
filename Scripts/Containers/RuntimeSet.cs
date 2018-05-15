@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace RichUnity.Containers
@@ -33,6 +34,16 @@ namespace RichUnity.Containers
         public T Find(Predicate<T> match)
         {
             return items.Find(match);
+        }
+
+        public List<T> FindAll(Predicate<T> match)
+        {
+            return items.FindAll(match);
+        }
+
+        public List<T> ToList()
+        {
+            return items.ToList();
         }
     }
 }
