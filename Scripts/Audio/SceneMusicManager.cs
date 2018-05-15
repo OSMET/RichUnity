@@ -31,7 +31,6 @@ namespace RichUnity.Audio
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
         {
-            Debug.Log(sceneMusicSet);
             var foundSceneMusic = SceneEntityFinder.Find<SceneMusic, SimpleAudioPlug>(sceneMusicSet, scene.name);
             
             if (foundSceneMusic != null)
