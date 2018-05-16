@@ -5,7 +5,7 @@ namespace RichUnity.Sprites
     /// <summary>
     /// Author: Igor Ponomaryov
     /// </summary>
-    [CreateAssetMenu]
+    [CreateAssetMenu(fileName = "SpritesBundle", menuName = "RichUnity/Sprites/Sprites Bundle")]
     public class SpritesBundle : ScriptableObject
     {
         public Sprite[] Sprites;

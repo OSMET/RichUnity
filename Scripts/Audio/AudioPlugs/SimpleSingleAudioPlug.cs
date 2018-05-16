@@ -2,7 +2,7 @@
 
 namespace RichUnity.Audio.AudioPlugs
 {
-    [CreateAssetMenu(fileName = "SimpleSingleAudioPlug", menuName = "Rich Unity/Audio/Audio Plugs/Simple Single Audio Plug")]
+    [CreateAssetMenu(fileName = "SimpleSingleAudioPlug", menuName = "RichUnity/Audio/Audio Plugs/Simple Single Audio Plug")]
     public class SimpleSingleAudioPlug : SimpleAudioPlug
     {
         [SerializeField]
