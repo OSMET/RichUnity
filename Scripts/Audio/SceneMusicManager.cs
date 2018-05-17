@@ -1,13 +1,12 @@
 ﻿using System;
 using RichUnity.Audio.AudioPlugs;
-using RichUnity.Singletons;
 using RichUnity.SceneUtils; 
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace RichUnity.Audio
 {
-    public class SceneMusicManager : PersistentSingleton<SceneMusicManager>
+    public class SceneMusicManager : MonoBehaviour// PersistentSingleton<SceneMusicManager>
     {
         [Serializable]
         public class SceneMusic : SceneEntity<SimpleAudioPlug>
@@ -19,9 +18,8 @@ namespace RichUnity.Audio
 
         private AudioPlugSource audioPlugSource;
 
-        protected override void SingletonAwake()
+        protected virtual void Awake()
         {
-            base.SingletonAwake();
             audioPlugSource = gameObject.AddComponent<AudioPlugSource>();
             audioPlugSource.PlayOnAwake = false;
             audioPlugSource.Loop = true;
@@ -48,7 +46,7 @@ namespace RichUnity.Audio
             }
         }
 
-        private void OnDestroy()
+        protected virtual void OnDestroy()
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }

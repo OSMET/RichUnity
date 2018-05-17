@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 namespace RichUnity.DataSave
 {
-    public class DataSaveManager : PersistentSingleton<DataSaveManager>
+    public class DataSaveManager : MonoBehaviour
     {
         public DataLoadersBundle DataLoaderBundle;
 
@@ -47,31 +47,31 @@ namespace RichUnity.DataSave
             return true;
         }
 
-        public D GetData<D>() where D : IData
+        public TData GetData<TData>() where TData : IData
         {
             foreach (var dataLoader in DataLoaderBundle.DataLoaders)
             {
-                IData data = dataLoader.Data;
-                if (data is D)
+                var data = dataLoader.Data;
+                if (data is TData)
                 {
-                    return (D) data;
+                    return (TData) data;
                 }
             }
 
-            return default(D);
+            return default(TData);
         }
 
-        public DL GetDataLoader<DL>() where DL : IDataLoader
+        public TDataLoader GetDataLoader<TDataLoader>() where TDataLoader : IDataLoader
         {
             foreach (var dataLoader in DataLoaderBundle.DataLoaders)
             {
-                if (dataLoader is DL)
+                if (dataLoader is TDataLoader)
                 {
-                    return (DL) dataLoader;
+                    return (TDataLoader) dataLoader;
                 }
             }
 
-            return default(DL);
+            return default(TDataLoader);
         }
     }
 }

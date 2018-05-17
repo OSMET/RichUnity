@@ -1,14 +1,18 @@
 ﻿using RichUnity.Singletons;
+using UnityEngine;
 
-namespace RichUnity.PlatformUtils {
-    public class DesktopManager : PersistentSingleton<DesktopManager> {
-        public bool DesktopModeOn;
+namespace RichUnity.PlatformUtils
+{
+    public class DesktopManager : PersistentSingleton<DesktopManager>
+    {
+        [SerializeField]
+        private bool desktopModeOn;
 
-        protected override void SingletonAwake()
+        public static bool DesktopModeOn
         {
-            base.SingletonAwake();
-            if (PlatformChecks.IsMobile) {
-                DesktopModeOn = false;
+            get
+            {
+                return Instance != null ? Instance.desktopModeOn : PlatformChecks.IsStandalone;
             }
         }
     }

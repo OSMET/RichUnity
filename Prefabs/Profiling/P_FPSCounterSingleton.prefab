@@ -19,9 +19,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4711839441355678}
-  - component: {fileID: 114716288763424560}
+  - component: {fileID: 114080241161478710}
   m_Layer: 0
-  m_Name: P_FPSCounter
+  m_Name: P_FPSCounterSingleton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,7 +40,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114716288763424560
+--- !u!114 &114080241161478710
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1721139890864180}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cb04ab44c2413a45a15c05ea77bf2d4, type: 3}
+  m_Script: {fileID: 11500000, guid: 9470aa44947e434b89e1c1262e112738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   UpdateDelta: 0.5

@@ -10,7 +10,7 @@ namespace RichUnity.PlatformUtils
 
         private void Start()
         {
-            if (PlatformChecks.DesktopModeOn)
+            if (DesktopManager.DesktopModeOn)
             {
                 var canvasScaler = GetComponent<CanvasScaler>();
                 var referenceResolution = canvasScaler.referenceResolution;

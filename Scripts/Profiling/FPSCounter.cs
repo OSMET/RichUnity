@@ -1,9 +1,8 @@
-﻿using RichUnity.Singletons;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace RichUnity.Profiling
 {
-    public class FPSCounter : LazyPersistentSingleton<FPSCounter>
+    public class FPSCounter : MonoBehaviour //LazyPersistentSingleton<FPSCounter>
     {
         public float UpdateDelta = 0.5f;
         public Vector2 RightTopCornerScreenPositionFraction = new Vector2(0.15f, 0.15f);
@@ -17,11 +16,10 @@ namespace RichUnity.Profiling
         private string text;
         private GUIStyle textStyle;
 
-        private void Start()
+        protected virtual void Awake()
         {
             timeleft = UpdateDelta;
         }
-
 
         private void OnGUI()
         {

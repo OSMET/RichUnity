@@ -8,7 +8,7 @@ namespace RichUnity.PlatformUtils
 
         private void Awake()
         {
-            gameObject.SetActive(PlatformChecks.DesktopModeOn && ActiveOnDesktop);
+            gameObject.SetActive(DesktopManager.DesktopModeOn && ActiveOnDesktop);
         }
     }
 }
