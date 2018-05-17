@@ -1,2 +1,2 @@
 # RichUnity
-Current Version: 1.04
+Current Version: 1.05
