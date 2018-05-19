@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using RichUnity.Attributes;
+using UnityEngine;
 using UnityEngine.Audio;
 
 namespace RichUnity.Audio
@@ -73,6 +74,10 @@ namespace RichUnity.Audio
             }
         }
 
+#if UNITY_EDITOR
+        [ReadOnly]
+#endif
+        [SerializeField]
         private bool muted;
         private float volumeBeforeMute;
 
