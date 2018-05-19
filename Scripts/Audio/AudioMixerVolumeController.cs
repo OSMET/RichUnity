@@ -20,7 +20,7 @@ namespace RichUnity.Audio
         public string VolumeParameterName;
 
         private const float LowerVolumeBound = -80.0f;
-        private const float UpperVolumeBound = 20.0f;
+        private const float UpperVolumeBound = 0.0f;
 
         public float Volume
         {
