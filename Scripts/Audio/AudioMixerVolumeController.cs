@@ -1,4 +1,6 @@
-﻿using RichUnity.Attributes;
+﻿#if UNITY_EDITOR
+using RichUnity.Attributes;
+#endif
 using UnityEngine;
 using UnityEngine.Audio;
 
