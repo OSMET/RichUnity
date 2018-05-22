@@ -1,11 +1,11 @@
 ﻿
-namespace RichUnity.DataSave
+namespace RichUnity.SaveLoad
 {
-    public class DataSaveManagerSingleton : DataSaveManager
+    public class SaveLoadManagerSingleton : SaveLoadManager
     {
         // a beautiful boilerplate
         
-        public static DataSaveManagerSingleton Instance { get; private set; }
+        public static SaveLoadManagerSingleton Instance { get; private set; }
 
         private void Awake()
         {

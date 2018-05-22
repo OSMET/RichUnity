@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using RichUnity.Data;
 using UnityEngine;
 
-namespace RichUnity.DataSave
+namespace RichUnity.SaveLoad
 {
-    public interface IDataLoader
+    public interface ISaveLoadExecutor
     {
         bool Load();
         void Save();
@@ -16,9 +16,10 @@ namespace RichUnity.DataSave
     }
 
     [Serializable]
-    public abstract class DataLoader<D> : IDataLoader where D : IData
+    public abstract class SaveLoadExecutor<TData> : ISaveLoadExecutor where TData : IData
     {
-        [SerializeField] private List<string> sceneNames = new List<string>(); //0 for all scenes
+        [SerializeField] 
+        private List<string> sceneNames = new List<string>(); //0 for all scenes
 
         private bool dataLoaded;
 
@@ -46,7 +47,8 @@ namespace RichUnity.DataSave
             }
         }
 
-        [NonSerialized] private D data;
+        [NonSerialized] 
+        private TData data;
 
         public IData Data
         {
@@ -89,7 +91,7 @@ namespace RichUnity.DataSave
         {
             try
             {
-                data = (D) typeof(D).GetConstructor(Type.EmptyTypes).Invoke(new object[] { });
+                data = (TData) typeof(TData).GetConstructor(Type.EmptyTypes).Invoke(new object[] { });
             }
             catch (NullReferenceException)
             {
@@ -124,7 +126,7 @@ namespace RichUnity.DataSave
         {
             if (dataLoaded)
             {
-                data = default(D);
+                data = default(TData);
                 dataLoaded = false;
                 Debug.Log(GetType().Name + ": data was unloaded.");
             }
@@ -142,8 +144,8 @@ namespace RichUnity.DataSave
         {
         }
 
-        public abstract D LoadData();
+        public abstract TData LoadData();
 
-        public abstract bool SaveData(D data);
+        public abstract bool SaveData(TData data);
     }
 }
