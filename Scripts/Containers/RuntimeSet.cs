@@ -45,5 +45,10 @@ namespace RichUnity.Containers
         {
             return items.ToList();
         }
+        
+        public T GetRandomItem()
+        {
+            return items.Count == 0 ? default(T) : items[UnityEngine.Random.Range(0, items.Count)];
+        }
     }
 }
