@@ -64,7 +64,7 @@ namespace RichUnity.SaveLoad
             return default(TData);
         }
 
-        public TSaveLoadExecutor GetSaveLoadPerformer<TSaveLoadExecutor>() where TSaveLoadExecutor : ISaveLoadExecutor
+        public TSaveLoadExecutor GetSaveLoadExecutor<TSaveLoadExecutor>() where TSaveLoadExecutor : ISaveLoadExecutor
         {
             for (int index = 0; index < SaveLoadExecutorBundle.SaveLoadExecutors.Length; index++)
             {
