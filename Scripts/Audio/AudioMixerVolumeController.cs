@@ -25,7 +25,7 @@ namespace RichUnity.Audio
         private const float LowerVolumeBound = -80.0f;
         private const float UpperVolumeBound = 0.0f;
 
-        public float Volume
+        public float Volume // do not use it in Awake() or Start(), Unity has a bug with AudioMixer
         {
             get
             {
@@ -83,7 +83,7 @@ namespace RichUnity.Audio
         private bool muted;
         private float volumeBeforeMute;
 
-        public bool Muted
+        public bool Muted // do not use it in Awake() or Start(), Unity has a bug with AudioMixer
         {
             get
             {
