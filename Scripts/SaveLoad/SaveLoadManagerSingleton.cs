@@ -1,25 +1,10 @@
 ﻿
+using MoreMountains.Tools;
+
 namespace RichUnity.SaveLoad
 {
-    public class SaveLoadManagerSingleton : SaveLoadManager
+    public class SaveLoadManagerSingleton : PersistentSingleton<SaveLoadManagerSingleton>
     {
-        // a beautiful boilerplate
-        
-        public static SaveLoadManagerSingleton Instance { get; private set; }
-
-        private void Awake()
-        {
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(transform.gameObject);
-                //base.Awake();
-            }
-            else
-            {
-                //Singleton already exists
-                Destroy(gameObject);
-            }
-        }
+        public SaveLoadManager SaveLoadManager;
     }
 }

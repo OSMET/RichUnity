@@ -1,23 +1,29 @@
-﻿using RichUnity.Data;
+﻿using System;
+using RichUnity.Data;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using ModestTree;
+using RichUnity.Audio.AudioPlugs;
+using RichUnity.SceneUtils;
 
 namespace RichUnity.SaveLoad
 {
-    public class SaveLoadManager : MonoBehaviour
+    public abstract class SaveLoadManager : ScriptableObject
     {
-        public SaveLoadExecutorsBundle SaveLoadExecutorBundle;
+        public abstract ISaveLoadExecutor[] SaveLoadExecutors { get; }
 
         public void Save()
         {
-            for (int index = 0; index < SaveLoadExecutorBundle.SaveLoadExecutors.Length; index++)
+            var saveLoadExecutors = SaveLoadExecutors;
+            string activeSceneName = SceneManager.GetActiveScene().name;
+            for (int index = 0; index < saveLoadExecutors.Length; index++)
             {
-                var saveLoadExecutor = SaveLoadExecutorBundle.SaveLoadExecutors[index];
-//0 for all scenes
-                var sceneNames = saveLoadExecutor.SceneNames;
+                var saveLoadExecutor = saveLoadExecutors[index];
+//"" for all scenes
+                var sceneSearchString = saveLoadExecutor.SceneSearchString;
 
-                if (sceneNames.Length == 0 || sceneNames.Contains(SceneManager.GetActiveScene().name))
+                if (sceneSearchString.Equals("") || SceneEntityFinder.CompareBySearchType(activeSceneName, sceneSearchString, saveLoadExecutor.SceneNameSearchType))
                 {
                     saveLoadExecutor.Save();
                 }
@@ -26,14 +32,20 @@ namespace RichUnity.SaveLoad
 
         public bool Load(string sceneName)
         {
-            for (int index = 0; index < SaveLoadExecutorBundle.SaveLoadExecutors.Length; index++)
+            var saveLoadExecutors = SaveLoadExecutors;
+            string activeSceneName = SceneManager.GetActiveScene().name;
+
+            for (int index = 0; index < saveLoadExecutors.Length; index++)
             {
-                var saveLoadExecutor = SaveLoadExecutorBundle.SaveLoadExecutors[index];
-//0 for all scenes
-                var sceneNames = saveLoadExecutor.SceneNames;
-                if (sceneNames.Length == 0 || sceneNames.Contains(sceneName))
+                var saveLoadExecutor = saveLoadExecutors[index];
+//"" for all scenes
+                var sceneSearchString = saveLoadExecutor.SceneSearchString;
+
+                if (sceneSearchString.Equals("") || SceneEntityFinder.CompareBySearchType(activeSceneName, sceneSearchString, saveLoadExecutor.SceneNameSearchType))
                 {
+
                     var loaded = saveLoadExecutor.Load();
+
                     if (!loaded)
                     {
                         Debug.Log("Some of datas was not loaded");
@@ -48,12 +60,13 @@ namespace RichUnity.SaveLoad
 
             return true;
         }
-
+        
         public TData GetData<TData>() where TData : IData
         {
-            for (int index = 0; index < SaveLoadExecutorBundle.SaveLoadExecutors.Length; index++)
+            var saveLoadExecutors = SaveLoadExecutors;
+            for (int index = 0; index < saveLoadExecutors.Length; index++)
             {
-                var saveLoadExecutor = SaveLoadExecutorBundle.SaveLoadExecutors[index];
+                var saveLoadExecutor = saveLoadExecutors[index];
                 var data = saveLoadExecutor.Data;
                 if (data is TData)
                 {
@@ -66,9 +79,10 @@ namespace RichUnity.SaveLoad
 
         public TSaveLoadExecutor GetSaveLoadExecutor<TSaveLoadExecutor>() where TSaveLoadExecutor : ISaveLoadExecutor
         {
-            for (int index = 0; index < SaveLoadExecutorBundle.SaveLoadExecutors.Length; index++)
+            var saveLoadExecutors = SaveLoadExecutors;
+            for (int index = 0; index < saveLoadExecutors.Length; index++)
             {
-                var saveLoadExecutor = SaveLoadExecutorBundle.SaveLoadExecutors[index];
+                var saveLoadExecutor = saveLoadExecutors[index];
                 if (saveLoadExecutor is TSaveLoadExecutor)
                 {
                     return (TSaveLoadExecutor) saveLoadExecutor;

@@ -1,53 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using RichUnity.Data;
+using RichUnity.SceneUtils;
 using UnityEngine;
 
 namespace RichUnity.SaveLoad
 {
-    public interface ISaveLoadExecutor
+    public interface ISaveLoadExecutor 
     {
+        IData Data { get; }
+        string SceneSearchString { get; }
+        SceneEntitySearchType SceneNameSearchType { get; }
+        
         bool Load();
         void Save();
         void Unload();
         void DeleteSource();
-        IData Data { get; }
-        string[] SceneNames { get; }
     }
 
     [Serializable]
     public abstract class SaveLoadExecutor<TData> : ISaveLoadExecutor where TData : IData
     {
-        [SerializeField] 
-        private List<string> sceneNames = new List<string>(); //0 for all scenes
-
+        [NonSerialized] // to fix True value set by default
         private bool dataLoaded;
 
-        public string[] SceneNames
-        {
-            get
-            {
-                return sceneNames.ToArray();
-            }
-        }
-
-        public void AddSceneName(string sceneName)
-        {
-            if (!sceneNames.Contains(sceneName))
-            {
-                sceneNames.Add(sceneName);
-            }
-        }
-
-        public void RemoveSceneName(string sceneName)
-        {
-            if (sceneNames.Contains(sceneName))
-            {
-                sceneNames.Remove(sceneName);
-            }
-        }
-
-        [NonSerialized] 
+        [SerializeField] 
         private TData data;
 
         public IData Data
@@ -58,65 +35,82 @@ namespace RichUnity.SaveLoad
             }
         }
 
+        [SerializeField]
+        private string sceneSearchString;
+
+        public string SceneSearchString
+        {
+            get
+            {
+                return sceneSearchString;
+            }
+        }
+
+        [SerializeField]
+        private SceneEntitySearchType sceneNameSearchType;
+
+        public SceneEntitySearchType SceneNameSearchType
+        {
+            get
+            {
+                return sceneNameSearchType;
+            }
+        }
+        
         public bool Load()
         {
             if (!dataLoaded)
             {
                 Debug.Log(GetType().Name + ": begin data loading");
-                if (SourceExists)
+                if (SourceExists) // if we have a file
                 {
-                    try
+                    try // try to load data from it
                     {
                         data = LoadData();
-                        dataLoaded = true;
                         Debug.Log(GetType().Name + ": data was loaded.");
+                        dataLoaded = true;
                     }
-                    catch (Exception ex)
+                    catch (Exception ex) // oh, you failed to load
                     {
-                        Debug.Log(GetType().Name + ": exception - " + ex);
+                        Debug.Log(GetType().Name + ": load exception - " + ex);
                         return false;
                     }
                 }
-                else
+                else // no files available -> just use default data values
                 {
-                    CreateNewData();
-                    Debug.Log(GetType().Name + ": data was not loaded, default Data object was created.");
+                    //CreateNewData();
+                    
+                    dataLoaded = true;
+                    Debug.Log(GetType().Name + ": source file does not exist, you will use default values.");
                 }
             }
 
             return true;
         }
 
-        private void CreateNewData()
-        {
-            try
-            {
-                data = (TData) typeof(TData).GetConstructor(Type.EmptyTypes).Invoke(new object[] { });
-            }
-            catch (NullReferenceException)
-            {
-                throw new ArgumentException(
-                    GetType().Name + ": data must be a class and contain a default constructor.");
-            }
-
-            dataLoaded = true;
-        }
+//        private void CreateNewData()
+//        {
+//            try
+//            {
+//                data = (TData) typeof(TData).GetConstructor(Type.EmptyTypes).Invoke(new object[] { });
+//            }
+//            catch (NullReferenceException)
+//            {
+//                throw new ArgumentException(
+//                    GetType().Name + ": data must be a class and contain a default constructor.");
+//            }
+//
+//            dataLoaded = true;
+//        }
 
         public void Save()
         {
-            var saved = SaveData(data);
-            if (saved)
+            bool saved = SaveData(data); // try to save data
+            if (saved) // successfully saved!
             {
-                if (dataLoaded)
-                {
-                    Debug.Log(GetType().Name + ": data was saved.");
-                }
-                else
-                {
-                    Debug.Log(GetType().Name + ": data was saved for the first time.");
-                }
+                Debug.Log(GetType().Name + ": data was saved.");
             }
-            else
+            else //shit happened
             {
                 Debug.Log(GetType().Name + ": data was NOT saved.");
             }
@@ -126,9 +120,9 @@ namespace RichUnity.SaveLoad
         {
             if (dataLoaded)
             {
-                data = default(TData);
+                //data = default(TData);
                 dataLoaded = false;
-                Debug.Log(GetType().Name + ": data was unloaded.");
+                Debug.Log(GetType().Name + ": data was 'unloaded'.");
             }
         }
 
@@ -147,5 +141,7 @@ namespace RichUnity.SaveLoad
         public abstract TData LoadData();
 
         public abstract bool SaveData(TData data);
+        
+
     }
 }
