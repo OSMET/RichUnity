@@ -26,6 +26,26 @@ namespace RichUnity.Containers
             }
         }
 
+        public int Count
+        {
+            get
+            {
+                return items.Count;
+            }
+        }
+        
+        public T this[int index]
+        {
+            get
+            {
+                return items[index];
+            }
+            set
+            {
+                items[index] = value;
+            }
+        }
+
         public bool Contains(T item)
         {
             return items.Contains(item);
