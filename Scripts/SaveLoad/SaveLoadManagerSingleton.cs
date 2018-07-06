@@ -1,5 +1,4 @@
-﻿
-using MoreMountains.Tools;
+﻿using RichUnity.Singletons;
 
 namespace RichUnity.SaveLoad
 {
