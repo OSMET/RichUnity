@@ -16,7 +16,7 @@ namespace RichUnity.Spawners
         public virtual T Spawn<T>() where T : MonoBehaviour
         {
             var spawnedObject = Spawn();
-            return spawnedObject != null ? Spawn().GetComponent<T>() : null;
+            return spawnedObject != null ? spawnedObject.GetComponent<T>() : null;
         }
     }
 }
