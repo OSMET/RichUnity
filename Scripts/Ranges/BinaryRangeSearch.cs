@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace RichUnity.Algorithms
+namespace RichUnity.Ranges
 {
     public static class BinaryRangeSearch
     {
