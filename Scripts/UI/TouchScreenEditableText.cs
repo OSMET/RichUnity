@@ -18,9 +18,9 @@ namespace RichUnity.UI
         public bool Secure;
         public bool Alert;
 
-        public int MaxLength = Int32.MaxValue;
+        public int MaxLength = int.MaxValue;
         public char ErrorSymbol;
-        public String[] SupportedSymbolsStrings;
+        public string[] SupportedSymbolsStrings;
 
         protected virtual void Awake()
         {
@@ -62,7 +62,7 @@ namespace RichUnity.UI
                         keyboard.text = stringBuilder.ToString();
                     }
                 }
-                else if (keyboard.done)
+                else if (keyboard.status == TouchScreenKeyboard.Status.Done)
                 {
                     text.text = keyboard.text;
                     keyboard = null;
@@ -72,14 +72,7 @@ namespace RichUnity.UI
 
         private bool IsSymbolSupported(char symbol)
         {
-            foreach (var symbolsString in SupportedSymbolsStrings)
-            {
-                if (symbolsString.Contains(symbol))
-                {
-                    return true;
-                }
-            }
-            return false;
+            return SupportedSymbolsStrings.Any(symbolsString => symbolsString.Contains(symbol));
         }
     }
 }
