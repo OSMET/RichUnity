@@ -1,7 +1,7 @@
 ﻿using RichUnity.Math;
 using UnityEngine;
 
-namespace RichUnity.Spawners
+namespace RichUnity.Spawners.AwakeSpawners
 {
     public class CuboidAreaPrefabAwakeSpawner : PrefabSpawner
     {

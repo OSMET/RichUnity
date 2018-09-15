@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace RichUnity.Spawners
+namespace RichUnity.Spawners.AwakeSpawners
 {
     public class PrefabSpawner : Spawner
     {

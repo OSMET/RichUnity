@@ -1,7 +1,7 @@
 ﻿using RichUnity.TransformUtils;
 using UnityEngine;
 
-namespace RichUnity.Spawners
+namespace RichUnity.Spawners.AwakeSpawners
 {
     public abstract class AwakeSpawner : Spawner
     {
