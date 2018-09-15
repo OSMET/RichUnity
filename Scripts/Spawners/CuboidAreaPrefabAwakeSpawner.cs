@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RichUnity.Spawners
 {
-    public class CuboidAreaPrefabSpawner : PrefabSpawner
+    public class CuboidAreaPrefabAwakeSpawner : PrefabSpawner
     {
         //public enum Axis {
         //    X,
