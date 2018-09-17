@@ -43,6 +43,8 @@ namespace RichUnity.Spawners.ObjectPools
 
         private Stack<GameObject> objects;
 
+        public int AvailableObjectsCount => objects.Count;
+
         protected virtual void Awake()
         {
             objects = new Stack<GameObject>(InitialSize);
