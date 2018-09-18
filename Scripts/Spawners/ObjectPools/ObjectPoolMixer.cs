@@ -1,4 +1,6 @@
-﻿using RichUnity.Attributes;
+﻿using System;
+using RichUnity.Attributes;
+using RichUnity.Math;
 using UnityEngine;
 
 namespace RichUnity.Spawners.ObjectPools
@@ -28,15 +30,39 @@ namespace RichUnity.Spawners.ObjectPools
         
         public T SpawnRandom<T>() where T : ObjectPool.PoolableObject
         {
-            return Spawn<T>(Random.Range(0, ObjectPools.Length));
+            return Spawn<T>(UnityEngine.Random.Range(0, ObjectPools.Length));
         }
         
-//        //pool sizes based
-//        todo
-//        public T SpawnWeightedRandom<T>() where T : ObjectPool.PoolableObject
-//        {
-//            return null;
-//        }
+        public T SpawnWeightedRandom<T>(int[] weights) where T : ObjectPool.PoolableObject
+        {
+            if (weights.Length != ObjectPools.Length)
+            {
+                throw new ArgumentException();
+            }
+            return Spawn<T>(WeightedRandom.RandomIndex(weights));
+        }
+        
+        public T SpawnWeightedRandomInitialSizes<T>() where T : ObjectPool.PoolableObject
+        {
+            int poolCount = ObjectPools.Length;
+            var poolWeights = new int[poolCount];
+            for (int i = 0; i < poolCount; ++i)
+            {
+                poolWeights[i] = ObjectPools[i].InitialSize;
+            }
+            return SpawnWeightedRandom<T>(poolWeights);
+        }
+        
+        public T SpawnWeightedRandomAvailableCounts<T>() where T : ObjectPool.PoolableObject
+        {
+            int poolCount = ObjectPools.Length;
+            var poolWeights = new int[poolCount];
+            for (int i = 0; i < poolCount; ++i)
+            {
+                poolWeights[i] = ObjectPools[i].AvailableCount;
+            }
+            return SpawnWeightedRandom<T>(poolWeights);
+        }
 
         public T SpawnLast<T>() where T : ObjectPool.PoolableObject
         {
@@ -67,12 +93,12 @@ namespace RichUnity.Spawners.ObjectPools
         
         public T SpawnLastOrNext<T>() where T : ObjectPool.PoolableObject
         {
-            return ObjectPools[lastSpawnedIndex].AvailableObjectsCount > 0 ? SpawnLast<T>() : SpawnNext<T>();
+            return ObjectPools[lastSpawnedIndex].AvailableCount > 0 ? SpawnLast<T>() : SpawnNext<T>();
         }
         
         public T SpawnLastOrPrev<T>() where T : ObjectPool.PoolableObject
         {
-            return ObjectPools[lastSpawnedIndex].AvailableObjectsCount > 0 ? SpawnLast<T>() : SpawnPrev<T>();
+            return ObjectPools[lastSpawnedIndex].AvailableCount > 0 ? SpawnLast<T>() : SpawnPrev<T>();
         }
     }
 }
