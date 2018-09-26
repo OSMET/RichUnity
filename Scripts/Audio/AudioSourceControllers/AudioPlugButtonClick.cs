@@ -1,11 +1,14 @@
-﻿using UnityEngine;
+﻿using RichUnity.Audio.AudioPlugs;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace RichUnity.Audio.AudioSourceControllers
 {
     [RequireComponent(typeof(Button))]
-    public class AudioClipButton : AudioSourceController
+    public class AudioPlugButtonClick : AudioSourceController
     {
+        public AudioPlug AudioPlug;
+        
         protected override void Awake()
         {
             base.Awake();
@@ -14,7 +17,10 @@ namespace RichUnity.Audio.AudioSourceControllers
 
         protected virtual void OnButtonClick()
         {
-            AudioSource.Play();
+            if (AudioPlug)
+            {
+                AudioPlug.Play(AudioSource);
+            }
         }
     }
 }
