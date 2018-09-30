@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace RichUnity.State
 {
@@ -9,6 +10,11 @@ namespace RichUnity.State
         public bool Is<T>() where T : TState
         {
             return GetType() == typeof(T);
+        }
+
+        public bool Is(Type type)
+        {
+            return GetType() == type;
         }
         
         public abstract void OnEnter(TState prevState, object parameter);

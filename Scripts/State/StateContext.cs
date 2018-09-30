@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RichUnity.State
@@ -8,7 +9,7 @@ namespace RichUnity.State
 		public List<TState> States;
 		public int BeginStateIndex;
 		public bool BeginStateApplyOnEnter = true;
-	
+		
 		public TState CurrentState { get; private set; }
 
 		protected virtual void Awake ()
@@ -25,14 +26,59 @@ namespace RichUnity.State
 				CurrentState.OnEnter(null, null);
 			}
 		}
-	
-		public virtual void SetState<T>(object parameter = null) where T : TState
+
+		public virtual TState GetState(Type type)
 		{
-			var newState = States.Find(state => state.Is<T>());
+			return States.Find(state => state.Is(type));
+		}
+		
+		public virtual T GetState<T>() where T : TState
+		{
+			return (T) GetState(typeof(T));
+		}
+
+		public virtual TState GetStateByObjectName(string objectName)
+		{
+			return States.Find(state => state.gameObject.name.Equals(objectName));
+		}
+		
+		public virtual T GetStateByObjectName<T>(string objectName) where T : TState
+		{
+			return (T) GetStateByObjectName(objectName);
+		}
+
+		private void SetState(TState state, object parameter)
+		{
 			var oldState = CurrentState;
-			CurrentState.OnExit(newState);
-			CurrentState = newState;
+			CurrentState.OnExit(state);
+			CurrentState = state;
 			CurrentState.OnEnter(oldState, parameter);
+		}
+	
+		public virtual T SetState<T>(object parameter = null) where T : TState
+		{
+			var newState = GetState<T>();
+			SetState(newState, parameter);
+			return newState;
+		}
+
+		public virtual TState SetState(Type type, object parameter = null)
+		{
+			var newState = GetState(type);
+			SetState(newState, parameter);
+			return newState;
+		}
+		
+		public virtual TState SetStateByObjectName(string objectName, object parameter = null)
+		{
+			var newState = GetStateByObjectName(objectName);
+			SetState(newState, parameter);
+			return newState;
+		}
+		
+		public virtual T SetStateByObjectName<T>(string objectName, object parameter = null) where T : TState
+		{
+			return (T) SetStateByObjectName(objectName, parameter);
 		}
 	}
 }
