@@ -66,26 +66,26 @@ namespace RichUnity.Properties
 
         private void CheckBounds()
         {
-            if (Value < MinValue)
+            if (value < MinValue)
             {
                 if (!CanGrowDown)
                 {
-                    Value = MinValue;
+                    value = MinValue;
                 }
                 else
                 {
-                    MinValue = Value;
+                    MinValue = value;
                 }
             }
-            else if (Value > MaxValue)
+            else if (value > MaxValue)
             {
                 if (!CanGrowUp)
                 {
-                    Value = MaxValue;
+                    value = MaxValue;
                 }
                 else
                 {
-                    MaxValue = Value;
+                    MaxValue = value;
                 }
             }
         }
