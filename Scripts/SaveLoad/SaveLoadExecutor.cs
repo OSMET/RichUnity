@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using RichUnity.Data;
-using RichUnity.SceneUtils;
 using UnityEngine;
 
 namespace RichUnity.SaveLoad
@@ -9,8 +7,6 @@ namespace RichUnity.SaveLoad
     public interface ISaveLoadExecutor 
     {
         IData Data { get; }
-        string SceneSearchString { get; }
-        SceneEntitySearchType SceneNameSearchType { get; }
         
         bool Load();
         void Save();
@@ -35,44 +31,23 @@ namespace RichUnity.SaveLoad
             }
         }
 
-        [SerializeField]
-        private string sceneSearchString;
-
-        public string SceneSearchString
-        {
-            get
-            {
-                return sceneSearchString;
-            }
-        }
-
-        [SerializeField]
-        private SceneEntitySearchType sceneNameSearchType;
-
-        public SceneEntitySearchType SceneNameSearchType
-        {
-            get
-            {
-                return sceneNameSearchType;
-            }
-        }
-        
         public bool Load()
         {
             if (!dataLoaded)
             {
-                Debug.Log(GetType().Name + ": begin data loading");
+                string typeName = GetType().Name;
+                Debug.Log(typeName+ ": begin data loading.");
                 if (SourceExists) // if we have a file
                 {
                     try // try to load data from it
                     {
                         data = LoadData();
-                        Debug.Log(GetType().Name + ": data was loaded.");
+                        Debug.Log(typeName + ": data was loaded");
                         dataLoaded = true;
                     }
                     catch (Exception ex) // oh, you failed to load
                     {
-                        Debug.Log(GetType().Name + ": load exception - " + ex);
+                        Debug.Log(typeName + ": load exception - " + ex);
                         return false;
                     }
                 }
@@ -81,7 +56,7 @@ namespace RichUnity.SaveLoad
                     //CreateNewData();
                     
                     dataLoaded = true;
-                    Debug.Log(GetType().Name + ": source file does not exist, you will use default values.");
+                    Debug.Log(typeName + ": source file does not exist, you will use default values.");
                 }
             }
 
@@ -106,6 +81,7 @@ namespace RichUnity.SaveLoad
         public void Save()
         {
             bool saved = SaveData(data); // try to save data
+            
             if (saved) // successfully saved!
             {
                 Debug.Log(GetType().Name + ": data was saved.");
