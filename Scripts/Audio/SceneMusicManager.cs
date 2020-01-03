@@ -1,5 +1,4 @@
 ﻿using System;
-using RichUnity.Audio.AudioPlugs;
 using RichUnity.SceneUtils; 
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,7 +8,7 @@ namespace RichUnity.Audio
     public class SceneMusicManager : MonoBehaviour// PersistentSingleton<SceneMusicManager>
     {
         [Serializable]
-        public class SceneMusic : SceneEntity<SimpleAudioPlug>
+        public class SceneMusic : SceneEntity<AudioPlug>
         {
         }
         
@@ -29,7 +28,7 @@ namespace RichUnity.Audio
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
         {
-            var foundSceneMusic = SceneEntityFinder.Find<SceneMusic, SimpleAudioPlug>(sceneMusicSet, scene.name);
+            var foundSceneMusic = SceneEntityFinder.Find<SceneMusic, AudioPlug>(sceneMusicSet, scene.name);
             
             if (foundSceneMusic != null)
             {

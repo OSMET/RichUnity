@@ -9,8 +9,8 @@ namespace RichUnity.Scripts.Ranges
 {
     public class MinMaxFloatRangeAttribute : Attribute
     {
-        public float Min { get; private set; }
-        public float Max { get; private set; }
+        public float Min { get; }
+        public float Max { get; }
         
         public MinMaxFloatRangeAttribute(float min, float max)
         {
@@ -28,13 +28,7 @@ namespace RichUnity.Scripts.Ranges
         public float MinValue;
         public float MaxValue;
 
-        public float RandomValue
-        {
-            get
-            {
-                return Random.Range(MinValue, MaxValue);
-            }
-        }
+        public float RandomValue => Random.Range(MinValue, MaxValue);
     }
 
 #if UNITY_EDITOR

@@ -1,11 +1,10 @@
-﻿using RichUnity.Audio.AudioPlugs;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace RichUnity.Audio
 {
     public class AudioPlugSource : MonoBehaviour
     {
-        private AudioSource AudioSource { get; set; }
+        private AudioSource audioSource;
 
         public AudioPlug AudioPlug;
 
@@ -21,7 +20,7 @@ namespace RichUnity.Audio
             set
             {
                 playOnAwake = value;
-                AudioSource.playOnAwake = value;
+                audioSource.playOnAwake = value;
             }
         }
         public bool Loop;
@@ -30,7 +29,12 @@ namespace RichUnity.Audio
 
         protected virtual void Awake()
         {
-            AudioSource = gameObject.AddComponent<AudioSource>();
+            audioSource = GetComponent<AudioSource>();
+            if (audioSource == null)
+            {
+                audioSource = gameObject.AddComponent<AudioSource>();
+                audioSource.playOnAwake = false;
+            }
             if (playOnAwake)
             {
                 Play();
@@ -39,21 +43,14 @@ namespace RichUnity.Audio
 
         public void Play()
         {
-            AudioPlug.Play(AudioSource);
-            if (Loop)
-            {
-                playBegan = true;
-            }
-            else
-            {
-                playBegan = false;
-            }
+            AudioPlug.Play(audioSource);
+            playBegan = Loop;
         }
 
         public void Stop()
         {
-            AudioSource.Stop();
-            AudioSource.clip = null;
+            audioSource.Stop();
+            audioSource.clip = null;
             playBegan = false;
         }
 
@@ -63,7 +60,7 @@ namespace RichUnity.Audio
             {
                 if (Loop)
                 {
-                    if (!AudioSource.isPlaying)
+                    if (!audioSource.isPlaying)
                     {
                         playBegan = false;
                         Play();

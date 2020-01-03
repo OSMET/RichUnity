@@ -1,25 +1,27 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace RichUnity.Audio.AudioSourceControllers
+namespace RichUnity.Audio
 {
     [RequireComponent(typeof(Toggle))]
-    public class AudioClipToggle : AudioSourceController
+    [RequireComponent(typeof(AudioSource))]
+    public class AudioClipToggle : MonoBehaviour
     {
+        private AudioSource audioSource;
+        
         public AudioClip ToggleOnAudioClip;
         public AudioClip ToggleOffAudioClip;
         
-        protected override void Awake()
+       private void Awake()
         {
-            base.Awake();
+            audioSource = GetComponent<AudioSource>();
             GetComponent<Toggle>().onValueChanged.AddListener(OnToggleValueChanged);
         }
 
         protected virtual void OnToggleValueChanged(bool value)
         {
-            AudioSource.clip = value ? ToggleOnAudioClip : ToggleOffAudioClip;
-
-            AudioSource.Play();
+            audioSource.clip = value ? ToggleOnAudioClip : ToggleOffAudioClip;
+            audioSource.Play();
         }
     }
 }

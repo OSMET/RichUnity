@@ -1,29 +1,48 @@
-﻿#if UNITY_EDITOR
+﻿using RichUnity.Scripts.Ranges;
+#if UNITY_EDITOR
 using UnityEditor;
 #endif
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace RichUnity.Audio.AudioPlugs
+namespace RichUnity.Audio
 {
-    public abstract class AudioPlug : ScriptableObject
+    [CreateAssetMenu(fileName = "AudioPlug", menuName = "RichUnity/Audio/Audio Plug")]
+    public sealed class AudioPlug : ScriptableObject
     {
         public AudioMixerGroup OutputAudioMixerGroup;
-        public bool Muted;
-        
-        public abstract float Volume { get; }
-        
-        public abstract float Pitch { get; }
-        
-        protected abstract AudioClip AudioClip { get; }
+        // public bool Muted;
 
-        public virtual void Play(AudioSource audioSource)
+        [SerializeField]
+        [MinMaxFloatRange(0.0f, 1.0f)]
+        private FloatRange volumeRange = new FloatRange
         {
-            audioSource.clip = AudioClip;
+            MinValue = 1.0f,
+            MaxValue = 1.0f
+        };
+
+        [SerializeField]
+        [MinMaxFloatRange(0.0f, 3.0f)]
+        private FloatRange pitchRange = new FloatRange
+        {
+            MinValue = 1.0f,
+            MaxValue = 1.0f
+        };
+
+        [SerializeField]
+        private AudioClip[] audioClips;
+        
+        public FloatRange VolumeRange => volumeRange;
+
+        public FloatRange PitchRange => pitchRange;
+
+        public void Play(AudioSource audioSource)
+        {
+            audioSource.clip = audioClips.Length == 0 ? null : audioClips[Random.Range(0, audioClips.Length)];
             audioSource.outputAudioMixerGroup = OutputAudioMixerGroup;
-            audioSource.mute = Muted;
-            audioSource.volume = Volume;
-            audioSource.pitch = Pitch;
+            // audioSource.mute = Muted;
+            audioSource.volume = volumeRange.RandomValue;
+            audioSource.pitch = pitchRange.RandomValue;
 
             audioSource.Play();
         }
@@ -33,7 +52,7 @@ namespace RichUnity.Audio.AudioPlugs
     [CustomEditor(typeof(AudioPlug), true)]
     public class AudioPlugEditor : Editor
     {
-        [SerializeField] 
+        [SerializeField]
         private AudioSource previewAudioSource;
 
         public void OnEnable()

@@ -12,13 +12,7 @@ namespace RichUnity.Audio
         [SerializeField]
         private AudioMixer audioMixer;
 
-        public AudioMixer AudioMixer
-        {
-            get
-            {
-                return audioMixer;
-            }
-        }
+        public AudioMixer AudioMixer => audioMixer;
 
         public string VolumeParameterName;
 
@@ -29,14 +23,7 @@ namespace RichUnity.Audio
         {
             get
             {
-                if (muted)
-                {
-                    return volumeBeforeMute;
-                }
-                else
-                {
-                    return VolumeNoMutedGuards;
-                }
+                return muted ? volumeBeforeMute : VolumeNoMutedGuards;
             }
             set
             {
