@@ -31,6 +31,19 @@ namespace RichUnity.SaveLoad
             }
         }
 
+        public string JsonData
+        {
+            get
+            {
+                return JsonUtility.ToJson(data);
+            }
+
+            set
+            {
+                data = JsonUtility.FromJson<TData>(value);
+            }
+        }
+
         public bool Load()
         {
             if (!dataLoaded)
