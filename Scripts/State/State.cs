@@ -5,7 +5,7 @@ namespace RichUnity.State
 {
     public abstract class State<TState> : MonoBehaviour where TState : State<TState>
     {
-        public StateContext<TState> Context { get; set; }
+        public StateContext<TState> Context;
         
         public bool Is<T>() where T : TState
         {

@@ -14,11 +14,11 @@ namespace RichUnity.State
 
 		protected virtual void Awake ()
 		{
-			foreach (var state in States)
+			for (int index = 0; index < States.Count; index++)
 			{
-				state.Context = this;
+				States[index].Context = this;
 			}
-		
+
 			CurrentState = States[BeginStateIndex]; //begin state
 
 			if (BeginStateApplyOnEnter)
@@ -29,7 +29,15 @@ namespace RichUnity.State
 
 		public virtual TState GetState(Type type)
 		{
-			return States.Find(state => state.Is(type));
+			for (int index = 0; index < States.Count; index++)
+			{
+				var state = States[index];
+				if (state.Is(type))
+				{
+					return state;
+				}
+			}
+			return null;
 		}
 		
 		public virtual T GetState<T>() where T : TState
@@ -39,7 +47,15 @@ namespace RichUnity.State
 
 		public virtual TState GetStateByObjectName(string objectName)
 		{
-			return States.Find(state => state.gameObject.name.Equals(objectName));
+			for (int index = 0; index < States.Count; index++)
+			{
+				var state = States[index];
+				if (state.gameObject.name.Equals(objectName))
+				{
+					return state;
+				}
+			}
+			return null;
 		}
 		
 		public virtual T GetStateByObjectName<T>(string objectName) where T : TState
