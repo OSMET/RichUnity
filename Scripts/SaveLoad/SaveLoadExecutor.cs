@@ -7,9 +7,10 @@ namespace RichUnity.SaveLoad
     public interface ISaveLoadExecutor 
     {
         IData Data { get; }
+        bool DataLoaded { get; }        
         
         bool Load();
-        void Save();
+        bool Save();
         void Unload();
         void DeleteSource();
     }
@@ -28,6 +29,14 @@ namespace RichUnity.SaveLoad
             get
             {
                 return data;
+            }
+        }
+
+        public bool DataLoaded
+        {
+            get
+            {
+                return dataLoaded;
             }
         }
 
@@ -66,42 +75,35 @@ namespace RichUnity.SaveLoad
                 }
                 else // no files available -> just use default data values
                 {
-                    //CreateNewData();
-                    
                     dataLoaded = true;
-                    Debug.Log(typeName + ": source file does not exist, you will use default values.");
+                    Debug.Log(typeName + ": source file doesn't exist, you will use default values.");
                 }
             }
 
             return true;
         }
 
-//        private void CreateNewData()
-//        {
-//            try
-//            {
-//                data = (TData) typeof(TData).GetConstructor(Type.EmptyTypes).Invoke(new object[] { });
-//            }
-//            catch (NullReferenceException)
-//            {
-//                throw new ArgumentException(
-//                    GetType().Name + ": data must be a class and contain a default constructor.");
-//            }
-//
-//            dataLoaded = true;
-//        }
-
-        public void Save()
+        public bool Save()
         {
-            bool saved = SaveData(data); // try to save data
+            if (dataLoaded)
+            {
+                bool saved = SaveData(data); // try to save data
             
-            if (saved) // successfully saved!
-            {
-                Debug.Log(GetType().Name + ": data was saved.");
+                if (saved) // successfully saved!
+                {
+                    Debug.Log(GetType().Name + ": data was saved.");
+                    return true;
+                }
+                else //bad thing happened
+                {
+                    Debug.Log(GetType().Name + ": data was NOT saved.");
+                    return false;
+                }
             }
-            else //shit happened
+            else
             {
-                Debug.Log(GetType().Name + ": data was NOT saved.");
+                Debug.Log(GetType().Name + ": data isn't loaded, nothing to save.");
+                return false;
             }
         }
 
@@ -109,7 +111,6 @@ namespace RichUnity.SaveLoad
         {
             if (dataLoaded)
             {
-                //data = default(TData);
                 dataLoaded = false;
                 Debug.Log(GetType().Name + ": data was 'unloaded'.");
             }

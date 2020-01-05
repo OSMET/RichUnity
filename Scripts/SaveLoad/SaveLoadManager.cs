@@ -7,12 +7,36 @@ namespace RichUnity.SaveLoad
     {
         protected abstract ISaveLoadExecutor[] SaveLoadExecutors { get; }
 
-        public void SaveAll()
+        public bool SaveAll()
         {
             var saveLoadExecutors = SaveLoadExecutors;
+            bool dataLoaded = true;
             for (int index = 0; index < saveLoadExecutors.Length; index++)
             {
-                saveLoadExecutors[index].Save();
+                if (!saveLoadExecutors[index].DataLoaded)
+                {
+                    dataLoaded = false;
+                    break;
+                }
+            }
+
+            if (dataLoaded)
+            {
+                for (int index = 0; index < saveLoadExecutors.Length; index++)
+                {
+                    bool saved = saveLoadExecutors[index].Save();
+                    if (!saved)
+                    {
+                        Debug.Log("Some data wasn't saved. The saving process is stopped.");
+                        return false;
+                    }
+                } 
+                return true;
+            }
+            else
+            {
+                Debug.Log("Some data is not loaded. The saving process is stopped.");
+                return false;
             }
         }
 
@@ -24,7 +48,7 @@ namespace RichUnity.SaveLoad
                 bool loaded = saveLoadExecutors[index].Load();
                 if (!loaded)
                 {
-                    Debug.Log("Some data was not loaded");
+                    Debug.Log("Some data wasnt't saved loaded.");
                     return false;
                 }
             }
