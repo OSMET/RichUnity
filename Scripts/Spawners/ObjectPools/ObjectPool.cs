@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RichUnity.Spawners.ObjectPools
 {
-    public class ObjectPool : Spawner
+    public class ObjectPool : MonoBehaviour
     { 
         public class PoolableObject : MonoBehaviour
         {
@@ -40,39 +40,50 @@ namespace RichUnity.Spawners.ObjectPools
         public PoolableObject ObjectPrefab;
         public int InitialSize;
         public bool AbleToExpand = true;
+        public bool SpawnAsChild;
 
-        private Stack<GameObject> objects;
+        private Stack<PoolableObject> objects;
 
-        public int AvailableCount => objects.Count;
-
-        protected virtual void Awake()
+        public int AvailableCount
         {
-            objects = new Stack<GameObject>(InitialSize);
+            get
+            {
+                return objects.Count;
+            }
+        }
+
+        public void Initialize() // can be called on awake if you want to, otherwise will be called on start automatically
+        {
+            objects = new Stack<PoolableObject>(InitialSize);
+            for (int index = 0; index < InitialSize; index++)
+            {
+                var obj = InstantiateObject(ObjectPrefab);
+                obj.gameObject.SetActive(false);
+                //objects.Push(obj); //because of OnDisable invocation
+            }
         }
 
         protected virtual void Start()
         {
-            for (var i = 0; i < InitialSize; ++i)
+            if (objects != null)
             {
-                var obj = InstantiateObject(ObjectPrefab.gameObject);
-                obj.SetActive(false);
-                //objects.Push(obj); //because OnDisable invocation
+                Initialize();
             }
         }
 
         private void PoolObject(PoolableObject obj)
         {
-            objects.Push(obj.gameObject);
+            objects.Push(obj);
         }
 
-        public override GameObject Spawn()
+        public virtual PoolableObject Spawn()
         {
-            GameObject obj;
+            PoolableObject obj;
             if (objects.Count == 0)
             {
                 if (AbleToExpand)
                 {
-                    obj = InstantiateObject(ObjectPrefab.gameObject);
+                    obj = InstantiateObject(ObjectPrefab);
                 }
                 else
                 {
@@ -82,21 +93,21 @@ namespace RichUnity.Spawners.ObjectPools
             else
             {
                 obj = objects.Pop();
-                obj.SetActive(true);
+                obj.gameObject.SetActive(true);
             }
 
             return obj;
         }
 
-        public new T Spawn<T>() where T : PoolableObject
+        public T Spawn<T>() where T : PoolableObject
         {
-            return base.Spawn<T>();
+            return (T) Spawn();
         }
 
-        protected override GameObject InstantiateObject(GameObject prefab)
+        private PoolableObject InstantiateObject(PoolableObject prefab)
         {
-            var obj = base.InstantiateObject(prefab);
-            obj.GetComponent<PoolableObject>().ObjectPool = this;
+            var obj = SpawnAsChild ? Instantiate(prefab, transform) : Instantiate(prefab);
+            obj.ObjectPool = this;
             return obj;
         }
 
@@ -107,7 +118,7 @@ namespace RichUnity.Spawners.ObjectPools
                 while (objects.Count > 0)
                 {
                     var obj = objects.Pop();
-                    if (obj.gameObject != null && !obj.activeInHierarchy)
+                    if (obj != null && !obj.gameObject.activeInHierarchy)
                     {
                         Destroy(obj);
                     }
