@@ -63,7 +63,7 @@ namespace RichUnity.State
 			return (T) GetStateByObjectName(objectName);
 		}
 
-		private void SetState(TState state, object parameter)
+		public virtual void SetState(TState state, object parameter = null)
 		{
 			var oldState = CurrentState;
 			CurrentState.OnExit(state);
