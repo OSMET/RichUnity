@@ -8,11 +8,11 @@ namespace RichUnity.State
 	{
 		public List<TState> States;
 		public int BeginStateIndex;
-		public bool BeginStateApplyOnEnter = true;
+		public bool EnterBeginStateOnStart = true;
 		
 		public TState CurrentState { get; private set; }
 
-		protected virtual void Awake ()
+		protected virtual void Awake()
 		{
 			for (int index = 0; index < States.Count; index++)
 			{
@@ -20,8 +20,11 @@ namespace RichUnity.State
 			}
 
 			CurrentState = States[BeginStateIndex]; //begin state
+		}
 
-			if (BeginStateApplyOnEnter)
+		protected virtual void Start()
+		{
+			if (EnterBeginStateOnStart)
 			{
 				CurrentState.OnEnter(null, null);
 			}
