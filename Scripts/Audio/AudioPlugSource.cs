@@ -29,12 +29,9 @@ namespace RichUnity.Audio
 
         protected virtual void Awake()
         {
-            audioSource = GetComponent<AudioSource>();
-            if (audioSource == null)
-            {
-                audioSource = gameObject.AddComponent<AudioSource>();
-                audioSource.playOnAwake = false;
-            }
+            audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.playOnAwake = false;
+            
             if (playOnAwake)
             {
                 Play();
