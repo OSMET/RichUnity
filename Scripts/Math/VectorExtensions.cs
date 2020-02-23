@@ -105,6 +105,24 @@ namespace RichUnity.Math
             return vector;
         }
 
+        public static Vector2 AddX(this Vector2 vector, float value)
+        {
+            vector.x += value;
+            return vector;
+        }
+        
+        public static Vector3 AddX(this Vector3 vector, float value)
+        {
+            vector.x += value;
+            return vector;
+        }
+        
+        public static Vector4 AddX(this Vector4 vector, float value)
+        {
+            vector.x += value;
+            return vector;
+        }
+
         public static Vector2 SetY(this Vector2 vector, float value)
         {
             vector.y = value;
@@ -122,6 +140,24 @@ namespace RichUnity.Math
             vector.y = value;
             return vector;
         }
+        
+        public static Vector2 AddY(this Vector2 vector, float value)
+        {
+            vector.y += value;
+            return vector;
+        }
+        
+        public static Vector3 AddY(this Vector3 vector, float value)
+        {
+            vector.y += value;
+            return vector;
+        }
+        
+        public static Vector4 AddY(this Vector4 vector, float value)
+        {
+            vector.y += value;
+            return vector;
+        }
 
         public static Vector3 SetZ(this Vector3 vector, float value)
         {
@@ -134,10 +170,28 @@ namespace RichUnity.Math
             vector.z = value;
             return vector;
         }
+        
+        public static Vector3 AddZ(this Vector3 vector, float value)
+        {
+            vector.z += value;
+            return vector;
+        }
+        
+        public static Vector4 AddZ(this Vector4 vector, float value)
+        {
+            vector.z += value;
+            return vector;
+        }
 
         public static Vector4 SetW(this Vector4 vector, float value)
         {
             vector.w = value;
+            return vector;
+        }
+        
+        public static Vector4 AddW(this Vector4 vector, float value)
+        {
+            vector.w += value;
             return vector;
         }
 
@@ -147,12 +201,27 @@ namespace RichUnity.Math
             vector.y = y;
             return vector;
         }
+        
+        public static Vector2 Add(this Vector2 vector, float x, float y)
+        {
+            vector.x += x;
+            vector.y += y;
+            return vector;
+        }
 
         public static Vector3 Set(this Vector3 vector, float x, float y, float z)
         {
             vector.x = x;
             vector.y = y;
             vector.z = z;
+            return vector;
+        }
+        
+        public static Vector3 Add(this Vector3 vector, float x, float y, float z)
+        {
+            vector.x += x;
+            vector.y += y;
+            vector.z += z;
             return vector;
         }
 
@@ -164,5 +233,15 @@ namespace RichUnity.Math
             vector.w = w;
             return vector;
         }
+        
+        public static Vector4 Add(this Vector4 vector, float x, float y, float z, float w)
+        {
+            vector.x += x;
+            vector.y += y;
+            vector.z += z;
+            vector.w += w;
+            return vector;
+        }
+
     }
 }
