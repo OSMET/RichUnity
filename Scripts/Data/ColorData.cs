@@ -14,9 +14,9 @@ namespace RichUnity.Data
         {
         }
 
-        public static implicit operator Color(ColorData data)
+        public Color ToColor()
         {
-            return new Color(data.R, data.G, data.B, data.A);
+            return new Color(R, G, B, A);
         }
 
         public void Set(Color obj)
@@ -27,9 +27,12 @@ namespace RichUnity.Data
             A = obj.a;
         }
 
-        public static implicit operator ColorData(Color obj)
+        public void SetColor(Color obj)
         {
-            return new ColorData {R = obj.r, G = obj.g, B = obj.b, A = obj.a};
+            obj.r = R;
+            obj.g = G;
+            obj.b = B;
+            obj.a = A;
         }
     }
 }

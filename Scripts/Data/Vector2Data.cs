@@ -12,9 +12,9 @@ namespace RichUnity.Data
         {
         }
 
-        public static implicit operator Vector2(Vector2Data data)
+        public Vector2 ToVector2()
         {
-            return new Vector2(data.X, data.Y);
+            return new Vector2(X, Y);
         }
 
         public void Set(Vector2 obj)
@@ -23,9 +23,10 @@ namespace RichUnity.Data
             Y = obj.y;
         }
 
-        public static implicit operator Vector2Data(Vector2 obj)
+        public void SetVector(Vector2 obj)
         {
-            return new Vector2Data {X = obj.x, Y = obj.y};
+            obj.x = X;
+            obj.y = Y;
         }
     }
 }

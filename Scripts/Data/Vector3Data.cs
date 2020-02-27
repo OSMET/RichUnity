@@ -13,9 +13,9 @@ namespace RichUnity.Data
         {
         }
 
-        public static implicit operator Vector3(Vector3Data data)
+        public Vector3 ToVector3()
         {
-            return new Vector3(data.X, data.Y, data.Z);
+            return new Vector3(X, Y, Z);
         }
 
         public void Set(Vector3 obj)
@@ -25,9 +25,11 @@ namespace RichUnity.Data
             Z = obj.z;
         }
 
-        public static implicit operator Vector3Data(Vector3 obj)
+        public void SetVector(Vector3 obj)
         {
-            return new Vector3Data {X = obj.x, Y = obj.y, Z = obj.z};
+            obj.x = X;
+            obj.y = Y;
+            obj.z = Z;
         }
     }
 }
