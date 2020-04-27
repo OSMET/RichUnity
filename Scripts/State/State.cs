@@ -17,8 +17,16 @@ namespace RichUnity.State
             return GetType() == type;
         }
         
+        protected virtual void Awake()
+        {
+        }
+
+        protected virtual void Start()
+        {
+        }
+        
         public abstract void OnEnter(TState prevState, object parameter);
 
-        public abstract void OnExit(TState nextState);
+        public abstract void OnExit(TState nextState, object parameter);
     }
 }
