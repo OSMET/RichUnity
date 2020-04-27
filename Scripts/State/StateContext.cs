@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace RichUnity.State
@@ -9,16 +10,35 @@ namespace RichUnity.State
 		public List<TState> States;
 		public int BeginStateIndex;
 		public bool EnterBeginStateOnStart = true;
+		[SerializeField]
+		private bool useDictionaryGetOptimization = true;
 		
 		public TState CurrentState { get; protected set; }
 
+		private Dictionary<Type, TState> statesDictionary;
+
 		protected virtual void Awake()
 		{
-			for (int index = 0; index < States.Count; index++)
+			if (useDictionaryGetOptimization)
 			{
-				States[index].Context = this;
-			}
+				statesDictionary = new Dictionary<Type, TState>(States.Count);
+				for (int index = 0; index < States.Count; index++)
+				{
+					var state = States[index];
+					
+					state.Context = this;
 
+					statesDictionary.Add(state.GetType(), state);
+				}
+			}
+			else
+			{
+				for (int index = 0; index < States.Count; index++)
+				{
+					States[index].Context = this;
+				}
+			}
+			
 			if (States.Count > 0)
 			{
 				CurrentState = States[BeginStateIndex]; //begin state
@@ -35,12 +55,22 @@ namespace RichUnity.State
 
 		public virtual TState GetState(Type type)
 		{
-			for (int index = 0; index < States.Count; index++)
+			if (useDictionaryGetOptimization)
 			{
-				var state = States[index];
-				if (state.Is(type))
+				if (statesDictionary.ContainsKey(type))
 				{
-					return state;
+					return statesDictionary[type];
+				}
+			}
+			else
+			{
+				for (int index = 0; index < States.Count; index++)
+				{
+					var state = States[index];
+					if (state.Is(type))
+					{
+						return state;
+					}
 				}
 			}
 			return null;
