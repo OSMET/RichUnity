@@ -10,6 +10,9 @@ namespace RichUnity.Containers
         [SerializeField]
         private List<T> items = new List<T>();
 
+        
+        public List<T> Items => items;
+
         public void Add(T item)
         {
             if (!Contains(item))
@@ -61,11 +64,6 @@ namespace RichUnity.Containers
             return items.FindAll(match);
         }
 
-        public List<T> ToList()
-        {
-            return items.ToList();
-        }
-        
         public T GetRandomItem()
         {
             return items.Count == 0 ? default(T) : items[UnityEngine.Random.Range(0, items.Count)];
