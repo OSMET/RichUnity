@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using RichUnity.StringUtils;
 using TMPro;
 using UnityEngine;
 
@@ -14,6 +15,8 @@ namespace RichUnity.State
 		private bool useDictionaryGetOptimization = true;
 		
 		public TState CurrentState { get; protected set; }
+		
+		public bool ShowDebugMessages;
 
 		private Dictionary<Type, TState> statesDictionary;
 
@@ -38,17 +41,14 @@ namespace RichUnity.State
 					States[index].Context = this;
 				}
 			}
-			
-			if (States.Count > 0)
-			{
-				CurrentState = States[BeginStateIndex]; //begin state
-			}
 		}
 
 		protected virtual void Start()
 		{
-			if (EnterBeginStateOnStart && CurrentState)
+			if (EnterBeginStateOnStart)
 			{
+				CurrentState = States[BeginStateIndex]; //begin state
+
 				CurrentState.OnEnter(null, null);
 			}
 		}
@@ -86,7 +86,7 @@ namespace RichUnity.State
 			for (int index = 0; index < States.Count; index++)
 			{
 				var state = States[index];
-				if (state.gameObject.name.Equals(objectName))
+				if (state.gameObject.name.OrdinalEquals(objectName))
 				{
 					return state;
 				}
@@ -101,6 +101,14 @@ namespace RichUnity.State
 
 		public virtual void SetState(TState state, object enterParameter = null, object exitParameter = null)
 		{
+#if UNITY_EDITOR
+			if (ShowDebugMessages)
+			{
+				Debug.Log(CurrentState == null ? "No State" : CurrentState.GetType().ToString());
+				Debug.Log(state.GetType().ToString());
+			}
+#endif
+			
 			var oldState = CurrentState;
 			if (CurrentState != null)
 			{
