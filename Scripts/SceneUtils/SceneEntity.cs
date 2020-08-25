@@ -1,15 +1,9 @@
 ﻿using System;
+using RichUnity.StringUtils;
 using UnityEngine;
 
 namespace RichUnity.SceneUtils
 {
-    public enum SceneEntitySearchType
-    {
-        Equals,
-        StartsWith,
-        EndsWith,
-        Regex
-    };
     
     [Serializable] 
     public class SceneEntity<T>
@@ -19,6 +13,6 @@ namespace RichUnity.SceneUtils
         public T Value;
             
         [Tooltip("Equals has higher priority.")]
-        public SceneEntitySearchType SceneNameSearchType;
+        public StringComparisonWays SceneNameSearchType;
     }
 }
