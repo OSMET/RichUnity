@@ -5,18 +5,21 @@ using UnityEngine.UI;
 namespace RichUnity.Audio
 {
     [RequireComponent(typeof(Button))]
-    [RequireComponent(typeof(AudioSource))]
     public class AudioClipButtonHighlight : MonoBehaviour, IPointerEnterHandler
     {
-        private AudioSource audioSource;
+        public AudioSource AudioSource;
         
-        private void Awake()
+        public AudioClip AudioClip;
+        
+        
+        public void OnPointerEnter(PointerEventData pointerEventData)
         {
-            audioSource = GetComponent<AudioSource>();
-        }
-        
-        public void OnPointerEnter(PointerEventData pointerEventData) {
-           audioSource.Play();
+            if (AudioSource != null)
+            {
+                AudioSource.clip = AudioClip;
+                
+                AudioSource.Play();
+            }
         }
     }
 }

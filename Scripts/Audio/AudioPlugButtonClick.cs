@@ -4,17 +4,25 @@ using UnityEngine.UI;
 namespace RichUnity.Audio
 {
     [RequireComponent(typeof(Button))]
-    public class AudioPlugButtonClick : AudioPlugSource
+    public class AudioPlugButtonClick : MonoBehaviour
     {
-        protected override void Awake()
+        public AudioPlugSource AudioPlugSource;
+
+        public AudioPlug AudioPlug;
+        
+        private void Awake()
         {
-            base.Awake();
             GetComponent<Button>().onClick.AddListener(OnButtonClick);
         }
 
-        protected virtual void OnButtonClick()
+        private void OnButtonClick()
         {
-            Play();
+            if (AudioPlugSource)
+            {
+                AudioPlugSource.AudioPlug = AudioPlug;
+                
+                AudioPlugSource.Play();
+            }
         }
     }
 }

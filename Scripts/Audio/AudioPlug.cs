@@ -32,19 +32,34 @@ namespace RichUnity.Audio
         [SerializeField]
         private AudioClip[] audioClips;
         
+
         public FloatRange VolumeRange => volumeRange;
 
         public FloatRange PitchRange => pitchRange;
+        
+        public AudioClip[] AudioClips => audioClips;
 
-        public void Play(AudioSource audioSource)
+
+        public void PlayClip(AudioSource audioSource, int index)
         {
-            audioSource.clip = audioClips.Length == 0 ? null : audioClips[Random.Range(0, audioClips.Length)];
-            audioSource.outputAudioMixerGroup = OutputAudioMixerGroup;
-            // audioSource.mute = Muted;
-            audioSource.volume = volumeRange.RandomValue;
-            audioSource.pitch = pitchRange.RandomValue;
+            if (audioClips.Length > 0)
+            {
+                audioSource.clip = audioClips[index];
+                audioSource.outputAudioMixerGroup = OutputAudioMixerGroup;
+                // audioSource.mute = Muted;
+                audioSource.volume = volumeRange.RandomValue;
+                audioSource.pitch = pitchRange.RandomValue;
 
-            audioSource.Play();
+                audioSource.Play();
+            }
+        }
+        
+        public void PlayRandomClip(AudioSource audioSource)
+        {
+            if (audioClips.Length > 0)
+            {
+                PlayClip(audioSource, Random.Range(0, audioClips.Length));
+            }
         }
     }
 
@@ -74,7 +89,7 @@ namespace RichUnity.Audio
             EditorGUI.BeginDisabledGroup(serializedObject.isEditingMultipleObjects);
             if (GUILayout.Button("Preview"))
             {
-                ((AudioPlug) target).Play(previewAudioSource);
+                ((AudioPlug) target).PlayRandomClip(previewAudioSource);
             }
 
             EditorGUI.EndDisabledGroup();

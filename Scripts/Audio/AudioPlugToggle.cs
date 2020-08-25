@@ -4,35 +4,25 @@ using UnityEngine.UI;
 namespace RichUnity.Audio
 {
     [RequireComponent(typeof(Toggle))]
-    public class AudioPlugToggle : AudioPlugSource
+    public class AudioPlugToggle : MonoBehaviour
     {
-        private AudioPlug toggleOnAudioPlug;
+        public AudioPlugSource AudioPlugSource;
+        
+        public AudioPlug ToggleOnAudioPlug;
         public AudioPlug ToggleOffAudioPlug;
 
-        protected override void Awake()
+        private void Awake()
         {
-            base.Awake();
-            toggleOnAudioPlug = AudioPlug;
             GetComponent<Toggle>().onValueChanged.AddListener(OnToggleValueChanged);
         }
 
-        protected virtual void OnToggleValueChanged(bool value)
+        private void OnToggleValueChanged(bool value)
         {
-            if (value)
+            if (AudioPlugSource!= null)
             {
-                if (toggleOnAudioPlug)
-                {
-                    AudioPlug = toggleOnAudioPlug;
-                    Play();
-                }
-            }
-            else
-            {
-                if (ToggleOffAudioPlug)
-                {
-                    AudioPlug = ToggleOffAudioPlug;
-                    Play();
-                }
+                AudioPlugSource.AudioPlug = value ? ToggleOnAudioPlug : ToggleOffAudioPlug;
+                
+                AudioPlugSource.Play();
             }
         }
     }

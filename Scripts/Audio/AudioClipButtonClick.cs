@@ -4,20 +4,26 @@ using UnityEngine.UI;
 namespace RichUnity.Audio
 {
     [RequireComponent(typeof(Button))]
-    [RequireComponent(typeof(AudioSource))]
     public class AudioClipButtonClick : MonoBehaviour
     {
-        private AudioSource audioSource;
+        public AudioSource AudioSource;
+        
+        public AudioClip AudioClip;
+
         
         private void Awake()
         {
-            audioSource = GetComponent<AudioSource>();
             GetComponent<Button>().onClick.AddListener(OnButtonClick);
         }
 
         private void OnButtonClick()
         {
-            audioSource.Play();
+            if (AudioSource != null)
+            {
+                AudioSource.clip = AudioClip;
+                    
+                AudioSource.Play();
+            }
         }
     }
 }

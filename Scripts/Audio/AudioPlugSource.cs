@@ -38,9 +38,17 @@ namespace RichUnity.Audio
             }
         }
 
+        public bool Playing => audioSource.isPlaying;
+
+        public void Play(AudioPlug audioPlug)
+        {
+            AudioPlug = audioPlug;
+            Play();
+        }
+        
         public void Play()
         {
-            AudioPlug.Play(audioSource);
+            AudioPlug.PlayRandomClip(audioSource);
             playBegan = Loop;
         }
 
