@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using RichUnity.Attributes;
 using UnityEngine;
 
 namespace RichUnity.Spawners.ObjectPools
@@ -7,6 +9,9 @@ namespace RichUnity.Spawners.ObjectPools
     { 
         public class PoolableObject : MonoBehaviour
         {
+            [NonSerialized]
+            public bool CanBePooled;
+            
             private ObjectPool objectPool;
 
             public ObjectPool ObjectPool
@@ -23,6 +28,7 @@ namespace RichUnity.Spawners.ObjectPools
                     
                     if (objectPool == null && oldObjectPool != null) //an object will be detached if you null the property outside
                     {
+                        CanBePooled = true;
                         transform.parent = oldObjectPool.transform.parent;
                     }
                 }
@@ -40,32 +46,31 @@ namespace RichUnity.Spawners.ObjectPools
         public PoolableObject ObjectPrefab;
         public int InitialSize;
         public bool AbleToExpand = true;
-        public bool SpawnAsChild;
+        public Transform ParentTransform;
 
         private Stack<PoolableObject> objects;
 
-        public int AvailableCount
-        {
-            get
-            {
-                return objects.Count;
-            }
-        }
+        public int AvailableCount => objects.Count;
 
         public void Initialize() // can be called on awake if you want to, otherwise will be called on start automatically
         {
             objects = new Stack<PoolableObject>(InitialSize);
             for (int index = 0; index < InitialSize; index++)
             {
-                var obj = InstantiateObject(ObjectPrefab);
+                var obj = ParentTransform ? Instantiate(ObjectPrefab, ParentTransform) : Instantiate(ObjectPrefab);
+                obj.ObjectPool = this;
+                
                 obj.gameObject.SetActive(false);
-                //objects.Push(obj); //because of OnDisable invocation
+
+                obj.CanBePooled = true;
+                
+                PoolObject(obj);
             }
         }
 
         protected virtual void Start()
         {
-            if (objects != null)
+            if (objects == null)
             {
                 Initialize();
             }
@@ -73,7 +78,11 @@ namespace RichUnity.Spawners.ObjectPools
 
         private void PoolObject(PoolableObject obj)
         {
-            objects.Push(obj);
+            if (obj.CanBePooled)
+            {
+                obj.CanBePooled = false;
+                objects.Push(obj);
+            }
         }
 
         public virtual PoolableObject Spawn()
@@ -83,7 +92,8 @@ namespace RichUnity.Spawners.ObjectPools
             {
                 if (AbleToExpand)
                 {
-                    obj = InstantiateObject(ObjectPrefab);
+                    obj = ParentTransform ? Instantiate(ObjectPrefab, ParentTransform) : Instantiate(ObjectPrefab);
+                    obj.ObjectPool = this;
                 }
                 else
                 {
@@ -93,8 +103,10 @@ namespace RichUnity.Spawners.ObjectPools
             else
             {
                 obj = objects.Pop();
-                obj.gameObject.SetActive(true);
             }
+            
+            obj.gameObject.SetActive(true);
+            obj.CanBePooled = true;
 
             return obj;
         }
@@ -102,13 +114,6 @@ namespace RichUnity.Spawners.ObjectPools
         public T Spawn<T>() where T : PoolableObject
         {
             return (T) Spawn();
-        }
-
-        private PoolableObject InstantiateObject(PoolableObject prefab)
-        {
-            var obj = SpawnAsChild ? Instantiate(prefab, transform) : Instantiate(prefab);
-            obj.ObjectPool = this;
-            return obj;
         }
 
         protected virtual void OnDestroy()
