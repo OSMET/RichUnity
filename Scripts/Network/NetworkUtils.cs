@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace RichUnity.Network
 {
-    public static class NetworkDateTime
+    public static class NetworkUtils
     {
         public static DateTime NistDateTime
         {
