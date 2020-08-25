@@ -42,11 +42,11 @@ namespace RichUnity.TimeUtils.Timers
             base.AddTime(time);
             if (TimerOn && Time >= TimeLimit)
             {
-                End();
+                Stop();
             }
         }
 
-        public override void End()
+        public override void Stop()
         {
             if (Looped)
             {
@@ -54,7 +54,7 @@ namespace RichUnity.TimeUtils.Timers
             }
             else
             {
-                base.End();
+                base.Stop();
             }
         }
 

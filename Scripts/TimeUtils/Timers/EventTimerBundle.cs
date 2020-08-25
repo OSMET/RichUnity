@@ -17,7 +17,7 @@ namespace RichUnity.TimeUtils.Timers
             };
             if (call != null)
             {
-                timer.OnEnded.AddListener(call);
+                timer.OnStop.AddListener(call);
             }
 
             AddTimer(key, timer);
@@ -56,7 +56,7 @@ namespace RichUnity.TimeUtils.Timers
         {
             var timer = base[key];
             timer.Looped = false;
-            timer.EndNoEvent();
+            timer.StopNoEvent();
         }
 
         public void ResumeTimer(TKey key, bool looped = true)

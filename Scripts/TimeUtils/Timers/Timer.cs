@@ -55,7 +55,7 @@ namespace RichUnity.TimeUtils.Timers
             Time = 0.0f;
         }
 
-        public virtual void End()
+        public virtual void Stop()
         {
             TimerOn = false;
         }

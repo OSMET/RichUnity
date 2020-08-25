@@ -6,21 +6,21 @@ namespace RichUnity.TimeUtils.Timers
     [Serializable]
     public class EventTimer : LimitedTimer
     {
-        public readonly UnityEvent OnEnded = new UnityEvent();
+        public readonly UnityEvent OnStop = new UnityEvent();
 
         public EventTimer()
         {
         }
 
-        public override void End()
+        public override void Stop()
         {
-            OnEnded.Invoke();
-            base.End();
+            OnStop.Invoke();
+            base.Stop();
         }
 
-        public void EndNoEvent()
+        public void StopNoEvent()
         {
-            base.End();
+            base.Stop();
         }
     }
 }
