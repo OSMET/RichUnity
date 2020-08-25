@@ -1,10 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
+using Core.AlphaSettings;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace RichUnity.UI
+namespace RichUnity.Scripts.UI
 {
     [RequireComponent(typeof(Text))]
     public class TouchScreenEditableText : MonoBehaviour
@@ -19,18 +18,40 @@ namespace RichUnity.UI
         public bool Alert;
 
         public int MaxLength = int.MaxValue;
-        public char ErrorSymbol;
-        public string[] SupportedSymbolsStrings;
+        private string nonSupportedTextSymbols;
+
+        private string lastCheckedString;
 
         protected virtual void Awake()
         {
             text = GetComponentInChildren<Text>();
+
+            nonSupportedTextSymbols = ProjectSettings.NonSupportedTextSymbols;
         }
 
         public void BeginTextEditing()
         {
             keyboard = TouchScreenKeyboard.Open(text.text, TouchScreenKeyboardType, Autocorrection, Multiline, Secure,
                 Alert);
+        }
+
+        private bool KeyboardTextEqualsLastCheckedString()
+        {
+            string keyboardText = keyboard.text;
+            if (keyboardText.Length != lastCheckedString.Length)
+            {
+                return false;
+            }
+
+            for (int index = 0; index < keyboardText.Length; ++index)
+            {
+                if (keyboardText[index] != lastCheckedString[index])
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         protected void Update()
@@ -43,23 +64,30 @@ namespace RichUnity.UI
                     {
                         keyboard.text = keyboard.text.Substring(0, MaxLength);
                     }
-
-                    bool shitHappened = false;
-                    var stringBuilder = new StringBuilder(keyboard.text);
-                    for (int i = 0; i < stringBuilder.Length; ++i)
+                    
+                    if (!KeyboardTextEqualsLastCheckedString())
                     {
-                        char symbol = stringBuilder[i];
-                        if (!IsSymbolSupported(symbol))
+                        bool shitHappened = false;
+                        var stringBuilder = new StringBuilder(keyboard.text);
+                        for (int index = 0; index < stringBuilder.Length; ++index)
                         {
-                            stringBuilder[i] = ErrorSymbol;
-                            shitHappened = true;
-                            break;
+                            char symbol = stringBuilder[index];
+                            if (IsSymbolNonSupported(symbol))
+                            {
+                                stringBuilder[index] = ProjectSettings.TextErrorSymbol;
+                                if (!shitHappened)
+                                {
+                                    shitHappened = true;
+                                }
+                            }
                         }
-                    }
 
-                    if (shitHappened)
-                    {
-                        keyboard.text = stringBuilder.ToString();
+                        if (shitHappened)
+                        {
+                            keyboard.text = stringBuilder.ToString();
+                        }
+
+                        lastCheckedString = keyboard.text;
                     }
                 }
                 else if (keyboard.status == TouchScreenKeyboard.Status.Done)
@@ -70,9 +98,17 @@ namespace RichUnity.UI
             }
         }
 
-        private bool IsSymbolSupported(char symbol)
+        private bool IsSymbolNonSupported(char symbol)
         {
-            return SupportedSymbolsStrings.Any(symbolsString => symbolsString.Contains(symbol));
+            for (int index = 0; index < nonSupportedTextSymbols.Length; ++index)
+            {
+                if (nonSupportedTextSymbols[index] == symbol)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
